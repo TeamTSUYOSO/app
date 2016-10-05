@@ -14,6 +14,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){}
 
+    private void hoge(){
+        //hoge hoge
+    }
+
+
     @Override
     protected void onDestroy(){}
 }
