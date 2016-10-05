@@ -12,7 +12,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){}
+    protected void onResume(){
+        getSystemService();
+    }
 
     @Override
     protected void onDestroy(){}
