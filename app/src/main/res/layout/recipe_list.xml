@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:padding="64dip"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@drawable/okan_list"
+            android:layout_width="516dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.15" />
+
+        <TextView
+            android:layout_marginTop="15dip"
+            android:layout_width="178dp"
+            android:layout_height="44dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="自動提案のリスト"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_horizontal"
+             />
+
+
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right" >
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修正"
+                android:id="@+id/button2"
+                android:layout_gravity="right|bottom" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="決定"
+                android:id="@+id/button3"
+                android:layout_gravity="center_horizontal|bottom" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+                >
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox"
+                android:checked="false"
+                android:button="@drawable/checkbox"
+                android:layout_gravity="left|center_vertical" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2016年10月5日"
+                android:id="@+id/date"
+                android:textSize="30dp"
+                android:layout_weight="2"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="料理名"
+                android:id="@+id/menu"
+                android:textSize="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="right|center_vertical" />
+    </FrameLayout>
+
+
+</LinearLayout>
