@@ -15,6 +15,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="jp.ac.titech.itpro.sdl.tsuyoso2.recipeListActivity"
+            >
+        </activity>
+
+        <activity
+            android:name="jp.ac.titech.itpro.sdl.tsuyoso2.recipeTodayActivity"
+            >
+        </activity>
+
+        <activity
+            android:name="jp.ac.titech.itpro.sdl.tsuyoso2.recommendActivity"
+            >
+        </activity>
+
+        <activity
+            android:name="jp.ac.titech.itpro.sdl.tsuyoso2.evaluateActivity"
+            >
+        </activity>
     </application>
 
 </manifest>

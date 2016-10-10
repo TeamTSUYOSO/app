@@ -70,7 +70,9 @@
             android:text="おつかいリスト"
             android:id="@+id/button1"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:onClick="onClickButton1"
+            />
 
         <Button
             android:layout_width="wrap_content"
@@ -78,7 +80,9 @@
             android:text="今日のレシピ"
             android:id="@+id/button2"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:onClick="onClickButton2"
+            />
 
         <Button
             android:layout_width="wrap_content"
@@ -86,7 +90,8 @@
             android:text="冷蔵庫"
             android:id="@+id/button3"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:onClick="onClickButton3"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -94,7 +99,8 @@
             android:text="自動提案"
             android:id="@+id/button4"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:onClick="onClickButton4"/>
     </LinearLayout>
 
 
