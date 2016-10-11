@@ -71,7 +71,7 @@
             android:id="@+id/button1"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="onClickButton1"
+            android:onClick="onClickMoveToShoppingList"
             />
 
         <Button
@@ -81,7 +81,7 @@
             android:id="@+id/button2"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="onClickButton2"
+            android:onClick="onClickMoveToTodayRecipe"
             />
 
         <Button
@@ -91,7 +91,7 @@
             android:id="@+id/button3"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="onClickButton3"/>
+            android:onClick="onClickMoveToRefrigerator"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:id="@+id/button4"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="onClickButton4"/>
+            android:onClick="onClickMoveToRecommend"/>
     </LinearLayout>
 
 

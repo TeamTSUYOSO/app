@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView2"
             android:layout_gravity="right|bottom"
-            android:onClick="onClickImageView2"
+            android:onClick="onClickMoveToEvaluate"
              />
     </FrameLayout>
 </LinearLayout>

@@ -65,6 +65,7 @@ tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.evaluateActivity">
     android:text="提案してもらう"
     android:id="@+id/button"
     android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true" />
+    android:layout_centerHorizontal="true"
+    android:onClick="onClickMoveToRecipeList"/>
 
 </RelativeLayout>
