@@ -8,7 +8,7 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
 
     /* TODO
-     * カレンダーの表示
+     * カレンダー,DatePickerの表示
      * カレンダー送り、戻りボタンの作成
      * カレンダーのクリックイベント作成
      * 今日のレシピIDの取得
@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
     }
+
+     /* TODO
+     * カレンダーのある日をクリックするとその日のレシピを表示するクリックリスナーの作成
+     */
+
 
     /**
      * ボタン1のクリック、お使いリストへ遷移
