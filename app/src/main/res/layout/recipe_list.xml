@@ -7,8 +7,9 @@
     >
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <ImageView
             android:src="@drawable/okan_list"
@@ -27,65 +28,33 @@
             android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
              />
-
-
-
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right" >
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="修正"
-                android:id="@+id/button2"
-                android:layout_gravity="right|bottom" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="決定"
-                android:id="@+id/button3"
-                android:layout_gravity="center_horizontal|bottom" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-                >
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/checkBox"
-                android:checked="false"
-                android:button="@drawable/checkbox"
-                android:layout_gravity="left|center_vertical" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2016年10月5日"
-                android:id="@+id/date"
-                android:textSize="30dp"
-                android:layout_weight="2"
-                android:layout_gravity="center" />
-        </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="料理名"
-                android:id="@+id/menu"
-                android:textSize="30dp"
-                android:layout_weight="1"
-                android:layout_gravity="right|center_vertical" />
     </FrameLayout>
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="504dp"
+        android:id="@+id/listView2"
+        android:layout_gravity="right"
+        android:choiceMode="multipleChoice" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修正"
+            android:id="@+id/button2"
+            android:layout_gravity="right|bottom" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="決定"
+            android:id="@+id/button3"
+            android:layout_gravity="center_horizontal|bottom" />
+    </LinearLayout>
 
 </LinearLayout>
