@@ -128,7 +128,19 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
 
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="作った"
+            android:id="@+id/radioButton_make" />
 
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="作らなかった"
+            android:id="@+id/radioButton_unmake" />
+
+        <!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,6 +152,7 @@
             android:layout_height="wrap_content"
             android:text="作らなかった"
             android:id="@+id/button6" />
+        -->
 
     </LinearLayout>
 
