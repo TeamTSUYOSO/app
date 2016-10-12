@@ -1,7 +1,5 @@
 package jp.ac.titech.itpro.sdl.tsuyoso2;
 
-import java.util.ArrayList;
-
 /**
  * レシピクラス
  */
@@ -26,17 +24,11 @@ public class TRecipe {
     private String fMainIngredient;
     //private int fMainIngredientIndex;
 
-    //調理工程種類(ナンバリングの方がいいかも)
-    private String fCookingType;
-
     //ジャンル(ナンバリングの方がいいかも)
     private String fCategory;
 
     //料理時間(分)
     private double fCookingTime;
-
-    //器具(ナンバリングの方がいいかも)
-    private ArrayList<String> fCookingTool;
 
     //カロリー(kCal)
     private double fCalory;
@@ -50,7 +42,6 @@ public class TRecipe {
     public TRecipe() {
         fIngredients = new TAllIngredients();
         fProcedure = new TProcedure();
-        fCookingTool = new ArrayList<>();
     }
 
     /**
@@ -61,28 +52,23 @@ public class TRecipe {
      * @param fIngredients
      * @param fProcedure
      * @param fMainIngredient
-     * @param fCookingType
      * @param fCategory
      * @param fCookingTime
-     * @param fCookingTool
      * @param fCalory
      * @param fPrice
      */
     public TRecipe(int fRecipeID, String fRecipeName, int fServings,
                    TAllIngredients fIngredients, TProcedure fProcedure,
-                   String fMainIngredient, String fCookingType, String fCategory,
-                   double fCookingTime, ArrayList<String> fCookingTool,
-                   double fCalory, double fPrice) {
+                   String fMainIngredient, String fCategory,
+                   double fCookingTime, double fCalory, double fPrice) {
         this.fRecipeID = fRecipeID;
         this.fRecipeName = fRecipeName;
         this.fServings = fServings;
         this.fIngredients = fIngredients;
         this.fProcedure = fProcedure;
         this.fMainIngredient = fMainIngredient;
-        this.fCookingType = fCookingType;
         this.fCategory = fCategory;
         this.fCookingTime = fCookingTime;
-        this.fCookingTool = fCookingTool;
         this.fCalory = fCalory;
         this.fPrice = fPrice;
     }
@@ -98,10 +84,8 @@ public class TRecipe {
         this.fIngredients = new TAllIngredients(src.fIngredients);
         this.fProcedure = new TProcedure(src.fProcedure);
         this.fMainIngredient = fMainIngredient;
-        this.fCookingType = fCookingType;
         this.fCategory = fCategory;
         this.fCookingTime = fCookingTime;
-        this.fCookingTool = new ArrayList<>(src.fCookingTool);
         this.fCalory = fCalory;
         this.fPrice = fPrice;
     }
@@ -118,10 +102,8 @@ public class TRecipe {
         this.fIngredients.copyFrom(src.fIngredients);
         this.fProcedure.copyFrom(src.fProcedure);
         this.fMainIngredient = fMainIngredient;
-        this.fCookingType = fCookingType;
         this.fCategory = fCategory;
         this.fCookingTime = fCookingTime;
-        this.fCookingTool = new ArrayList<>(src.fCookingTool);
         this.fCalory = fCalory;
         this.fPrice = fPrice;
 
@@ -232,22 +214,6 @@ public class TRecipe {
     }
 
     /**
-     * 調理工程種類getter
-     * @return
-     */
-    public String getCookingType() {
-        return fCookingType;
-    }
-
-    /**
-     * 調理工程種類setter
-     * @param fCookingType
-     */
-    public void setfCookingType(String fCookingType) {
-        this.fCookingType = fCookingType;
-    }
-
-    /**
      * ジャンルgetter
      * @return
      */
@@ -277,22 +243,6 @@ public class TRecipe {
      */
     public void setfCookingTime(double fCookingTime) {
         this.fCookingTime = fCookingTime;
-    }
-
-    /**
-     * 調理器具getter
-     * @return
-     */
-    public ArrayList<String> getCookingTool() {
-        return fCookingTool;
-    }
-
-    /**
-     * 調理器具setter
-     * @param fCookingTool
-     */
-    public void setCookingTool(ArrayList<String> fCookingTool) {
-        this.fCookingTool = fCookingTool;
     }
 
     /**
