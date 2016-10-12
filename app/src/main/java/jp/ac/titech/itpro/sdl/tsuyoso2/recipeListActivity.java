@@ -18,7 +18,6 @@ public class recipeListActivity extends Activity {
      *
      */
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +54,10 @@ public class recipeListActivity extends Activity {
      * @param view
      */
     public void onClickRecipeListChangeButton(View view){
-        /* TODO
-         * 修正する項目を数えて再提案するようサーバーに送る。
-         * 新しいレシピリストを受け取ってListViewの項目の書き換え。
-         */
+
+        //提案画面に戻す
+        Intent intent = new Intent(this, recommendActivity.class);
+        startActivityForResult(intent, 0);
 
     }
 }
