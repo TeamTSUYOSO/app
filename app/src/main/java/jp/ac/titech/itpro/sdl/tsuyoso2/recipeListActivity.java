@@ -13,6 +13,8 @@ public class recipeListActivity extends Activity {
     /* TODO
      * ListViewによるレシピリストの生成
      * ListViewに入れるArrayAdapterの作成
+     * 提案してもらう日付と日数を保存する項目の作成
+     * 受け取るレシピリストの入れ物の作成
      *
      */
 
@@ -25,6 +27,12 @@ public class recipeListActivity extends Activity {
         /* TODO
          * ListViewのidを取得
          * ListViewに入れるArrayAdapterの設定
+         */
+
+        /* TODO
+         * 提案してもらう日付とレシピ数をrecommendActivityから受け取る。
+         * サーバにそれを送ってレシピリストを取得する。
+         * 受け取ったレシピリストをListViewに追加する。
          */
     }
 
@@ -48,8 +56,8 @@ public class recipeListActivity extends Activity {
      */
     public void onClickRecipeListChangeButton(View view){
         /* TODO
-         * 修正する項目を数えて再提案するようサーバーに投げる。
-         * 受け取ってListViewの項目の書き換え。
+         * 修正する項目を数えて再提案するようサーバーに送る。
+         * 新しいレシピリストを受け取ってListViewの項目の書き換え。
          */
 
     }

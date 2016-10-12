@@ -14,8 +14,8 @@ public class recipeTodayActivity extends Activity {
      * 必要な項目の作成
      * レシピID
      * レシピ名表示ラベル
-     * 材料表示ラベル
-     * 手順表示ラベル
+     * 材料表示ラベル(List)
+     * 手順表示ラベル(List)
      * 何人前表示ラベル
      * ジャンル表示ラベル
      * カロリー表示ラベル
