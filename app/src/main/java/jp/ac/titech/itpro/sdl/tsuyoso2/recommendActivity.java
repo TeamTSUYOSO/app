@@ -8,6 +8,10 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.NumberPicker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Yamada on 2016/10/10.
  */
@@ -46,16 +50,23 @@ public class recommendActivity extends Activity {
      * 自動提案してもらう日を指定し、レシピリストを表示するために画面遷移
      * @param view
      */
-    public void onClickMoveToRecipeList(View view){
-        Intent intent = new Intent(this, recipeListActivity.class);
-        startActivityForResult(intent, 0);
+    public void onClickMoveToRecipeList(View view) throws ParseException {
         /* TODO
          * 提案してもらう日付と日数を送る
          */
 
-        //以下のメソッドで日付と日数を取得
-        System.out.println(datePicker.getYear() + "/" + (datePicker.getMonth()+1) + "/" + datePicker.getDayOfMonth());
-        System.out.println(numberPicker.getValue());
+
+        //日付のオブジェクト化
+        String dateStr = datePicker.getYear() + "-" + (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = simpleDateFormat.parse(dateStr);
+
+        //Intentにデータをつけて送る
+        Intent intent = new Intent(this, recipeListActivity.class);
+        intent.putExtra("request_num", numberPicker.getValue());
+        intent.putExtra("start_Date",startDate);
+        startActivity(intent);
+
     }
 
     /**
