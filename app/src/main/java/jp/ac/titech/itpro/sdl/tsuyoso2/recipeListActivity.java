@@ -43,7 +43,7 @@ public class recipeListActivity extends Activity {
 
         ListView listView = (ListView)findViewById(R.id.listView2);
 
-        TAsyncJson asyncJson = new TAsyncJson(this, listView, fRequestCount);
+        TAsyncRecommend asyncJson = new TAsyncRecommend(this, listView, fRequestCount);
         asyncJson.execute();
 
     }

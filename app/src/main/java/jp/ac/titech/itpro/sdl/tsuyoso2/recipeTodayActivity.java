@@ -38,6 +38,10 @@ public class recipeTodayActivity extends Activity {
          * TRecipeインスタンスから項目をもらって、ラベルに表示する。
          */
 
+        //引数にラベルを送る or 今日のレシピデータを受けっとってActivityでセットする
+        TAsyncTodayRecipe asyncTodayRecipe = new TAsyncTodayRecipe(this);
+        asyncTodayRecipe.execute();
+
 
     }
 

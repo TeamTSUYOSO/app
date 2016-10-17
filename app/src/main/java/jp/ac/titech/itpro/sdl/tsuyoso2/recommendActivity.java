@@ -55,7 +55,6 @@ public class recommendActivity extends Activity {
          * 提案してもらう日付と日数を送る
          */
 
-
         //日付のオブジェクト化
         String dateStr = datePicker.getYear() + "-" + (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -19,27 +19,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class TAsyncJson extends AsyncTask<String, Integer, JSONObject>{
+public class TAsyncRecommend extends AsyncTask<String, Integer, JSONObject>{
 
     private Activity fActivity;
     private ListView fListView;
     private ProgressDialog progressDialog;
     private int fRequestCount;
 
-
-
     /**
      * コンストラクタ
      * @param activity
      */
-    public TAsyncJson(Activity activity,ListView listView, int requestCount){
+    public TAsyncRecommend(Activity activity, ListView listView, int requestCount){
         this.fActivity = activity;
         fListView = listView;
         fRequestCount = requestCount;
-    }
-
-    public TAsyncJson(){
-
     }
 
     /**
@@ -92,6 +86,16 @@ public class TAsyncJson extends AsyncTask<String, Integer, JSONObject>{
             connection.setDoInput(true);
             // URL接続にデータを書き込む場合はtrue
             connection.setDoOutput(false);
+
+            /* TODO
+             * 日数とこれまで作ったレシピのデータを送る
+             */
+
+            //データを送る場合は,BufferedWriterに書き込む
+//            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+//            bufferedWriter.write("request_num=" + fRequestCount);
+//            bufferedWriter.close();
+
 
             // 接続
             connection.connect();
