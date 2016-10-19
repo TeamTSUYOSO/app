@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:layout_margin="64dp"
     tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.recipeTodayActivity">
 
 
@@ -17,32 +16,65 @@
         android:layout_height="214dp"
         android:id="@+id/imageView"
         android:layout_weight="0.09" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ハンバーグ"
-        android:id="@+id/textView2"
+        android:text="レシピ名：ハンバーグ"
+        android:id="@+id/recipe_name"
         android:textSize="32dp"
         android:layout_gravity="center_horizontal" />
 
-    <FrameLayout
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
 
-        android:layout_width="match_parent"
-        android:layout_height="518dp">
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="560dp"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="何人前"
+            android:id="@+id/recipe_serving_num" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="調理時間"
+            android:id="@+id/recipe_cooking_time" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ジャンル"
+            android:id="@+id/recipe_genre" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="カロリー"
+            android:id="@+id/recipe_calorie" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="価格"
+            android:id="@+id/recipe_price" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="179dp"
+                android:id="@+id/recipe_instructions"
+                android:layout_gravity="center_horizontal|top" />
+
+        <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="230dp"
+                android:id="@+id/recipe_ingredients" />
+    </LinearLayout>
 
         <ImageView
             android:src="@drawable/okan_houkoku"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView2"
-            android:layout_gravity="right|bottom"
+            android:layout_gravity="right"
             android:onClick="onClickMoveToEvaluate"
              />
-    </FrameLayout>
+
 </LinearLayout>
