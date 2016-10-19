@@ -23,7 +23,6 @@ public class evaluateActivity extends Activity {
      * 作った作らなかったをradipGroupに書き換え
      */
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,14 +9,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.MainActivity">
 
-    <TextView
+    <DatePicker android:id="@+id/datePicker"
+        android:spinnersShown="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10月"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:id="@+id/textView" />
+        >
+    </DatePicker>
+
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,21 +26,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="68dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="text"
-                android:background="@drawable/editline"/>
-
-
-        </LinearLayout>
 
         <ImageView
             android:src="@drawable/okan_list"
@@ -63,7 +50,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

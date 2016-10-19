@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 
 /**
  * Created by Yamada on 2016/10/10.
@@ -18,6 +19,7 @@ public class recipeListActivity extends Activity {
      *
      */
 
+    int fRequestCount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,16 @@ public class recipeListActivity extends Activity {
          * サーバにそれを送ってレシピリストを取得する。
          * 受け取ったレシピリストをListViewに追加する。
          */
+
+        //リクエストしてもらう日数を取得する
+        fRequestCount = (int)getIntent().getSerializableExtra("request_num");
+//        System.out.println("requestNum = " + fRequestCount);
+
+        ListView listView = (ListView)findViewById(R.id.listView2);
+
+        TAsyncRecommend asyncJson = new TAsyncRecommend(this, listView, fRequestCount);
+        asyncJson.execute();
+
     }
 
     /**
@@ -55,10 +67,10 @@ public class recipeListActivity extends Activity {
      * @param view
      */
     public void onClickRecipeListChangeButton(View view){
-        /* TODO
-         * 修正する項目を数えて再提案するようサーバーに送る。
-         * 新しいレシピリストを受け取ってListViewの項目の書き換え。
-         */
+
+        //提案画面に戻す
+        Intent intent = new Intent(this, recommendActivity.class);
+        startActivityForResult(intent, 0);
 
     }
 }

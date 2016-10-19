@@ -4,6 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.DatePicker;
+import android.widget.NumberPicker;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Yamada on 2016/10/10.
@@ -15,14 +22,22 @@ public class recommendActivity extends Activity {
      * 提案してもらう日付と日数を保存するための項目の追加
      */
 
+    NumberPicker numberPicker;
+    DatePicker datePicker;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recommend_auto);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         /* TODO
          * カレンダー,DatePickerのidを取得
          */
+
+        setViews();
+        initViews();
+
     }
 
     /* TODO
@@ -35,11 +50,38 @@ public class recommendActivity extends Activity {
      * 自動提案してもらう日を指定し、レシピリストを表示するために画面遷移
      * @param view
      */
-    public void onClickMoveToRecipeList(View view){
-        Intent intent = new Intent(this, recipeListActivity.class);
-        startActivityForResult(intent, 0);
+    public void onClickMoveToRecipeList(View view) throws ParseException {
         /* TODO
          * 提案してもらう日付と日数を送る
          */
+
+        //日付のオブジェクト化
+        String dateStr = datePicker.getYear() + "-" + (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = simpleDateFormat.parse(dateStr);
+
+        //Intentにデータをつけて送る
+        Intent intent = new Intent(this, recipeListActivity.class);
+        intent.putExtra("request_num", numberPicker.getValue());
+        intent.putExtra("start_Date",startDate);
+        startActivity(intent);
+
+    }
+
+    /**
+     * 画面構成要素のIDの設定
+     */
+    private void setViews(){
+        numberPicker = (NumberPicker)findViewById(R.id.numPicker);
+        datePicker = (DatePicker)findViewById(R.id.datePicker);
+    }
+
+    /**
+     * NUmberPickerの値の設定
+     */
+    private void initViews(){
+        //提案してもらう日数最大値、最小値の設定
+        numberPicker.setMaxValue(7);
+        numberPicker.setMinValue(1);
     }
 }
