@@ -91,6 +91,8 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONObject>{
              * 日数とこれまで作ったレシピのデータを送る
              */
 
+
+
             //データを送る場合は,BufferedWriterに書き込む
 //            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 //            bufferedWriter.write("request_num=" + fRequestCount);
