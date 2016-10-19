@@ -25,15 +25,16 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONObject>{
     private ListView fListView;
     private ProgressDialog progressDialog;
     private int fRequestCount;
-
+    private ArrayList<String> fRecipeList;
     /**
      * コンストラクタ
      * @param activity
      */
-    public TAsyncRecommend(Activity activity, ListView listView, int requestCount){
+    public TAsyncRecommend(Activity activity, ListView listView, int requestCount, ArrayList<String> recipeList){
         this.fActivity = activity;
         fListView = listView;
         fRequestCount = requestCount;
+        fRecipeList = recipeList;
     }
 
     /**
@@ -147,21 +148,19 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONObject>{
 //        System.out.println(jsonObject.toString());
         // doInBackground後処理
 
-        ArrayList<String> recipeNameList = new ArrayList<>();
-
         try {
             JSONArray jsonArray = jsonObject.getJSONArray("events");
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject temp = jsonArray.getJSONObject(i);
                 JSONObject event = temp.getJSONObject("event");
-                recipeNameList.add(event.getString("title"));
+                fRecipeList.add(event.getString("title"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         //List用ArrayAdapterの生成
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(fActivity, android.R.layout.simple_list_item_1, recipeNameList);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(fActivity, android.R.layout.simple_list_item_multiple_choice, fRecipeList);
         fListView.setAdapter(arrayAdapter);
 
         //ダイアログ消す

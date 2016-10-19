@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Yamada on 2016/10/10.
  */
@@ -42,8 +44,8 @@ public class recipeListActivity extends Activity {
 //        System.out.println("requestNum = " + fRequestCount);
 
         ListView listView = (ListView)findViewById(R.id.listView2);
-
-        TAsyncRecommend asyncJson = new TAsyncRecommend(this, listView, fRequestCount);
+        ArrayList<String> recipeList = new ArrayList<>();
+        TAsyncRecommend asyncJson = new TAsyncRecommend(this, listView, fRequestCount, recipeList);
         asyncJson.execute();
 
     }
