@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     /* TODO
@@ -50,13 +55,18 @@ public class MainActivity extends AppCompatActivity {
      * ボタン2のクリック、今日のレシピに遷移
      * @param view
      */
-    public void onClickMoveToTodayRecipe(View view){
-        Intent intent = new Intent(this, recipeTodayActivity.class);
-        startActivityForResult(intent, 0);
+    public void onClickMoveToTodayRecipe(View view) throws ParseException {
 
-        /* TODO
-         * 今日のレシピIDを取得して画面遷移とともに送る。
-         */
+        //今日の日付を呼び出す
+        Calendar calendar = Calendar.getInstance();
+        String dateStr = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date requestDate = simpleDateFormat.parse(dateStr);
+
+        //Intentにデータをつけて送る
+        Intent intent = new Intent(this, recipeTodayActivity.class);
+        intent.putExtra("Request_Date",requestDate);
+        startActivity(intent);
     }
 
     /**
