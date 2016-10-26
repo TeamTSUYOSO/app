@@ -95,7 +95,10 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
         HttpURLConnection connection = null;
         URL url = null;
 
-        fRequestId = 20;
+        /* TODO
+         * fRequestIdはローカルDBから受け取ったものを送る
+         */
+
         String urlString = "http://160.16.213.209:8080/api/recipe/" + fRequestId;
         String readData = "";
 
@@ -114,23 +117,15 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
             // URL接続にデータを書き込む場合はtrue
             connection.setDoOutput(false);
 
-            /* TODO
-             * その日のレシピIDを送ってレシピの詳細をもらう
-             */
             // 接続
             connection.connect();
 
-            //データを送る場合は,BufferedWriterに書き込む
-//            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-//           bufferedWriter.write("{\"request_id\":10}");
-//            bufferedWriter.close();
             publishProgress();
 
             final int status = connection.getResponseCode();
             if(status == HttpURLConnection.HTTP_OK){
                 System.out.println("connection OK");
                 readData = readInputStream(connection);
-                System.out.println(readData);
             }
 
         }
@@ -163,40 +158,43 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
      */
     @Override
     protected void onPostExecute(JSONObject jsonObject){
-        /* TODO
-         * doInBackGround から受け渡されるjsonObjectをパースして、レシピリストにセットする
-         */
+
         System.out.println("onPostExecute");
 //        System.out.println(jsonObject.toString());
         // doInBackground後処理
 
-
         try {
-            fRecipe_name.setText(jsonObject.getString("name"));
-            fCooking_time.setText(jsonObject.getString("takes_time"));
-            fServing_num.setText(jsonObject.getString("serving_num"));
-            fGenre.setText(jsonObject.getString("foods_genre"));
-            fCalorie.setText(jsonObject.getString("calorie"));
-            fPrice.setText(jsonObject.getString("price"));
+            if(jsonObject != null) {
+                fRecipe_name.setText(jsonObject.getString("name"));
+                fCooking_time.setText(jsonObject.getString("takes_time"));
+                fServing_num.setText(jsonObject.getString("serving_num"));
+                fGenre.setText(jsonObject.getString("foods_genre"));
+                fCalorie.setText(jsonObject.getString("calorie"));
+                fPrice.setText(jsonObject.getString("price"));
 
-            JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
-            JSONArray instructionsJsonArray = jsonObject.getJSONArray("instructions");
+                JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
+                JSONArray instructionsJsonArray = jsonObject.getJSONArray("instructions");
 
-            ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
-            for(int i = 0; i < ingredientsJsonArray.length(); i++){
-                ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
+                ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
+                for (int i = 0; i < ingredientsJsonArray.length(); i++) {
+                    ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
+                }
+
+                ArrayList<JSONObject> instructionsArray = new ArrayList<>();
+                for (int i = 0; i < instructionsJsonArray.length(); i++) {
+                    instructionsArray.add(instructionsJsonArray.getJSONObject(i));
+                }
+
+            /* TODO
+             * row.xmlを書き換える
+             * UIをよくする
+             */
+                TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
+                fInstructions.setAdapter(instructionListAdapter);
+                TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
+                fIngredients.setAdapter(ingredientListAdapter);
+
             }
-
-            ArrayList<JSONObject> instructionsArray = new ArrayList<>();
-            for(int i = 0; i < instructionsJsonArray.length(); i++){
-                instructionsArray.add(instructionsJsonArray.getJSONObject(i));
-            }
-
-            TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
-            fInstructions.setAdapter(instructionListAdapter);
-            TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
-            fIngredients.setAdapter(ingredientListAdapter);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

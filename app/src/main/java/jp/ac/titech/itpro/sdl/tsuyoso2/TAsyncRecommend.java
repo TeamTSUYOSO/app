@@ -79,14 +79,10 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         JSONObject requestJson = new JSONObject();
         try {
             requestJson.put("request_num", fRequestCount);
-//
-//
-//            ArrayList<Integer> list = new ArrayList();
-//            list.add(1);
-//            list.add(2);
-//            list.add(3);
-//            requestJson.put("past_recipe_ids", );
 
+            /* TODO
+             * ローカルDBから履歴をもらってaddする
+             */
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -112,10 +108,6 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
 
             // 接続
             connection.connect();
-
-            /* TODO
-             * 日数とこれまで作ったレシピのデータを送る
-             */
 
             //データを送る場合は,BufferedWriterに書き込む
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
