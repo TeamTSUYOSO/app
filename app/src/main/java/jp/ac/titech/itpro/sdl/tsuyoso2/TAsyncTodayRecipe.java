@@ -3,6 +3,8 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,12 +27,38 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
     private Activity fActivity;
     private ProgressDialog progressDialog;
 
+    int fRequestId;
+
+    TextView fRecipe_name;
+    TextView fServing_num;
+    TextView fCooking_time;
+    TextView fGenre;
+    TextView fCalorie;
+    TextView fPrice;
+    ListView fInstructions;
+    ArrayList<String> fInstructionList;
+    ListView fIngredients;
+    ArrayList<String> fIngredientList;
+
     /**
      * コンストラクタ
      * @param activity
      */
-    public TAsyncTodayRecipe(Activity activity){
+    public TAsyncTodayRecipe(Activity activity,int requestId, TextView recipe_name, TextView serving_num, TextView cooking_time, TextView genre, TextView calorie,
+                             TextView price, ListView instructions,  ArrayList<String> instructionList,
+                             ListView ingredients, ArrayList<String> ingredientList){
         this.fActivity = activity;
+        fRequestId = requestId;
+        fRecipe_name = recipe_name;
+        fCooking_time = cooking_time;
+        fServing_num = serving_num;
+        fGenre = genre;
+        fCalorie = calorie;
+        fPrice = price;
+        fInstructions = instructions;
+        fInstructionList = instructionList;
+        fIngredients = ingredients;
+        fIngredientList = ingredientList;
     }
 
     /**
@@ -66,7 +94,9 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
 
         HttpURLConnection connection = null;
         URL url = null;
-        String urlString = "http://api.atnd.org/events/?keyword=android&format=json";
+
+        fRequestId = 20;
+        String urlString = "http://160.16.213.209:8080/api/recipe/" + fRequestId;
         String readData = "";
 
         try{
@@ -87,22 +117,20 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
             /* TODO
              * その日のレシピIDを送ってレシピの詳細をもらう
              */
-
-            //データを送る場合は,BufferedWriterに書き込む
-//            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-//            bufferedWriter.write("request_num=" + fRequestCount);
-//            bufferedWriter.close();
-
-
             // 接続
             connection.connect();
 
+            //データを送る場合は,BufferedWriterに書き込む
+//            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+//           bufferedWriter.write("{\"request_id\":10}");
+//            bufferedWriter.close();
             publishProgress();
 
             final int status = connection.getResponseCode();
             if(status == HttpURLConnection.HTTP_OK){
                 System.out.println("connection OK");
                 readData = readInputStream(connection);
+                System.out.println(readData);
             }
 
         }
@@ -142,15 +170,33 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
 //        System.out.println(jsonObject.toString());
         // doInBackground後処理
 
-        ArrayList<String> recipeNameList = new ArrayList<>();
 
         try {
-            JSONArray jsonArray = jsonObject.getJSONArray("events");
-            for(int i = 0; i < jsonArray.length(); i++){
-                JSONObject temp = jsonArray.getJSONObject(i);
-                JSONObject event = temp.getJSONObject("event");
-                recipeNameList.add(event.getString("title"));
+            fRecipe_name.setText(jsonObject.getString("name"));
+            fCooking_time.setText(jsonObject.getString("takes_time"));
+            fServing_num.setText(jsonObject.getString("serving_num"));
+            fGenre.setText(jsonObject.getString("foods_genre"));
+            fCalorie.setText(jsonObject.getString("calorie"));
+            fPrice.setText(jsonObject.getString("price"));
+
+            JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
+            JSONArray instructionsJsonArray = jsonObject.getJSONArray("instructions");
+
+            ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
+            for(int i = 0; i < ingredientsJsonArray.length(); i++){
+                ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
             }
+
+            ArrayList<JSONObject> instructionsArray = new ArrayList<>();
+            for(int i = 0; i < instructionsJsonArray.length(); i++){
+                instructionsArray.add(instructionsJsonArray.getJSONObject(i));
+            }
+
+            TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
+            fInstructions.setAdapter(instructionListAdapter);
+            TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
+            fIngredients.setAdapter(ingredientListAdapter);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
