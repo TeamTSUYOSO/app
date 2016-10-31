@@ -1,20 +1,18 @@
 package jp.ac.titech.itpro.sdl.tsuyoso2;
 
-//import android.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
+import android.support.v4.app.FragmentManager;
+import android.app.FragmentTransaction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
     /* TODO
      * カレンダー,DatePickerの表示
@@ -26,11 +24,10 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-   //     setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
 
         FragmentManager manager = getSupportFragmentManager();
-        Fragment fragment = manager.findFragmentById(R.id.myfragment);
+        Fragment fragment = manager.findFragmentById(R.id.frag_calendar);
     }
 
     @Override
@@ -64,7 +61,7 @@ public class MainActivity extends FragmentActivity {
      */
     public void onClickMoveToTodayRecipe(View view) throws ParseException {
 
-        //今日の日付を呼び出す
+        //今日の日付を呼び出し
         Calendar calendar = Calendar.getInstance();
         String dateStr = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
