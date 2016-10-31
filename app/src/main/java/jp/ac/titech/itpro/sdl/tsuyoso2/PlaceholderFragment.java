@@ -1,11 +1,16 @@
 package jp.ac.titech.itpro.sdl.tsuyoso2;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by kayo on 2016/10/31.
@@ -17,6 +22,7 @@ public class PlaceholderFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_main, container,
                 false);
         //カレンダービューの取得
@@ -32,6 +38,7 @@ public class PlaceholderFragment extends Fragment implements
                 true);
         calendarView.setOnDateClickListener(this);
         calendarView.setOnNextBackClickListener(this);
+
         return rootView;
     }
 
@@ -40,16 +47,18 @@ public class PlaceholderFragment extends Fragment implements
      *            month　day クリックされた、年月日。
      */
     @Override
-    public void onDateClick(int year, int month, int day) {
+    public void onDateClick(int year, int month, int day) {//day日が押されたときの挙動
         Toast.makeText(
                 getActivity(),
                 Integer.toString(year) + "-" + Integer.toString(month)
                         + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
                 .show();
+
     }
 
     /**
      * @param year
+     * @param month
      *            month year クリックした、前月（≪）　または　翌月（≫）　の、年と月がセットされる。
      *
      * @param nextback
@@ -58,11 +67,32 @@ public class PlaceholderFragment extends Fragment implements
      */
     @Override
     public void onNextBackClick(int year, int month, int nextback) {
-        Toast.makeText(
-                getActivity(),
-                Integer.toString(year) + "-" + Integer.toString(month)
-                        + "----" + Integer.toString(nextback),
-                Toast.LENGTH_SHORT).show();
+        if(nextback==MonthlyCalendar.BACK_MONTH) {
+            Toast.makeText(
+                    getActivity(),
+                    Integer.toString(year) + "-" + Integer.toString(month)
+                            + "----" + Integer.toString(nextback),
+                    Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+        }else if(nextback==MonthlyCalendar.NEXT_MONTH){
+            Toast.makeText(
+                    getActivity(),
+                    Integer.toString(year) + "-" + Integer.toString(month)
+                            + "++++" + Integer.toString(nextback),
+                    Toast.LENGTH_SHORT).show();
+           // setCalendarView(year, month+1);
+        }
     }
+
+  //  public void setCalendarView(int year, int month){
+    //    CalendarView calendarView = (CalendarView) rootView.findViewById(R.id.frag_calendar);
+      //  calendarView.set(year, month, true, true);
+    //}
+
 
 }
