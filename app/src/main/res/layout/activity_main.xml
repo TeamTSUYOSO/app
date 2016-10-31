@@ -9,14 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.MainActivity">
 
-    <DatePicker android:id="@+id/datePicker"
+    <!--DatePicker android:id="@+id/datePicker"
         android:spinnersShown="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         >
-    </DatePicker>
+    </DatePicker-->
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="fragment"
+        android:id="@+id/myfragment"
+        android:name="jp.ac.titech.itpro.sdl.tsuyoso2.PlaceholderFragment"/>
+
 
 
     <FrameLayout

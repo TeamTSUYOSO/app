@@ -1,8 +1,12 @@
 package jp.ac.titech.itpro.sdl.tsuyoso2;
 
+//import android.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import java.text.ParseException;
@@ -10,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     /* TODO
      * カレンダー,DatePickerの表示
@@ -22,14 +26,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+   //     setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
+
+        FragmentManager manager = getSupportFragmentManager();
+        Fragment fragment = manager.findFragmentById(R.id.myfragment);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
     }
-
 
     @Override
     protected void onDestroy(){
@@ -87,4 +94,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, recommendActivity.class);
         startActivityForResult(intent, 0);
     }
+
+
+
 }
