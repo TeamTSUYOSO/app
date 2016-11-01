@@ -12,38 +12,49 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@drawable/resu"
+            android:src="@drawable/border"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:id="@+id/resu"
-            />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/linearLayout2"
+            android:layout_marginTop="-65dp"
+            android:layout_marginBottom="-70dp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="64dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="レシピ名：ハンバーグ"
-                android:id="@+id/recipe_name"
-                android:textSize="32dp"
-                android:layout_gravity="center_horizontal" />
-
+            android:id="@+id/linearLayout2"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:src="@drawable/fork_spoon"
                     android:layout_height="32dp"
                     android:layout_width="32dp"
                     android:id="@+id/genre_item"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="レシピ名：ハンバーグ"
+                    android:id="@+id/recipe_name"
+                    android:textSize="32dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,15 +92,14 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
+            android:layout_marginRight="40dp">
             <ImageView
-                android:src="@drawable/circle"
+                android:src="@drawable/circle_orange"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:id="@+id/circle1"
-                />
+                android:id="@+id/circle1" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,15 +107,15 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/recipe_cooking_time"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                 />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
             <ImageView
-                android:src="@drawable/circle"
+                android:src="@drawable/circle_orange"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
                 android:layout_height="wrap_content"
@@ -125,15 +135,17 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
+            android:layout_marginLeft="40dp">
             <ImageView
-                android:src="@drawable/circle"
+                android:src="@drawable/circle_orange"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:id="@+id/circle3"
-                />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,9 +192,9 @@
     </ScrollView>
 
     <ImageView
-        android:src="@drawable/okan_houkoku"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:src="@drawable/feedback"
+        android:layout_width="157dp"
+        android:layout_height="157dp"
         android:id="@+id/imageView2"
         android:layout_gravity="right"
         android:layout_marginRight="32dp"
