@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         calendarview:TODAY_COLOR="#ffff9900"
-        android:id= "@+id/calendar">
-
+        android:id= "@+id/calendar"
+        android:background="#ffffff">
     </jp.ac.titech.itpro.sdl.tsuyoso2.CalendarView>
 
 </RelativeLayout>

@@ -207,11 +207,10 @@ public class CalendarView extends LinearLayout{
         for (int i = 0; i < MonthlyCalendar.WEEKDAYS; i++) {
             TextView dayView = new TextView(context);
             dayView.setGravity(Gravity.TOP | Gravity.RIGHT);
-            dayView.setPadding(0, (int) (scaleDensity * 4),
-                    (int) (scaleDensity * 4), 0);
+            dayView.setPadding(0, (int) (scaleDensity * 4), (int) (scaleDensity * 4), 0);
             dayView.setClickable(true);
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(0,
-                    (int) (scaleDensity * 48));
+                    (int) (scaleDensity * 70));
             llp.weight = 1;
             weeklineLayout.addView(dayView, llp);
         }
