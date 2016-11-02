@@ -6,19 +6,21 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/ingredient_name"
+        android:id="@+id/order"
         android:textColor="#000000"
         android:textSize="20dip"
-        android:tag="ingredient_name"
+        android:tag="order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <TextView
-        android:id="@+id/quantity"
+        android:id="@+id/instruction_name"
         android:textColor="#000000"
         android:textSize="20dip"
-        android:tag="quantity"
+        android:tag="instruction_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
 </LinearLayout>
