@@ -44,14 +44,14 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
      * コンストラクタ
      * @param activity
      */
-    public TAsyncTodayRecipe(Activity activity,int requestId, TextView recipe_name, TextView serving_num, TextView cooking_time, TextView genre, TextView calorie,
+    public TAsyncTodayRecipe(Activity activity,int requestId, TextView recipe_name,/* TextView serving_num,*/ TextView cooking_time, TextView genre, TextView calorie,
                              TextView price, ListView instructions,  ArrayList<String> instructionList,
                              ListView ingredients, ArrayList<String> ingredientList){
         this.fActivity = activity;
         fRequestId = requestId;
         fRecipe_name = recipe_name;
         fCooking_time = cooking_time;
-        fServing_num = serving_num;
+//        fServing_num = serving_num;
         fGenre = genre;
         fCalorie = calorie;
         fPrice = price;
@@ -171,36 +171,38 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
         // doInBackground後処理
 
 
-        try {
-            fRecipe_name.setText(jsonObject.getString("name"));
-            fCooking_time.setText(jsonObject.getString("takes_time"));
-            fServing_num.setText(jsonObject.getString("serving_num"));
-            fGenre.setText(jsonObject.getString("foods_genre"));
-            fCalorie.setText(jsonObject.getString("calorie"));
-            fPrice.setText(jsonObject.getString("price"));
+        if(jsonObject != null) {
+            try {
+                fRecipe_name.setText(jsonObject.getString("name"));
+                fCooking_time.setText(jsonObject.getString("takes_time"));
+//            fServing_num.setText(jsonObject.getString("serving_num"));
+                fGenre.setText(jsonObject.getString("foods_genre"));
+                fCalorie.setText(jsonObject.getString("calorie"));
+                fPrice.setText(jsonObject.getString("price"));
 
-            JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
-            JSONArray instructionsJsonArray = jsonObject.getJSONArray("instructions");
+                JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
+                JSONArray instructionsJsonArray = jsonObject.getJSONArray("instructions");
 
-            ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
-            for(int i = 0; i < ingredientsJsonArray.length(); i++){
-                ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
+                ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
+                for (int i = 0; i < ingredientsJsonArray.length(); i++) {
+                    ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
+                }
+
+                ArrayList<JSONObject> instructionsArray = new ArrayList<>();
+                for (int i = 0; i < instructionsJsonArray.length(); i++) {
+                    instructionsArray.add(instructionsJsonArray.getJSONObject(i));
+                }
+
+                TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
+                fInstructions.setAdapter(instructionListAdapter);
+                TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
+                fIngredients.setAdapter(ingredientListAdapter);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            ArrayList<JSONObject> instructionsArray = new ArrayList<>();
-            for(int i = 0; i < instructionsJsonArray.length(); i++){
-                instructionsArray.add(instructionsJsonArray.getJSONObject(i));
-            }
-
-            TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
-            fInstructions.setAdapter(instructionListAdapter);
-            TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
-            fIngredients.setAdapter(ingredientListAdapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
         //ダイアログ消す
         progressDialog.dismiss();
 

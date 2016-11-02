@@ -52,7 +52,7 @@ public class recipeTodayActivity extends Activity {
          */
 
         TextView recipe_name = (TextView)findViewById(R.id.recipe_name);
-        TextView serving_num = (TextView)findViewById(R.id.recipe_serving_num);
+//        TextView serving_num = (TextView)findViewById(R.id.recipe_serving_num);
         TextView cooking_time = (TextView)findViewById(R.id.recipe_cooking_time);
         TextView genre = (TextView)findViewById(R.id.recipe_genre);
         TextView calorie = (TextView)findViewById(R.id.recipe_calorie);
@@ -63,7 +63,7 @@ public class recipeTodayActivity extends Activity {
         ArrayList<String> ingredientList = new ArrayList<>();
 
         //引数にラベルを送る or 今日のレシピデータを受けっとってActivityでセットする
-        TAsyncTodayRecipe asyncTodayRecipe = new TAsyncTodayRecipe(this,fRequestId, recipe_name, serving_num, cooking_time, genre, calorie, price,
+        TAsyncTodayRecipe asyncTodayRecipe = new TAsyncTodayRecipe(this,fRequestId, recipe_name, /*serving_num,*/ cooking_time, genre, calorie, price,
                                                                     instructions, instructionList,ingredients,  ingredientList);
         asyncTodayRecipe.execute();
 

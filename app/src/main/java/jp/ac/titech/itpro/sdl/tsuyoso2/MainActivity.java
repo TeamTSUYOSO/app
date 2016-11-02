@@ -3,10 +3,10 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.support.v4.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -91,7 +91,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, recommendActivity.class);
         startActivityForResult(intent, 0);
     }
-
-
 
 }
