@@ -2,9 +2,11 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
+import android.support.v4.app.FragmentManager;
+import android.app.FragmentTransaction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,13 +25,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager manager = getSupportFragmentManager();
+        Fragment fragment = manager.findFragmentById(R.id.frag_calendar);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
     }
-
 
     @Override
     protected void onDestroy(){
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onClickMoveToTodayRecipe(View view) throws ParseException {
 
-        //今日の日付を呼び出す
+        //今日の日付を呼び出し
         Calendar calendar = Calendar.getInstance();
         String dateStr = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,4 +91,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, recommendActivity.class);
         startActivityForResult(intent, 0);
     }
+
+
+
 }

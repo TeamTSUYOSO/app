@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,19 +8,33 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.MainActivity">
+    tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.MainActivity"
+    android:background="#ffa54a"
+    android:weightSum="1"
+    android:layout_centerVertical="true">
 
-    <DatePicker android:id="@+id/datePicker"
+    <!--DatePicker android:id="@+id/datePicker"
         android:spinnersShown="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         >
-    </DatePicker>
+    </DatePicker-->
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tag="fragment"
+        android:id="@+id/frag_calendar"
+        android:name="jp.ac.titech.itpro.sdl.tsuyoso2.PlaceholderFragment"
+        tools:layout="@layout/fragment_main"
+        android:layout_weight="0.36"
+        android:layout_marginTop="32dp" />
 
 
-    <FrameLayout
+
+    <!--FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/frameLayout"
@@ -44,52 +59,68 @@
             android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
             />
-    </FrameLayout>
+    </FrameLayout-->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout">
+        android:layout_centerVertical = "true"
+        android:id="@+id/linearLayout"
+        android:weightSum="1">
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:text="おつかいリスト"
             android:id="@+id/button1"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:onClick="onClickMoveToShoppingList"
-            />
+            android:background="@drawable/circle"
+            android:layout_weight="0.25"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:text="今日のレシピ"
             android:id="@+id/button2"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:onClick="onClickMoveToTodayRecipe"
-            />
+            android:background="@drawable/circle"
+            android:layout_weight="0.25"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:text="冷蔵庫"
             android:id="@+id/button3"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="onClickMoveToRefrigerator"/>
+            android:onClick="onClickMoveToRefrigerator"
+            android:background="@drawable/circle"
+            android:layout_weight="0.25"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:text="自動提案"
             android:id="@+id/button4"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:onClick="onClickMoveToRecommend"/>
+            android:onClick="onClickMoveToRecommend"
+            android:background="@drawable/circle"
+            android:layout_weight="0.25"
+            android:textStyle="bold"
+            android:textSize="18dp" />
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
