@@ -28,20 +28,9 @@ public class recipeListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list);
 
-        /* TODO
-         * ListViewのidを取得
-         * ListViewに入れるArrayAdapterの設定
-         */
-
-        /* TODO
-         * 提案してもらう日付とレシピ数をrecommendActivityから受け取る。
-         * サーバにそれを送ってレシピリストを取得する。
-         * 受け取ったレシピリストをListViewに追加する。
-         */
 
         //リクエストしてもらう日数を取得する
         fRequestCount = (int)getIntent().getSerializableExtra("request_num");
-//        System.out.println("requestNum = " + fRequestCount);
 
         ListView listView = (ListView)findViewById(R.id.listView2);
         ArrayList<String> recipeList = new ArrayList<>();
