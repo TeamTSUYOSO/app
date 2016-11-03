@@ -3,8 +3,9 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,48 +18,33 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Yamada on 2016/10/17.
  */
-public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
+public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
 
     private Activity fActivity;
     private ProgressDialog progressDialog;
 
-    int fRequestId;
-
-    TextView fRecipe_name;
-    TextView fServing_num;
-    TextView fCooking_time;
-    TextView fGenre;
-    TextView fCalorie;
-    TextView fPrice;
-    ListView fInstructions;
-    ArrayList<String> fInstructionList;
-    ListView fIngredients;
-    ArrayList<String> fIngredientList;
+    ListView fIngredientsListView;
+    ArrayList<String> fIngredientArrayList;
+    Date fRecipeDate;
+    String dateFormat = "yyyy-MM-dd";
 
     /**
      * コンストラクタ
      * @param activity
      */
-    public TAsyncTodayRecipe(Activity activity,int requestId, TextView recipe_name,/* TextView serving_num,*/ TextView cooking_time, TextView genre, TextView calorie,
-                             TextView price, ListView instructions,  ArrayList<String> instructionList,
-                             ListView ingredients, ArrayList<String> ingredientList){
+    public TAsyncShoppingList(Activity activity , ListView ingredientsListView, ArrayList<String> ingredientArrayList, Date date){
+
         this.fActivity = activity;
-        fRequestId = requestId;
-        fRecipe_name = recipe_name;
-        fCooking_time = cooking_time;
-//        fServing_num = serving_num;
-        fGenre = genre;
-        fCalorie = calorie;
-        fPrice = price;
-        fInstructions = instructions;
-        fInstructionList = instructionList;
-        fIngredients = ingredients;
-        fIngredientList = ingredientList;
+        fIngredientsListView = ingredientsListView;
+        fIngredientArrayList = ingredientArrayList;
+        fRecipeDate = date;
     }
 
     /**
@@ -99,6 +85,7 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
          * fRequestIdはローカルDBから受け取ったものを送る
          */
 
+        int fRequestId = 1;
         String urlString = "http://160.16.213.209:8080/api/recipe/" + fRequestId;
         String readData = "";
 
@@ -165,36 +152,34 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
 
         if(jsonObject != null) {
             try {
-                fRecipe_name.setText(jsonObject.getString("name"));
-                fCooking_time.setText(jsonObject.getString("takes_time"));
-//            fServing_num.setText(jsonObject.getString("serving_num"));
-                fGenre.setText(jsonObject.getString("foods_genre"));
-                fCalorie.setText(jsonObject.getString("calorie"));
-                fPrice.setText(jsonObject.getString("price"));
 
                 JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
-                JSONArray instructionsJsonArray = jsonObject.getJSONArray("instructions");
 
                 ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
                 for (int i = 0; i < ingredientsJsonArray.length(); i++) {
                     ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
                 }
 
-                ArrayList<JSONObject> instructionsArray = new ArrayList<>();
-                for (int i = 0; i < instructionsJsonArray.length(); i++) {
-                    instructionsArray.add(instructionsJsonArray.getJSONObject(i));
+                ArrayList<String> ingList = new ArrayList<>();
+
+                SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+
+                ingList.add(sdf.format(fRecipeDate));
+                for(int i = 0; i < ingredientsArray.size(); i++){
+                   ingList.add(ingredientsArray.get(i).getString("name") + " ・・・ " + ingredientsArray.get(i).getString("quantity"));
                 }
 
-                TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
-                fInstructions.setAdapter(instructionListAdapter);
-                TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
-                fIngredients.setAdapter(ingredientListAdapter);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(fActivity, android.R.layout.simple_list_item_1, ingList);
+                fIngredientsListView.setAdapter(arrayAdapter);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+        }else {
+            Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
         }
+
         //ダイアログ消す
         progressDialog.dismiss();
 

@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -17,6 +17,9 @@ import java.util.Date;
  */
 public class PlaceholderFragment extends Fragment implements
     OnDateClickListener, OnNextBackClickListener{
+
+    CalendarView calendarView;
+
     public PlaceholderFragment() {
     }
     @Override
@@ -26,8 +29,7 @@ public class PlaceholderFragment extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_main, container,
                 false);
         //カレンダービューの取得
-        CalendarView calendarView = (CalendarView) rootView
-                .findViewById(R.id.calendar);
+        calendarView = (CalendarView) rootView.findViewById(R.id.calendar);
         //カレンダーに日付をセット
         //第一引数：表示する年
         //第二引数：表示する月
@@ -47,12 +49,20 @@ public class PlaceholderFragment extends Fragment implements
      *            month　day クリックされた、年月日。
      */
     @Override
-    public void onDateClick(int year, int month, int day) {//day日が押されたときの挙動
+    public void onDateClick(int year, int month, int day) throws ParseException {//day日が押されたときの挙動
         Toast.makeText(
                 getActivity(),
                 Integer.toString(year) + "-" + Integer.toString(month)
                         + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
                 .show();
+
+        String dateStr = year + "-" + month + "-" + day;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date requestDate = simpleDateFormat.parse(dateStr);
+
+        Intent intent = new Intent( getActivity(), recipeTodayActivity.class);
+        intent.putExtra("Request_Date",requestDate);
+        startActivity(intent);
 
     }
 

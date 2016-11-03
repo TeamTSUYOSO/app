@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -161,36 +162,32 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
      */
     @Override
     protected void onPostExecute(JSONArray jsonObject){
-        /* TODO
-         * doInBackGround から受け渡されるjsonObjectをパースして、レシピリストにセットする
-         */
+
         System.out.println("onPostExecute");
-        if(jsonObject != null) {
-            System.out.println(jsonObject.toString());
-        }
-        else System.out.println("jsonobj = null");
         // doInBackground後処理
-
-        try {
-            if(jsonObject != null) {
-
+        if(jsonObject != null) {
+            try {
                 for (int i = 0; i < jsonObject.length(); i++) {
                     JSONObject temp = jsonObject.getJSONObject(i);
 //                JSONObject event = temp.getJSONObject("recipe");
                     fRecipeList.add(temp.getString("name"));
-                }
 
                 /*TODO
                  jsonArray をローカルDBに保存する部分に渡す.
                  */
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                }
 
-        //List用ArrayAdapterの生成
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(fActivity, android.R.layout.simple_list_item_multiple_choice, fRecipeList);
-        fListView.setAdapter(arrayAdapter);
+
+                //List用ArrayAdapterの生成
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(fActivity, android.R.layout.simple_list_item_multiple_choice, fRecipeList);
+                fListView.setAdapter(arrayAdapter);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else {
+            Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
+        }
 
         //ダイアログ消す
         progressDialog.dismiss();

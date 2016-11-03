@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -194,7 +195,8 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+        }else {
+            Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
         }
         //ダイアログ消す
         progressDialog.dismiss();

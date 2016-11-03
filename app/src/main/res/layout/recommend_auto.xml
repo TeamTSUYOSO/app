@@ -12,10 +12,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
+        android:layout_marginTop="100dp"
         android:id="@+id/linerLayout">
 
         <DatePicker android:id="@+id/datePicker"
@@ -27,19 +28,30 @@
             >
         </DatePicker>
 
-        <TextView android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="日数選択"
-            android:layout_gravity="center"
-            />
-
-        <NumberPicker
-            android:id="@+id/numPicker"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/datePicker"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+            android:orientation="vertical"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="50dp">
+
+            <TextView
+                android:id="@+id/numPicker_text"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="何日分?"
+                />
+
+            <NumberPicker
+                android:id="@+id/numPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/datePicker"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
     </LinearLayout>>
 
