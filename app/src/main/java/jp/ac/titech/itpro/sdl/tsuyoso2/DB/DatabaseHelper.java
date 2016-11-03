@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + ID          + " integer primary key autoincrement,"
                     + RECIPE_ID   + " integer not null,"
                     + RECIPE_NAME + " text not null,"
-                    + COOK_DATE   + " text not null,"
+                    + COOK_DATE   + " text unique not null,"
                     + EVALUATION  + " integer"
                     + ")";
 
