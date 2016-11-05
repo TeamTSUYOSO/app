@@ -13,28 +13,26 @@ import android.widget.RatingBar;
  */
 public class evaluateActivity extends Activity {
     //レート
-    RatingBar ratingBar;
+    RatingBar fRatingBar;
     //もう作らない
-    CheckBox checkBox;
+    CheckBox fCheckBox;
     //作った作らなかった
-    RadioGroup radioGroup;
+    RadioGroup fRadioGroup;
 
-    /* TODO
-     * 作った作らなかったをradipGroupに書き換え
-     */
+    int fRequestId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evaluate);
 
-        ratingBar = (RatingBar)findViewById(R.id.ratingBar);
-        checkBox = (CheckBox)findViewById(R.id.checkBox2);
+        //リクエストしてもらう日数を取得する
+        fRequestId = (int) getIntent().getSerializableExtra("Request_Id");
 
-        /* TODO
-         * ラジオグループのIDを取得
-         *
-         */
+        fRatingBar = (RatingBar)findViewById(R.id.ratingBar);
+        fCheckBox = (CheckBox)findViewById(R.id.checkBox2);
+        fRadioGroup = (RadioGroup)findViewById(R.id.radioButton_group_make);
+
     }
 
     /**
@@ -47,6 +45,10 @@ public class evaluateActivity extends Activity {
          * 作った場合、レートともう作らないのチェックボックスをローカルDBに保存。
          * 作らなかった場合、何もせずに画面を今日のレシピに遷移。
          */
+
+        System.out.println(fRatingBar.getRating());
+        System.out.println(fCheckBox.isChecked());
+        System.out.println(fRadioGroup.getCheckedRadioButtonId());
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivityForResult(intent, 0);

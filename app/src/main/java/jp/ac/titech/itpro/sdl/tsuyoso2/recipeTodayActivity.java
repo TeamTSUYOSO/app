@@ -41,10 +41,6 @@ public class recipeTodayActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_today);
 
-        /* TODO
-         * それぞれのラベルなどのidを取得する。
-         */
-
         //リクエストしてもらう日数を取得する
         fRequestDate= (Date) getIntent().getSerializableExtra("Request_Date");
 
@@ -53,7 +49,9 @@ public class recipeTodayActivity extends Activity {
         /* TODO
          * "fRequestId = getFromLocalDB;"
          */
+        fRequestId = 1;
 
+        //セットするViewのIDを取得
         TextView recipe_name = (TextView)findViewById(R.id.recipe_name);
         TextView serving_num = (TextView)findViewById(R.id.recipe_serving_num);
         TextView cooking_time = (TextView)findViewById(R.id.recipe_cooking_time);
@@ -78,10 +76,12 @@ public class recipeTodayActivity extends Activity {
      * @param view
      */
     public void onClickMoveToEvaluate(View view){
+
+
         Intent intent = new Intent(this, evaluateActivity.class);
-        startActivityForResult(intent, 0);
-        /* TODO
-         * レシピIDを送る
-         */
+        //その日のレシピの評価画面にレシピIDを送る
+        intent.putExtra("Request_Id", fRequestId);
+        startActivity(intent);
+
     }
 }
