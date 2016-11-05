@@ -2,7 +2,11 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,23 +39,23 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
     TextView fGenre;
     TextView fCalorie;
     TextView fPrice;
-    ListView fInstructions;
+    LinearLayout fInstructions;
     ArrayList<String> fInstructionList;
-    ListView fIngredients;
+    LinearLayout fIngredients;
     ArrayList<String> fIngredientList;
 
     /**
      * コンストラクタ
      * @param activity
      */
-    public TAsyncTodayRecipe(Activity activity,int requestId, TextView recipe_name,/* TextView serving_num,*/ TextView cooking_time, TextView genre, TextView calorie,
-                             TextView price, ListView instructions,  ArrayList<String> instructionList,
-                             ListView ingredients, ArrayList<String> ingredientList){
+    public TAsyncTodayRecipe(Activity activity,int requestId, TextView recipe_name, TextView serving_num, TextView cooking_time, TextView genre, TextView calorie,
+                             TextView price, LinearLayout instructions,  ArrayList<String> instructionList,
+                             LinearLayout ingredients, ArrayList<String> ingredientList){
         this.fActivity = activity;
         fRequestId = requestId;
         fRecipe_name = recipe_name;
         fCooking_time = cooking_time;
-//        fServing_num = serving_num;
+        fServing_num = serving_num;
         fGenre = genre;
         fCalorie = calorie;
         fPrice = price;
@@ -167,7 +171,7 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
             try {
                 fRecipe_name.setText(jsonObject.getString("name"));
                 fCooking_time.setText(jsonObject.getString("takes_time"));
-//            fServing_num.setText(jsonObject.getString("serving_num"));
+                fServing_num.setText(jsonObject.getString("serving_num"));
 
                 fGenre.setText(jsonObject.getString("foods_genre"));
                 fCalorie.setText(jsonObject.getString("calorie"));
@@ -176,20 +180,28 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
                 JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
                 JSONArray instructionsJsonArray = jsonObject.getJSONArray("instructions");
 
-                ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
                 for (int i = 0; i < ingredientsJsonArray.length(); i++) {
-                    ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
+                    JSONObject ingredient = ingredientsJsonArray.getJSONObject(i);
+
+                    View view = fActivity.getLayoutInflater().inflate(R.layout.row_ingredients, null);
+                    fIngredients.addView(view);
+                    TextView name = (TextView) view.findViewById(R.id.ingredient_name);
+                    name.setText(ingredient.getString("name"));
+                    TextView quantity = (TextView) view.findViewById(R.id.ingredient_quantity);
+                    quantity.setText(ingredient.getString("quantity"));
                 }
 
-                ArrayList<JSONObject> instructionsArray = new ArrayList<>();
                 for (int i = 0; i < instructionsJsonArray.length(); i++) {
-                    instructionsArray.add(instructionsJsonArray.getJSONObject(i));
-                }
+                    JSONObject instruction = instructionsJsonArray.getJSONObject(i);
 
-                TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
-                fInstructions.setAdapter(instructionListAdapter);
-                TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
-                fIngredients.setAdapter(ingredientListAdapter);
+                    View view = fActivity.getLayoutInflater().inflate(R.layout.row_instructions, null);
+                    fInstructions.addView(view);
+                    TextView order = (TextView) view.findViewById(R.id.instruction_order);
+                    order.setText(instruction.getString("order"));
+                    TextView content = (TextView) view.findViewById(R.id.instruction_content);
+                    content.setText(instruction.getString("content"));
+                }
+                
 
             } catch (JSONException e) {
                 e.printStackTrace();
