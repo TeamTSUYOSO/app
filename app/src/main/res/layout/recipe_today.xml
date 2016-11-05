@@ -86,6 +86,7 @@
 
         </RelativeLayout>
 
+        <!-- ******** メインのScrollView ********* -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -126,6 +127,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center">
+                        <!-- 調理時間-->
                         <RelativeLayout
                             android:id="@+id/cooking_time"
                             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -153,13 +155,22 @@
 
                             <TextView
                                 android:id="@+id/recipe_cooking_time"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/hd_cokking_time"
                                 android:layout_toRightOf="@id/ic_cooking_time"
-                                android:text="15分"/>
+                                android:text="15"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/hd_cokking_time"
+                                android:layout_toRightOf="@id/recipe_cooking_time"
+                                android:layout_marginLeft="5dp"
+                                android:text="[分]"
+                                />
 
                         </RelativeLayout>
+                        <!-- カロリー-->
                         <RelativeLayout
                             android:id="@+id/calorie"
                             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -186,13 +197,22 @@
 
                             <TextView
                                 android:id="@+id/recipe_calorie"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/hd_calorie"
                                 android:layout_toRightOf="@id/ic_calorie"
-                                android:text="15分"/>
+                                android:text="15"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/hd_calorie"
+                                android:layout_toRightOf="@id/recipe_calorie"
+                                android:layout_marginLeft="5dp"
+                                android:text="[kcal]"
+                                />
 
                         </RelativeLayout>
+                        <!-- 価格-->
                         <RelativeLayout
                             android:id="@+id/price"
                             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -220,48 +240,83 @@
 
                             <TextView
                                 android:id="@+id/recipe_price"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="15分"
+                                android:text="15"
                                 android:layout_below="@+id/hd_price"
                                 android:layout_toRightOf="@id/ic_price" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/hd_price"
+                                android:layout_toRightOf="@id/recipe_price"
+                                android:layout_marginLeft="5dp"
+                                android:text="[円]"
+                                />
 
                         </RelativeLayout>
                     </RelativeLayout>
                 </LinearLayout>
 
+                <!--************  材料  ************-->
                 <LinearLayout
+                    android:id="@+id/table_ingredients"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="#ffecc6">
-                    <TextView
+                    android:layout_margin="10dp"
+                    android:background="#ffecc6"
+                    android:divider="@android:drawable/divider_horizontal_bright"
+                    android:dividerPadding="10dp"
+                    android:showDividers="middle">
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:drawableLeft="@drawable/ic_ingredients"
-                        android:drawablePadding="20dp"
-                        android:text="材料 : n人前"
-                        android:paddingLeft="20dp"
-                        android:padding="10dp"
-                        android:textSize="20dp"
-                        android:background="@android:color/holo_orange_dark"
-                        android:textColor="@android:color/white"
-                        android:layout_gravity="center_vertical" />
-                    <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/recipe_ingredients"
-                        android:background="@drawable/simple_box"/>
+                        android:background="@android:color/holo_orange_dark">
+                        <TextView
+                            android:id="@+id/hd_ingredient"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:drawableLeft="@drawable/ic_ingredients"
+                            android:drawablePadding="20dp"
+                            android:gravity="center"
+                            android:text="材料 :"
+                            android:paddingLeft="20dp"
+                            android:padding="10dp"
+                            android:textSize="20dp"
+                            android:textColor="@android:color/white" />
+                        <TextView
+                            android:id="@+id/recipe_serving_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="n"
+                            android:textSize="20dp"
+                            android:textColor="@android:color/white"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/hd_ingredient"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人前"
+                            android:textSize="20dp"
+                            android:textColor="@android:color/white"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/recipe_serving_num"/>
+                    </RelativeLayout>
                 </LinearLayout>
+
+                <!--************  手順  ************-->
                 <LinearLayout
+                    android:id="@+id/table_instructions"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="#ffecc6">
+                    android:layout_margin="10dp"
+                    android:background="#ffecc6"
+                    android:divider="@android:drawable/divider_horizontal_bright"
+                    android:dividerPadding="10dp"
+                    android:showDividers="middle">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -274,12 +329,6 @@
                         android:background="@android:color/holo_orange_dark"
                         android:textColor="@android:color/white"
                         android:layout_gravity="center_vertical" />
-                    <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/recipe_instructions"
-                        android:layout_gravity="center_horizontal|top"
-                        android:background="@drawable/simple_box" />
                 </LinearLayout>
 
             </LinearLayout>
