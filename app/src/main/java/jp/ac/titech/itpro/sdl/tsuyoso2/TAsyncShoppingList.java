@@ -12,9 +12,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,7 +27,7 @@ import java.util.Date;
 /**
  * Created by Yamada on 2016/10/17.
  */
-public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
+public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
 
     private Activity fActivity;
     private ProgressDialog progressDialog;
@@ -34,6 +36,9 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
     ArrayList<String> fIngredientArrayList;
     Date fRecipeDate;
     String dateFormat = "yyyy-MM-dd";
+
+    //日付のリスト
+    ArrayList<Date> fDateList;
 
     /**
      * コンストラクタ
@@ -71,7 +76,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
      * @return
      */
     @Override
-    protected JSONObject doInBackground(String... params) {
+    protected JSONArray doInBackground(String... params) {
         /* TODO
          * Activityから受け渡されるデータをサーバに送って帰ってきたデータをリターンする
          * onPostExecuteに渡される.
@@ -86,7 +91,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
          */
 
         int fRequestId = 1;
-        String urlString = "http://160.16.213.209:8080/api/recipe/" + fRequestId;
+        String urlString = "http://160.16.213.209:8080/api/lists/list";
         String readData = "";
 
         try{
@@ -96,17 +101,27 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
             connection = (HttpURLConnection)url.openConnection();
             //リクエストメソッドの設定
             //POSTするときはここをPOST
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod("POST");
             //リダイレクトを自動で許可しない設定
             connection.setInstanceFollowRedirects(false);
             //URL接続からデータを読み取るにはtrue
             connection.setDoInput(true);
             // URL接続にデータを書き込む場合はtrue
-            connection.setDoOutput(false);
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json");
 
             // 接続
             connection.connect();
 
+            //データを送る場合は,BufferedWriterに書き込む
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+//            bufferedWriter.write(requestJson.toString());
+//            bufferedWriter.write("{\"request_num\":" + fRequestCount + ", \"past_recipe_ids\":[1,2], \"reputations\":[{\"recipe_id\" : 10, \"value\" : 5, \"proposed_time\" : 1}, {\"recipe_id\" : 12, \"value\" : 3, \"proposed_time\" : 2}]}");
+            /* TODO
+                ローカルDBから作ってないレシピ受け取って送る
+             */
+            bufferedWriter.write("{\"past_recipe_ids\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}");
+            bufferedWriter.close();
             publishProgress();
 
             final int status = connection.getResponseCode();
@@ -123,7 +138,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
         }
 
         try {
-            return new JSONObject(readData);
+            return new JSONArray(readData);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -144,7 +159,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
      * @param jsonObject
      */
     @Override
-    protected void onPostExecute(JSONObject jsonObject){
+    protected void onPostExecute(JSONArray jsonObject){
 
         System.out.println("onPostExecute");
 //        System.out.println(jsonObject.toString());
@@ -153,23 +168,23 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
         if(jsonObject != null) {
             try {
 
-                JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
+                for (int i = 0; i < jsonObject.length(); i++) {
+                    JSONObject temp = jsonObject.getJSONObject(i);
+                    JSONArray tempIngredients = temp.getJSONArray("ingredients");
 
-                ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
-                for (int i = 0; i < ingredientsJsonArray.length(); i++) {
-                    ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
+                    fIngredientArrayList.add("//////////////////////////////////////" + temp.getString("name") + "//////////////////////////////////////");
+
+                    if(tempIngredients != null) {
+                        for (int j = 0; j < tempIngredients.length(); j++){
+                            fIngredientArrayList.add(tempIngredients.getJSONObject(j).getString("name") + " ・・・" + tempIngredients.getJSONObject(j).getString("quantity"));
+                        }
+                    }
                 }
-
-                ArrayList<String> ingList = new ArrayList<>();
 
                 SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+//                ingList.add(sdf.format(fRecipeDate));
 
-                ingList.add(sdf.format(fRecipeDate));
-                for(int i = 0; i < ingredientsArray.size(); i++){
-                   ingList.add(ingredientsArray.get(i).getString("name") + " ・・・ " + ingredientsArray.get(i).getString("quantity"));
-                }
-
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(fActivity, android.R.layout.simple_list_item_1, ingList);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(fActivity, android.R.layout.simple_list_item_1, fIngredientArrayList);
                 fIngredientsListView.setAdapter(arrayAdapter);
 
             } catch (JSONException e) {
@@ -179,10 +194,8 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONObject> {
         }else {
             Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
         }
-
         //ダイアログ消す
         progressDialog.dismiss();
-
     }
 
     /**

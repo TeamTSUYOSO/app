@@ -84,11 +84,6 @@ public class PlaceholderFragment extends Fragment implements
                             + "----" + Integer.toString(nextback),
                     Toast.LENGTH_SHORT).show();
 
-
-
-
-
-
         }else if(nextback==MonthlyCalendar.NEXT_MONTH){
             Toast.makeText(
                     getActivity(),

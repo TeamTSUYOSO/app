@@ -348,7 +348,6 @@ public class CalendarView extends LinearLayout{
      */
     private void setDays(final int year, final int month, boolean flexibleLine) {
 
-
         MonthlyCalendar calendar = new MonthlyCalendar(year, month);
 
         int[][] calendarDay = calendar.getCalendarMatrix();

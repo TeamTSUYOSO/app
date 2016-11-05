@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
 
@@ -29,6 +30,9 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
     private ProgressDialog progressDialog;
     private int fRequestCount;
     private ArrayList<String> fRecipeList;
+
+    private String dateFormat = "yyyy-MM-dd";
+
     /**
      * コンストラクタ
      * @param activity
@@ -77,19 +81,13 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         String urlString = "http://160.16.213.209:8080/api/recipes/suggest";
         String readData = "";
 
-        JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("request_num", fRequestCount);
+        Calendar calendar = Calendar.getInstance();
+        String dateStr = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
 
-            /* TODO
-             * ローカルDBから履歴をもらってaddする
-             */
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        System.out.println(requestJson.toString());
-
+        /* TODO
+            ローカルDBからreputationsを受け取る
+         */
+        //String pastReputations = localDB.getRequestRecipes(dateStr, 14);
 
         try{
             //URL生成
@@ -113,8 +111,11 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
             //データを送る場合は,BufferedWriterに書き込む
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 //            bufferedWriter.write(requestJson.toString());
-//            bufferedWriter.write("{\"request_num\":" + fRequestCount + ", \"past_recipe_ids\":[1,2], \"reputations\":[{\"recipe_id\" : 10, \"value\" : 5, \"proposed_time\" : 1}, {\"recipe_id\" : 12, \"value\" : 3, \"proposed_time\" : 2}]}");
-            bufferedWriter.write("{\"request_num\":" + fRequestCount + ", \"past_recipe_ids\":[], \"reputations\":[]}");
+            bufferedWriter.write("{\"request_num\":" + fRequestCount + ", \"past_recipe_ids\":[1,2], \"reputations\":[{\"recipe_id\" : 10, \"value\" : 5, \"proposed_time\" : 1}, {\"recipe_id\" : 12, \"value\" : 3, \"proposed_time\" : 2}]}");
+            /* TODO
+                reputationsをローカルから受け取ってから送る
+             */
+//            bufferedWriter.write("{\"request_num\":" + fRequestCount + "," + );
             bufferedWriter.close();
 
             publishProgress();
@@ -133,13 +134,6 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         }
 
         try {
-            /**
-             * [{"recipeId":10,"name":"肉じゃが"},{"recipeId":12,"name":"カルボナーラ"},
-             * {"recipeId":7,"name":"かぼちゃと豚肉の甘煮"},{"recipeId":4,"name":"白菜と豚肉の蒸し焼き"},
-             * {"recipeId":18,"name":"釜玉うどん"},{"recipeId":13,"name":"肉豆腐"},
-             * {"recipeId":16,"name":"ペペロンチーノ"},{"recipeId":11,"name":"青椒肉絲"},
-             * {"recipeId":22,"name":"鶏の唐揚げ"},{"recipeId":20,"name":"トマトスープパスタ"}]
-             */
             return new JSONArray(readData);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -176,7 +170,6 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
                  jsonArray をローカルDBに保存する部分に渡す.
                  */
                 }
-
 
                 //List用ArrayAdapterの生成
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(fActivity, android.R.layout.simple_list_item_multiple_choice, fRecipeList);

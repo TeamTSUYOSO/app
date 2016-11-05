@@ -27,6 +27,7 @@ public class shoppingListActivity extends Activity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Date requestDate = null;
+
         try {
             requestDate = simpleDateFormat.parse(dateStr);
         } catch (ParseException e) {
