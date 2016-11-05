@@ -1,6 +1,7 @@
 package jp.ac.titech.itpro.sdl.tsuyoso2;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**
+         * ローカルデータベースの初期化
+         * データベースが存在しない場合はデータベース作成のSQLが投げられる
+         */
+        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.close();
 
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.frag_calendar);
@@ -93,4 +104,8 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
+    public void onClickShowDatabase(View view){
+        Intent intent = new Intent(this, DBActivity.class);
+        startActivityForResult(intent, 0);
+    }
 }
