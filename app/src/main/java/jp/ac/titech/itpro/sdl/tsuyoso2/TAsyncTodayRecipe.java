@@ -201,22 +201,7 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
                     TextView content = (TextView) view.findViewById(R.id.instruction_content);
                     content.setText(instruction.getString("content"));
                 }
-
-
-//                ArrayList<JSONObject> ingredientsArray = new ArrayList<>();
-//                for (int i = 0; i < ingredientsJsonArray.length(); i++) {
-//                    ingredientsArray.add(ingredientsJsonArray.getJSONObject(i));
-//                }
-//
-//                ArrayList<JSONObject> instructionsArray = new ArrayList<>();
-//                for (int i = 0; i < instructionsJsonArray.length(); i++) {
-//                    instructionsArray.add(instructionsJsonArray.getJSONObject(i));
-//                }
-//
-//                TInstructionsArrayAdapter instructionListAdapter = new TInstructionsArrayAdapter(fActivity, R.layout.instruction_layout, instructionsArray);
-//                fInstructions.setAdapter(instructionListAdapter);
-//                TIngredientsArrayAdapter ingredientListAdapter = new TIngredientsArrayAdapter(fActivity, R.layout.ingredient_layout, ingredientsArray);
-//                fIngredients.setAdapter(ingredientListAdapter);
+                
 
             } catch (JSONException e) {
                 e.printStackTrace();
