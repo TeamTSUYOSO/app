@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="#ffffff"
+    >
+
+    <LinearLayout
+        android:id="@+id/shopping_list_recipe_name_linear_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:background="@android:color/holo_orange_dark"
+        >
+
+        <TextView
+            android:id="@+id/shopping_list_recipe_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="recipe_date"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:paddingRight="20dp"
+            android:paddingLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/shopping_list_hd_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:text="レシピ名: "
+            android:paddingLeft="20dp"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:layout_toRightOf="@id/shopping_list_recipe_date"/>
+
+            <TextView
+            android:id="@+id/shopping_list_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:textSize="20dp"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/holo_orange_dark"
+        android:layout_alignParentBottom="@id/shopping_list_recipe_name_linear_layout"
+        >
+
+    <TextView
+        android:id="@+id/shopping_list_hd_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/ic_ingredients"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:text="材料 :"
+        android:paddingLeft="20dp"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/shopping_list_recipe_serving_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="n"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/shopping_list_hd_ingredient"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="人前"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/shopping_list_recipe_serving_num"/>
+
+    </LinearLayout>
+</LinearLayout>

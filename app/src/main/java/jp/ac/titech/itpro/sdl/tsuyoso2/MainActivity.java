@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.frag_calendar);
+
     }
 
     @Override
@@ -61,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void onClickMoveToShoppingList(View view){
-        /* TODO
-         * お使いリストの画面に遷移
-         */
+        //Intentにデータをつけて送る
+        Intent intent = new Intent(this, shoppingListActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     /**
@@ -103,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    public void onClickShowDatabase(View view){
-        Intent intent = new Intent(this, DBActivity.class);
-        startActivityForResult(intent, 0);
-    }
+//    public void onClickShowDatabase(View view){
+//        Intent intent = new Intent(this, DBActivity.class);
+//        startActivityForResult(intent, 0);
+//    }
+
 }

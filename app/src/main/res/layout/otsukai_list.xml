@@ -3,25 +3,53 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-<FrameLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <ListView
+
+    <!-- タイトルバー-->
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="867dp"
-        android:layout_gravity="center"
-        android:id="@+id/otsukai_list"
-        android:layout_weight="0.20" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark">
+        <ImageView
+            android:src="@drawable/ic_card_travel"
+            android:layout_height="32dp"
+            android:layout_width="32dp"
+            android:layout_margin="10dp"
+            android:id="@+id/shopping_list_ic_header_date"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="必要食材"
+            android:id="@+id/shopping_list_recipe_date"
+            android:textSize="32dp"
+            android:layout_toRightOf="@id/shopping_list_ic_header_date"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
-    <ImageView
-        android:layout_width="253dp"
-        android:layout_height="175dp"
-        android:id="@+id/imageView3"
-        android:layout_gravity="bottom|right"
-        android:layout_weight="1.06"
-        android:src="@drawable/bag" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/shopping_list_scrollView"
+        android:layout_gravity="center_horizontal"
+        >
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/shopping_list_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:background="#ffecc6"
+            android:divider="@android:drawable/divider_horizontal_bright"
+            android:dividerPadding="10dp"
+            android:showDividers="middle">
+
+        </LinearLayout>
+    </ScrollView>>
 
 
 </LinearLayout>

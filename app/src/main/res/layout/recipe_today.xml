@@ -146,7 +146,7 @@
                                 android:layout_marginRight="16dp"/>
 
                             <TextView
-                                android:id="@+id/hd_cokking_time"
+                                android:id="@+id/hd_cooking_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@id/ic_cooking_time"
@@ -157,13 +157,13 @@
                                 android:id="@+id/recipe_cooking_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/hd_cokking_time"
+                                android:layout_below="@id/hd_cooking_time"
                                 android:layout_toRightOf="@id/ic_cooking_time"
                                 android:text="15"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/hd_cokking_time"
+                                android:layout_below="@id/hd_cooking_time"
                                 android:layout_toRightOf="@id/recipe_cooking_time"
                                 android:layout_marginLeft="5dp"
                                 android:text="[分]"

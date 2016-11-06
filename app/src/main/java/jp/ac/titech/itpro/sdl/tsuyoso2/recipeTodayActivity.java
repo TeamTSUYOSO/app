@@ -12,24 +12,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by Yamada on 2016/10/10.
  */
 public class recipeTodayActivity extends Activity {
-
-    /* TODO
-     * 必要な項目の作成
-     * レシピID
-     * レシピ名表示ラベル
-     * 材料表示ラベル(List)
-     * 手順表示ラベル(List)
-     * 何人前表示ラベル
-     * ジャンル表示ラベル
-     * カロリー表示ラベル
-     * 価格表示ラベル
-     * 画像表示imageView
-     */
 
     //表示するレシピの日付
     Date fRequestDate;
@@ -49,7 +37,8 @@ public class recipeTodayActivity extends Activity {
         /* TODO
          * "fRequestId = getFromLocalDB;"
          */
-        fRequestId = 1;
+        Random random = new Random();
+        fRequestId = random.nextInt(23);
 
         //セットするViewのIDを取得
         TextView recipe_name = (TextView)findViewById(R.id.recipe_name);
