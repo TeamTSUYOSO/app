@@ -46,6 +46,7 @@ public class recipeListActivity extends Activity {
 
         JSONArray recipeListJsonArray = asyncJson.getRecipeListJsonArray();
 
+
         //メインアクティビティに遷移
         Intent intent = new Intent(this, MainActivity.class);
         startActivityForResult(intent, 0);

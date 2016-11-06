@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
+
 public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
 
     private Activity fActivity;
@@ -83,13 +85,16 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         String urlString = "http://160.16.213.209:8080/api/recipes/suggest";
         String readData = "";
 
+
+        //その日の日付を取得
         Calendar calendar = Calendar.getInstance();
         String dateStr = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
-
-        /* TODO
-            ローカルDBからreputationsを受け取る
-         */
-        //String pastReputations = localDB.getRequestRecipes(dateStr, 14);
+        //ローカルDBから過去のレシピデータを取得
+        LocalDatabaseService databaseService = new LocalDatabaseService(fActivity.getApplicationContext());
+        //日付と日数(現在:14日)を指定
+        int pastDataNum = 14;
+        String pastData = databaseService.getRequestRecipeIds(dateStr, pastDataNum);
+        System.out.println(pastData);
 
         try{
             //URL生成
@@ -113,11 +118,8 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
             //データを送る場合は,BufferedWriterに書き込む
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 //            bufferedWriter.write(requestJson.toString());
-            bufferedWriter.write("{\"request_num\":" + fRequestCount + ", \"past_recipe_ids\":[1,2], \"reputations\":[{\"recipe_id\" : 10, \"value\" : 5, \"proposed_time\" : 1}, {\"recipe_id\" : 12, \"value\" : 3, \"proposed_time\" : 2}]}");
-            /* TODO
-                reputationsをローカルから受け取ってから送る
-             */
-//            bufferedWriter.write("{\"request_num\":" + fRequestCount + "," + );
+//            bufferedWriter.write("{\"request_num\":" + fRequestCount + ", \"past_recipe_ids\":[1,2], \"reputations\":[{\"recipe_id\" : 10, \"value\" : 5, \"proposed_time\" : 1}, {\"recipe_id\" : 12, \"value\" : 3, \"proposed_time\" : 2}]}");
+            bufferedWriter.write("{\"request_num\":" + fRequestCount + "," + pastData + "}");
             bufferedWriter.close();
 
             publishProgress();
