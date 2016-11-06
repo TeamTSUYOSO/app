@@ -7,8 +7,32 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/backgroundColor"
     tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.evaluateActivity">
-
+    <!-- 日付バー-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark">
+        <ImageView
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:layout_height="32dp"
+            android:layout_width="32dp"
+            android:layout_margin="10dp"
+            android:id="@+id/ic_header_date"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自動提案"
+            android:id="@+id/recipe_date"
+            android:textSize="32dp"
+            android:layout_toRightOf="@id/ic_header_date"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
