@@ -17,13 +17,6 @@ import jp.ac.titech.itpro.sdl.tsuyoso2.DB.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
 
-    /* TODO
-     * カレンダー,DatePickerの表示
-     * カレンダー送り、戻りボタンの作成
-     * カレンダーのクリックイベント作成
-     * 今日のレシピIDの取得
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy(){
         super.onDestroy();
     }
-
-     /* TODO
-     * カレンダーのある日をクリックするとその日のレシピを表示するクリックリスナーの作成
-     */
-
 
     /**
      * ボタン1のクリック、お使いリストへ遷移

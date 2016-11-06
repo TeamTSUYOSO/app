@@ -33,6 +33,8 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
 
     private String dateFormat = "yyyy-MM-dd";
 
+    private JSONArray fRecipeListJsonArray;
+
     /**
      * コンストラクタ
      * @param activity
@@ -162,6 +164,9 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         // doInBackground後処理
         if(jsonObject != null) {
             System.out.println(jsonObject.toString());
+            fRecipeListJsonArray = jsonObject;
+
+
             try {
                 for (int i = 0; i < jsonObject.length(); i++) {
                     JSONObject temp = jsonObject.getJSONObject(i);
@@ -214,5 +219,13 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
 
         return stringBuffer.toString();
 
+    }
+
+    /**
+     * レシピリストのJSONArrayを返す
+     * @return
+     */
+    public JSONArray getRecipeListJsonArray(){
+        return fRecipeListJsonArray;
     }
 }
