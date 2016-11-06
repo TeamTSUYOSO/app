@@ -134,6 +134,7 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         }
 
         try {
+            System.out.println(readData);
             return new JSONArray(readData);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -160,6 +161,7 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         System.out.println("onPostExecute");
         // doInBackground後処理
         if(jsonObject != null) {
+            System.out.println(jsonObject.toString());
             try {
                 for (int i = 0; i < jsonObject.length(); i++) {
                     JSONObject temp = jsonObject.getJSONObject(i);

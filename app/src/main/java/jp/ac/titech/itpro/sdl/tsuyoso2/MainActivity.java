@@ -104,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 0);
     }
 
-    public void onClickShowDatabase(View view){
-        Intent intent = new Intent(this, DBActivity.class);
-        startActivityForResult(intent, 0);
-    }
+//    public void onClickShowDatabase(View view){
+//        Intent intent = new Intent(this, DBActivity.class);
+//        startActivityForResult(intent, 0);
+//    }
+
 }

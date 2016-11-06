@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -30,7 +29,7 @@ public class TOtsukaiArrayAdapter extends ArrayAdapter<JSONObject> {
      * @param items
      */
     public TOtsukaiArrayAdapter(Context context, int textViewResourceId, ArrayList<JSONObject> items){
-        super(context, textViewResourceId, items);
+        super(context, textViewResourceId);
 
         // リソースIDと表示アイテムを保持
         this.textViewResourceId = textViewResourceId;
