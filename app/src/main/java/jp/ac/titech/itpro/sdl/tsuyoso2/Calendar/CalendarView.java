@@ -1,4 +1,4 @@
-package jp.ac.titech.itpro.sdl.tsuyoso2;
+package jp.ac.titech.itpro.sdl.tsuyoso2.Calendar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import jp.ac.titech.itpro.sdl.tsuyoso2.R;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("NewApi")

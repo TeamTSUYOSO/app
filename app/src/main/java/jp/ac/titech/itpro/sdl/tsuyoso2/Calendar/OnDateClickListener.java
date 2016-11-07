@@ -1,4 +1,4 @@
-package jp.ac.titech.itpro.sdl.tsuyoso2;
+package jp.ac.titech.itpro.sdl.tsuyoso2.Calendar;
 
 import java.text.ParseException;
 import java.util.EventListener;

@@ -13,9 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnDateClickListener;
 import jp.ac.titech.itpro.sdl.tsuyoso2.DB.DatabaseHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnDateClickListener{
 
     /* TODO
      * カレンダー,DatePickerの表示
@@ -108,5 +109,18 @@ public class MainActivity extends AppCompatActivity {
 //        Intent intent = new Intent(this, DBActivity.class);
 //        startActivityForResult(intent, 0);
 //    }
+
+
+    // カレンダー日付クリック時の処理
+    @Override
+    public void onDateClick(int year, int month, int day) throws ParseException {
+        String dateStr = year + "-" + month + "-" + day;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date requestDate = simpleDateFormat.parse(dateStr);
+
+        Intent intent = new Intent(this, recipeTodayActivity.class);
+        intent.putExtra("Request_Date", requestDate);
+        startActivity(intent);
+    }
 
 }
