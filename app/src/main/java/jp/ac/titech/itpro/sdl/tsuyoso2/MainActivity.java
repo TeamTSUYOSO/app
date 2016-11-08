@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
 
     // カレンダー日付クリック時の処理
     @Override
-    public void onDateClick(int year, int month, int day) throws ParseException {
+    public void onDateClick(View dayView, int year, int month, int day) throws ParseException {
         String dateStr = year + "-" + month + "-" + day;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date requestDate = simpleDateFormat.parse(dateStr);

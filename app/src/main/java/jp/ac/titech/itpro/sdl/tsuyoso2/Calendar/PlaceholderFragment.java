@@ -1,7 +1,7 @@
 package jp.ac.titech.itpro.sdl.tsuyoso2.Calendar;
 
 import android.app.Fragment;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.R;
-import jp.ac.titech.itpro.sdl.tsuyoso2.recipeTodayActivity;
 
 /**
  * Created by kayo on 2016/10/31.
@@ -54,13 +51,33 @@ public class PlaceholderFragment extends Fragment implements
     }
 
     /**
+     *  CalendarViewを複数Activityで使いまわしたので実装 by Tanaka
+     *  日付クリック(OnDateClick)と[<<][>>](OnNextBackClick)の動作を
+     *  Activityごとに切り替えられるようにする
+     *
+     *  CalendarView.mDateListener -> this.mDateListener -> hogeActivity.onDateClick
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnDateClickListener) {
+            mDateListener = (OnDateClickListener) context;
+        }
+        if (context instanceof OnNextBackClickListener) {
+            mNextBackListener = (OnNextBackClickListener) context;
+        }
+    }
+
+    /**
      * @param year
      *            month　day クリックされた、年月日。
      */
     @Override
-    public void onDateClick(int year, int month, int day) throws ParseException {//day日が押されたときの挙動
+    public void onDateClick(View dayView, int year, int month, int day) throws ParseException {//day日が押されたときの挙動
         if(mDateListener != null){
-            mDateListener.onDateClick(year, month, day);
+            //Activity毎の挙動
+            mDateListener.onDateClick(dayView, year, month, day);
         }else {
             //デフォルト動作
             Toast.makeText(
@@ -68,14 +85,6 @@ public class PlaceholderFragment extends Fragment implements
                     Integer.toString(year) + "-" + Integer.toString(month)
                             + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
                     .show();
-
-            String dateStr = year + "-" + month + "-" + day;
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date requestDate = simpleDateFormat.parse(dateStr);
-
-            Intent intent = new Intent(getActivity(), recipeTodayActivity.class);
-            intent.putExtra("Request_Date", requestDate);
-            startActivity(intent);
         }
     }
 
@@ -91,6 +100,7 @@ public class PlaceholderFragment extends Fragment implements
     @Override
     public void onNextBackClick(int year, int month, int nextback) {
         if(mNextBackListener != null){
+            //Activityごとの挙動
             mNextBackListener.onNextBackClick(year, month, nextback);
         }else {
             //  デフォルト動作
@@ -101,27 +111,6 @@ public class PlaceholderFragment extends Fragment implements
                 calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
             }
         }
-    }
-
-    /**
-     *  日付クリック時の動作を画面毎に変更するためのリスナーを追加する
-     *  セットしない場合デフォルト動作
-     *  CalendarView.mDateListener -> this.mDateListener -> hogeActivity.onDateClick
-     *
-     * @param listener
-     */
-    public void setOnDateClickListener(OnDateClickListener listener) {
-        this.mDateListener = listener;
-    }
-
-    /**
-     *  [<<][>>]クリック時の動作を画面毎に変更するためのリスナーを追加する
-     *   セットしない場合デフォルト動作
-     *  CalendarView.mNextBackListener -> this.mNextBackListener -> hogeActivity.onNextBackClick
-     * @param listener
-     */
-    public void setOnDateClickListener(OnNextBackClickListener listener) {
-        this.mNextBackListener = listener;
     }
 
 }

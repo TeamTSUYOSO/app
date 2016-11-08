@@ -456,8 +456,6 @@ public class CalendarView extends LinearLayout{
                     @Override
                     public void onClick(View v) {
                         try {
-
-
                             if (mDateListener != null) {
                                 int day = Integer.valueOf((String) dayView.getTag());
                                 if (day < -20) {
@@ -468,7 +466,7 @@ public class CalendarView extends LinearLayout{
                                         backYear = backYear - 1;
                                         backMonth = 12;
                                     }
-                                    mDateListener.onDateClick(backYear, backMonth, Math.abs(day));
+                                    mDateListener.onDateClick(v, backYear, backMonth, Math.abs(day));
                                 } else if (day < 0 && day >= -20) {
                                     //翌月対応
                                     int nextMonth = month + 1;
@@ -477,9 +475,9 @@ public class CalendarView extends LinearLayout{
                                         nextMonth = 1;
                                         nextYear = nextYear + 1;
                                     }
-                                    mDateListener.onDateClick(nextYear, nextMonth, Math.abs(day));
+                                    mDateListener.onDateClick(v, nextYear, nextMonth, Math.abs(day));
                                 } else {
-                                    mDateListener.onDateClick(year, month, day);
+                                    mDateListener.onDateClick(v, year, month, day);
                                 }
                             }
                         }

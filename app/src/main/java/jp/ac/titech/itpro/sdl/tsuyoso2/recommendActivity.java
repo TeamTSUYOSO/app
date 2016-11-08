@@ -11,11 +11,14 @@ import android.widget.NumberPicker;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnDateClickListener;
 
 /**
  * Created by Yamada on 2016/10/10.
  */
-public class recommendActivity extends Activity {
+public class recommendActivity extends Activity implements OnDateClickListener {
 
     /* TODO
      * 提案してもらう日を設定するためのカレンダーもしくはDatePickerを追加
@@ -24,6 +27,7 @@ public class recommendActivity extends Activity {
 
     NumberPicker numberPicker;
     DatePicker datePicker;
+    List<Date> selectedDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,15 +59,15 @@ public class recommendActivity extends Activity {
          * 提案してもらう日付と日数を送る
          */
 
-        //日付のオブジェクト化
-        String dateStr = datePicker.getYear() + "-" + (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = simpleDateFormat.parse(dateStr);
+//        //日付のオブジェクト化
+//        String dateStr = datePicker.getYear() + "-" + (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth();
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        Date startDate = simpleDateFormat.parse(dateStr);
 
         //Intentにデータをつけて送る
         Intent intent = new Intent(this, recipeListActivity.class);
-        intent.putExtra("request_num", numberPicker.getValue());
-        intent.putExtra("start_Date",startDate);
+        intent.putExtra("request_num", selectedDate.size());
+//        intent.putExtra("start_Date",startDate);
         startActivity(intent);
 
     }
@@ -72,8 +76,8 @@ public class recommendActivity extends Activity {
      * 画面構成要素のIDの設定
      */
     private void setViews(){
-        numberPicker = (NumberPicker)findViewById(R.id.numPicker);
-        datePicker = (DatePicker)findViewById(R.id.datePicker);
+//        numberPicker = (NumberPicker)findViewById(R.id.numPicker);
+//        datePicker = (DatePicker)findViewById(R.id.datePicker);
     }
 
     /**
@@ -81,7 +85,24 @@ public class recommendActivity extends Activity {
      */
     private void initViews(){
         //提案してもらう日数最大値、最小値の設定
-        numberPicker.setMaxValue(7);
-        numberPicker.setMinValue(1);
+//        numberPicker.setMaxValue(7);
+//        numberPicker.setMinValue(1);
+    }
+
+    // カレンダー日付クリック時の処理
+    @Override
+    public void onDateClick(View dayView, int year, int month, int day) throws ParseException {
+        String dateStr = year + "-" + month + "-" + day;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date requestDate = simpleDateFormat.parse(dateStr);
+
+        if(!dayView.isSelected()){
+            //未選択 -> 選択
+            dayView.setSelected(true);
+            selectedDate.add(requestDate);
+        }else{
+            dayView.setSelected(false);
+            selectedDate.remove(requestDate);
+        }
     }
 }
