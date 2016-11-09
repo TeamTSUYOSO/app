@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by kayo on 2016/10/31.
@@ -56,9 +54,13 @@ public class PlaceholderFragment extends Fragment implements
                         + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
                 .show();
 
-        String dateStr = year + "-" + month + "-" + day;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date requestDate = simpleDateFormat.parse(dateStr);
+        String requestDate;
+        if(day < 10){
+            requestDate = year + "-" + month + "-0" + day;
+        }
+        else {
+            requestDate = year + "-" + month + "-" + day;
+        }
 
         Intent intent = new Intent( getActivity(), recipeTodayActivity.class);
         intent.putExtra("Request_Date",requestDate);

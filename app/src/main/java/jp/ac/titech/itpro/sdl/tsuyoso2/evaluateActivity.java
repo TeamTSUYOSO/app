@@ -4,22 +4,33 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Yamada on 2016/10/10.
  */
 public class evaluateActivity extends Activity {
+
+    TextView evaluate_date;
+    TextView recipe_name;
+    TextView genre;
+
     //レート
     RatingBar fRatingBar;
-    //もう作らない
-    CheckBox fCheckBox;
+
     //作った作らなかった
     RadioGroup fRadioGroup;
+    RadioButton fRadioButtonMake;
+    RadioButton fRadioButtonUnMake;
 
     int fRequestId;
+    String fRequestDate;
+    String fRecipeName;
+    String fRecipeGenre;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,12 +38,25 @@ public class evaluateActivity extends Activity {
         setContentView(R.layout.evaluate);
 
         //リクエストしてもらう日数を取得する
-        fRequestId = (int) getIntent().getSerializableExtra("Request_Id");
+        fRequestId = (int) getIntent().getSerializableExtra("request_id");
+        fRequestDate = (String) getIntent().getSerializableExtra("request_date");
+        fRecipeName = (String) getIntent().getSerializableExtra("recipe_name");
+        fRecipeGenre = (String) getIntent().getSerializableExtra("recipe_genre");
+
+        evaluate_date = (TextView)findViewById(R.id.evaluate_hd_recipe_date);
+        evaluate_date.setText(fRequestDate);
+
+        recipe_name = (TextView)findViewById(R.id.evaluate_hd_recipe_name);
+        recipe_name.setText(fRecipeName);
+
+        genre =  (TextView)findViewById(R.id.evaluate_hd_recipe_genre);
+        genre.setText(fRecipeGenre);
 
         fRatingBar = (RatingBar)findViewById(R.id.ratingBar);
-        fCheckBox = (CheckBox)findViewById(R.id.checkBox2);
         fRadioGroup = (RadioGroup)findViewById(R.id.radioButton_group_make);
 
+        fRadioButtonMake = (RadioButton)findViewById(R.id.radioButton_make);
+        fRadioButtonUnMake =(RadioButton)findViewById(R.id.radioButton_unmake);
     }
 
     /**
@@ -40,26 +64,30 @@ public class evaluateActivity extends Activity {
      * @param view
      */
     public void onClickEnterButton(View view){
-        /*TODO
-         * 作った作らなかったのラジオボタンに応じて
-         * 作った場合、レートともう作らないのチェックボックスをローカルDBに保存。
-         * 作らなかった場合、何もせずに画面を今日のレシピに遷移。
-         */
 
-        System.out.println(fRatingBar.getRating());
-        System.out.println(fCheckBox.isChecked());
-        System.out.println(fRadioGroup.getCheckedRadioButtonId());
+        if(fRadioGroup.getCheckedRadioButtonId() == -1){
+            Toast.makeText(this, "作ったか作らなかったか入力してね!", Toast.LENGTH_SHORT).show();
+        }
+        //作った場合
+        else if(fRadioGroup.getCheckedRadioButtonId() == fRadioButtonMake.getId()) {
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivityForResult(intent, 0);
+            // TODO 評価をつけてDBに保存
 
+            System.out.println(fRatingBar.getRating());
+
+
+            Toast.makeText(this, "フィードバックを保存しました!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivityForResult(intent, 0);
+        }
+        else {
+
+            Toast.makeText(this, "また今度作ってね!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivityForResult(intent, 0);
+        }
     }
-
-    /* TODO
-     * ラジオグループのリスナーを作る
-     */
-
-
 
 
 }

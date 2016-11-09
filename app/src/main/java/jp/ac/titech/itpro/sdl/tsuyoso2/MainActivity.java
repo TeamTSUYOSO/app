@@ -11,11 +11,12 @@ import android.view.View;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.DB.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
+
+    String dateFormat = "yyyy-MM-dd";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         //今日の日付を呼び出し
         Calendar calendar = Calendar.getInstance();
-        String dateStr = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date requestDate = simpleDateFormat.parse(dateStr);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        String requestDate = simpleDateFormat.format(calendar.getTime());
 
         //Intentにデータをつけて送る
         Intent intent = new Intent(this, recipeTodayActivity.class);

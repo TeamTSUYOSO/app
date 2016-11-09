@@ -185,8 +185,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
                     recipeNameView.setText(temp.getString("name"));
 
                     TextView servingNumTextView = (TextView)dateView.findViewById(R.id.shopping_list_recipe_serving_num);
-                    // TODO JSONにつけてもらう
-                    servingNumTextView.setText("1");
+                    servingNumTextView.setText(temp.getString("serving_num"));
 
 
                     for (int j = 0; j < tempIngredients.length(); j++) {

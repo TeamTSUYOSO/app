@@ -4,96 +4,279 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.evaluateActivity">
+    tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.evaluateActivity"
+    android:background="#ffecc6">
 
-    <FrameLayout
+    <!-- 日付バー-->
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:id="@+id/frameLayout"
-        android:layout_gravity="center_horizontal">
-
+        android:background="@android:color/holo_orange_dark">
         <ImageView
-            android:src="@drawable/okan_list"
-            android:layout_width="516dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView2"
-            android:layout_gravity="center_horizontal"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:layout_height="32dp"
+            android:layout_width="32dp"
+            android:layout_margin="10dp"
+            android:id="@+id/evaluate_ic_header_date"
             />
-
         <TextView
-            android:layout_marginTop="15dip"
-            android:layout_width="178dp"
-            android:layout_height="44dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="フィードバック画面"
-            android:id="@+id/textView3"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="date"
+            android:id="@+id/evaluate_hd_recipe_date"
+            android:textSize="32dp"
+            android:layout_toRightOf="@id/evaluate_ic_header_date"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+    <!-- レシピ名バー-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_light"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="30dp">
+        <ImageView
+            android:src="@drawable/fork_spoon"
+            android:layout_height="32dp"
+            android:layout_width="32dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/evaluate_hd_genre_item"
             />
-    </FrameLayout>
-
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioButton_group_make"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        >
-        <RadioButton
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="レシピ名："
+            android:id="@+id/evaluate_hd_recipe_name"
+            android:textSize="32dp"
+            android:layout_toRightOf="@id/evaluate_hd_genre_item"
+            android:textStyle="bold"
+            android:textColor="#ffffff" />
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="作った"
-            android:id="@+id/radioButton_make" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="作らなかった"
-            android:id="@+id/radioButton_unmake" />
-    </RadioGroup>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="もう作らない"
-            android:id="@+id/checkBox2"
-            android:layout_gravity="center_horizontal"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RatingBar
+            android:layout_margin="5dp"
+            android:layout_below="@id/evaluate_hd_recipe_name"
+            android:layout_toRightOf="@id/evaluate_hd_genre_item"
+            >
+            <TextView
+                android:id="@+id/evaluate_hd_recipe_genre_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ratingBar"
-                android:numStars="3" />
-
+                android:text="ジャンル:"
+                android:layout_marginRight="5dp"
+                android:textColor="#ff6f00"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
             <TextView
+                android:id="@+id/evaluate_hd_recipe_genre"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="おいしさ"
-                android:id="@+id/textView4"
-                android:gravity="center_vertical|center|clip_vertical|center_horizontal" />
+                android:layout_height="wrap_content"
+                android:text="ジャンル名"
+                android:textColor="#ff6f00"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_toRightOf="@id/evaluate_hd_recipe_genre_name"/>
+        </RelativeLayout>
 
-        </LinearLayout>
+    </RelativeLayout>
+
+    <!--************  作った作らなかった  ************-->
+    <LinearLayout
+        android:id="@+id/check_making"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="#ffecc6"
+        android:divider="@android:drawable/divider_horizontal_bright"
+        android:dividerPadding="10dp"
+        android:layout_gravity="center"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/hd_ingredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:text="作った?"
+            android:paddingLeft="20dp"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:background="@android:color/holo_orange_light"
+            android:textColor="@android:color/white" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton_group_make"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="200dp"
+            >
+                <RadioButton
+                    android:id="@+id/radioButton_make"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作った!"
+                    android:gravity="center"
+                    android:textSize="22dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton_unmake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="作らなかった!"
+                    android:gravity="center"
+                    android:textSize="22dp"/>
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+
+    <!--************  評価レート  ************-->
+    <LinearLayout
+        android:id="@+id/ratio_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="#ffecc6"
+        android:divider="@android:drawable/divider_horizontal_bright"
+        android:dividerPadding="10dp"
+        android:layout_gravity="center"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/hd_ratio_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawablePadding="20dp"
+            android:gravity="center"
+            android:text="美味しかった?"
+            android:paddingLeft="20dp"
+            android:padding="10dp"
+            android:textSize="20dp"
+            android:background="@android:color/holo_orange_light"
+            android:textColor="@android:color/white" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:numStars="3"
+            android:layout_gravity="center"
+            />
+
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="決定"
-        android:id="@+id/button7"
-        android:layout_gravity="center_horizontal"
-        android:onClick="onClickEnterButton"/>
+        android:padding="20dp"
+        android:layout_margin="20dp"
+        android:gravity="center_vertical|right"
+        android:drawableLeft="@drawable/feedback_s"
+        android:background="#ffffff"
+        android:text="フィードバックを送信"
+        android:onClick="onClickEnterButton"
+        android:elegantTextHeight="false"
+        android:textSize="22dp" />
 
+    <!--<FrameLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:id="@+id/frameLayout"-->
+        <!--android:layout_gravity="center_horizontal">-->
+
+        <!--<ImageView-->
+            <!--android:src="@drawable/okan_list"-->
+            <!--android:layout_width="516dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/imageView2"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--/>-->
+
+        <!--<TextView-->
+            <!--android:layout_marginTop="15dip"-->
+            <!--android:layout_width="178dp"-->
+            <!--android:layout_height="44dp"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:text="フィードバック画面"-->
+            <!--android:id="@+id/textView3"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--/>-->
+    <!--</FrameLayout>-->
+
+
+    <!--<RadioGroup-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/radioButton_group_make"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--&gt;-->
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="作った"-->
+            <!--android:id="@+id/radioButton_make" />-->
+
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="作らなかった"-->
+            <!--android:id="@+id/radioButton_unmake" />-->
+    <!--</RadioGroup>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_gravity="center_horizontal">-->
+
+        <!--<CheckBox-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="もう作らない"-->
+            <!--android:id="@+id/checkBox2"-->
+            <!--android:layout_gravity="center_horizontal"/>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<RatingBar-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/ratingBar"-->
+                <!--android:numStars="3" />-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                <!--android:text="おいしさ"-->
+                <!--android:id="@+id/textView4"-->
+                <!--android:gravity="center_vertical|center|clip_vertical|center_horizontal" />-->
+
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="決定"-->
+        <!--android:id="@+id/button7"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:onClick="onClickEnterButton"/>-->
 
 </LinearLayout>
