@@ -120,6 +120,19 @@
             android:layout_weight="0.25"
             android:textStyle="bold"
             android:textSize="18dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:text="データベース"
+            android:id="@+id/button5"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="onClickShowDatabase"
+            android:background="@drawable/circle"
+            android:layout_weight="0.25"
+            android:textStyle="bold"
+            android:textSize="18dp" />
     </LinearLayout>
 
 

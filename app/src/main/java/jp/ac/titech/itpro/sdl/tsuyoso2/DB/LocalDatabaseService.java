@@ -351,7 +351,6 @@ public class LocalDatabaseService {
         return map;
     }
 
-    /**
     public void saveDummyData(){
         saveSingleData(34, "Hamburg", "2016-11-12", 3);
         saveSingleData(45, "Coffee", "2016-11-13", 4);
@@ -402,6 +401,5 @@ public class LocalDatabaseService {
             return allData;
         }
     }
-     */
 
 }

@@ -35,6 +35,11 @@
             android:name="jp.ac.titech.itpro.sdl.tsuyoso2.evaluateActivity"
             >
         </activity>
+
+        <activity
+            android:name="jp.ac.titech.itpro.sdl.tsuyoso2.DBActivity"
+            >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
