@@ -6,12 +6,12 @@
     tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.recipeTodayActivity"
     >
 
-    <jp.ac.titech.itpro.sdl.tsuyoso2.CalendarView
+    <jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.CalendarView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         calendarview:TODAY_COLOR="#ffff9900"
         android:id= "@+id/calendar"
         android:background="#ffffff">
-    </jp.ac.titech.itpro.sdl.tsuyoso2.CalendarView>
+    </jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.CalendarView>
 
 </RelativeLayout>

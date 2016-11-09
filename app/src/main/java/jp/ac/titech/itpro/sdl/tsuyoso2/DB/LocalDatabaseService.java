@@ -4,19 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -183,6 +177,26 @@ public class LocalDatabaseService {
             return date;
         }
     }
+    /**
+     * date(yyyy-mm-dd)を指定するとその日のメニュー名(String)が帰ってくる
+     * @param date
+     * @return if exists recipeName else ""
+     */
+    public String getRecipeNameByDate(String date) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        date = date.replaceAll("-","");
+        String select_by_date =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                        + " WHERE " + DatabaseHelper.COOK_DATE + " == " + date.replaceAll("-","") + ";";
+        Cursor c = db.rawQuery(select_by_date, null);
+        c.moveToFirst();
+        if(c.getCount() == 0){
+            return "";
+        } else {
+            return c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_NAME));
+        }
+    }
+
     /**
      * startDate と endDate　の間のデータ（Cursor形式）を取得する
      * @param startDate
