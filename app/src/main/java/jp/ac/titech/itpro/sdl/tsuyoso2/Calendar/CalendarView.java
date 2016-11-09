@@ -49,6 +49,8 @@ public class CalendarView extends LinearLayout{
     private static int TODAY_BACKGROUND_COLOR;
     // 通常の背景色
     private static int DEFAULT_BACKGROUND_COLOR;
+    // 前後の月の背景色
+    private static int OTHERMONTH_BACKGROUND_COLOR;
 
     // ≫　and　≪　の背景色
     private static int FOCUSED_BACKGROUND_COLOR;
@@ -90,13 +92,16 @@ public class CalendarView extends LinearLayout{
         SUN_COLOR = array.getColor(R.styleable.CalendarView_SUN_COLOR, Color.RED);
         SAT_COLOR = array.getColor(R.styleable.CalendarView_SAT_COLOR, Color.BLUE);
         TODAY_BACKGROUND_COLOR = array.getColor(
-                R.styleable.CalendarView_TODAY_BACKGROUND_COLOR, Color.LTGRAY);
+                R.styleable.CalendarView_TODAY_BACKGROUND_COLOR, Color.WHITE);
         DEFAULT_BACKGROUND_COLOR = array.getColor(
                 R.styleable.CalendarView_DEFAULT_BACKGROUND_COLOR,
                 Color.TRANSPARENT);
+        OTHERMONTH_BACKGROUND_COLOR = array.getColor(
+                R.styleable.CalendarView_OTHERMONTH_BACKGROUND_COLOR,
+                Color.argb(0x33, 0xd3, 0xd3, 0xd3));
         FOCUSED_BACKGROUND_COLOR = array.getColor(
                 R.styleable.CalendarView_FOCUSED_BACKGROUND_COLOR,
-                Color.argb(0x66, 0, 0xff, 0));
+                Color.argb(0x66, 0xff, 0xcc, 0xff));
 
         BUTTON_BACKGROUND_COLOR = array.getColor(
                 R.styleable.CalendarView_BUTTON_BACKGROUND_COLOR,
@@ -459,7 +464,15 @@ public class CalendarView extends LinearLayout{
                     } else {
                         dayTextView.setTextColor(DEFAULT_COLOR);
                     }
-                    dayTextView.setTypeface(null, Typeface.NORMAL);
+                    if(c < 0){
+                        dayTextView.setTypeface(null, Typeface.ITALIC);
+                        stateDrawable.addState(
+                                new int[] { android.R.attr.state_enabled },
+                                new ColorDrawable(OTHERMONTH_BACKGROUND_COLOR)
+                        );
+                    }else{
+                        dayTextView.setTypeface(null, Typeface.NORMAL);
+                    }
                     dayTextView.setText(String.valueOf(Math.abs(c)));
 
                     // クリック時に背景を変更するselectorのセット
