@@ -20,7 +20,9 @@ public class reputationActivity extends Activity{
 
         fReputationLayout = (LinearLayout) findViewById(R.id.reputation_linear_layout);
 
-        //TODO 過去の評価を全て表示する
+        /* TODO 過去の評価を全て表示する
+            そがに任せる
+         */
         for(int i = 0; i < 10; i++) {
             View reputationView = this.getLayoutInflater().inflate(R.layout.row_one_reputation, null);
             fReputationLayout.addView(reputationView);
