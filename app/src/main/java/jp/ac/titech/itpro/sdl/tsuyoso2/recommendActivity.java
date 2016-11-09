@@ -14,11 +14,12 @@ import java.util.Date;
 import java.util.List;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnDateClickListener;
+import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnNextBackClickListener;
 
 /**
  * Created by Yamada on 2016/10/10.
  */
-public class recommendActivity extends Activity implements OnDateClickListener {
+public class recommendActivity extends Activity implements OnDateClickListener, OnNextBackClickListener {
 
     /* TODO
      * 提案してもらう日を設定するためのカレンダーもしくはDatePickerを追加
@@ -104,5 +105,10 @@ public class recommendActivity extends Activity implements OnDateClickListener {
             dayView.setSelected(false);
             selectedDate.remove(requestDate);
         }
+    }
+
+    @Override
+    public void onNextBackClick(int year,int month,int nextback){
+
     }
 }

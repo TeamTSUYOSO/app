@@ -83,14 +83,13 @@ public class PlaceholderFragment extends Fragment implements
         if(mDateListener != null){
             //Activity毎の挙動
             mDateListener.onDateClick(dayView, year, month, day);
-        }else {
-            //デフォルト動作
-            Toast.makeText(
-                    getActivity(),
-                    Integer.toString(year) + "-" + Integer.toString(month)
-                            + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
-                    .show();
         }
+        //デフォルト動作
+        Toast.makeText(
+                getActivity(),
+                Integer.toString(year) + "-" + Integer.toString(month)
+                        + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
+                .show();
     }
 
     /**
@@ -107,12 +106,11 @@ public class PlaceholderFragment extends Fragment implements
         if(mNextBackListener != null){
             //Activityごとの挙動
             mNextBackListener.onNextBackClick(year, month, nextback);
-        }else {
-            //  デフォルト動作
-            //  カレンダーの内容を前月/来月に更新
-            calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
-            setRecipeNames(year, month);
         }
+        //  デフォルト動作
+        //  カレンダーの内容を前月/来月に更新
+        calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
+        setRecipeNames(year, month);
     }
 
 
