@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.R;
 
@@ -207,10 +209,27 @@ public class CalendarView extends LinearLayout{
 
         // 1週間分の日付ビュー作成
         for (int i = 0; i < MonthlyCalendar.WEEKDAYS; i++) {
-            TextView dayView = new TextView(context);
-            dayView.setGravity(Gravity.TOP | Gravity.RIGHT);
-            dayView.setPadding(0, (int) (scaleDensity * 4), (int) (scaleDensity * 4), 0);
+            //View view = context.getLayoutInflater().inflate(R.layout.row_ingredients, null);
+            LinearLayout dayView = new LinearLayout(context);
+            dayView.setOrientation(LinearLayout.VERTICAL);
             dayView.setClickable(true);
+
+            //日付部分
+            TextView dayNumView = new TextView(context);
+            dayNumView.setGravity(Gravity.TOP | Gravity.RIGHT);
+            dayNumView.setPadding(0, (int) (scaleDensity * 4), (int) (scaleDensity * 4), 0);
+            LinearLayout.LayoutParams llp_day = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT);
+            dayView.addView(dayNumView, llp_day);
+
+            //その他テキスト表示部分
+            TextView dayDetailView = new TextView(context);
+            dayDetailView.setGravity(Gravity.CENTER);
+            dayDetailView.setPadding((int) (scaleDensity * 4), (int) (scaleDensity * 4), (int) (scaleDensity * 4), (int) (scaleDensity * 4));
+            LinearLayout.LayoutParams llp_recipe = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,0);
+            llp_recipe.weight = 1;
+            dayView.addView(dayDetailView, llp_recipe);
+
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(0,
                     (int) (scaleDensity * 70));
             llp.weight = 1;
@@ -378,17 +397,18 @@ public class CalendarView extends LinearLayout{
                 stateDrawable.addState(
                         new int[] { android.R.attr.state_pressed }, tap);
 
-                final TextView dayView = (TextView) weekLayout.getChildAt(j);
+                final LinearLayout dayView = (LinearLayout) weekLayout.getChildAt(j);
+                final TextView dayTextView = (TextView) dayView.getChildAt(0);
                 int c = calendarDay[i][j];
 
                 if (c == 0) {
-                    dayView.setText(" ");
+                    dayTextView.setText(" ");
                 } else if (isThisMonth && c == thisDay) {
-                    dayView.setTextAppearance(context,
+                    dayTextView.setTextAppearance(context,
                             android.R.style.TextAppearance_Medium);
-                    dayView.setTextColor(TODAY_COLOR);
-                    dayView.setTypeface(null, Typeface.BOLD);
-                    dayView.setText(String.valueOf(c));
+                    dayTextView.setTextColor(TODAY_COLOR);
+                    dayTextView.setTypeface(null, Typeface.BOLD);
+                    dayTextView.setText(String.valueOf(c));
 
                     // クリック時に背景を変更するselectorのセット
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -399,11 +419,11 @@ public class CalendarView extends LinearLayout{
                     weekLayout.setBackgroundColor(TODAY_BACKGROUND_COLOR);
 
                 } else if (isNextMonth && c == -thisDay && c < -20) {
-                    dayView.setTextAppearance(context,
+                    dayTextView.setTextAppearance(context,
                             android.R.style.TextAppearance_Medium);
-                    dayView.setTextColor(TODAY_COLOR);
-                    dayView.setTypeface(null, Typeface.BOLD);
-                    dayView.setText(String.valueOf(Math.abs(c)));
+                    dayTextView.setTextColor(TODAY_COLOR);
+                    dayTextView.setTypeface(null, Typeface.BOLD);
+                    dayTextView.setText(String.valueOf(Math.abs(c)));
 
                     // クリック時に背景を変更するselectorのセット
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -415,11 +435,11 @@ public class CalendarView extends LinearLayout{
                     weekLayout.setBackgroundColor(TODAY_BACKGROUND_COLOR);
 
                 } else if (isBackMonth && c == -thisDay && c >= -20) {
-                    dayView.setTextAppearance(context,
+                    dayTextView.setTextAppearance(context,
                             android.R.style.TextAppearance_Medium);
-                    dayView.setTextColor(TODAY_COLOR);
-                    dayView.setTypeface(null, Typeface.BOLD);
-                    dayView.setText(String.valueOf(Math.abs(c)));
+                    dayTextView.setTextColor(TODAY_COLOR);
+                    dayTextView.setTypeface(null, Typeface.BOLD);
+                    dayTextView.setText(String.valueOf(Math.abs(c)));
 
                     // クリック時に背景を変更するselectorのセット
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -431,17 +451,17 @@ public class CalendarView extends LinearLayout{
                     weekLayout.setBackgroundColor(TODAY_BACKGROUND_COLOR);
 
                 } else {
-                    dayView.setTextAppearance(context,
+                    dayTextView.setTextAppearance(context,
                             android.R.style.TextAppearance_Medium);
                     if (j == sun_position) {
-                        dayView.setTextColor(SUN_COLOR);
+                        dayTextView.setTextColor(SUN_COLOR);
                     } else if (j == sat_position) {
-                        dayView.setTextColor(SAT_COLOR);
+                        dayTextView.setTextColor(SAT_COLOR);
                     } else {
-                        dayView.setTextColor(DEFAULT_COLOR);
+                        dayTextView.setTextColor(DEFAULT_COLOR);
                     }
-                    dayView.setTypeface(null, Typeface.NORMAL);
-                    dayView.setText(String.valueOf(Math.abs(c)));
+                    dayTextView.setTypeface(null, Typeface.NORMAL);
+                    dayTextView.setText(String.valueOf(Math.abs(c)));
 
                     // クリック時に背景を変更するselectorのセット
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -486,6 +506,139 @@ public class CalendarView extends LinearLayout{
                         }
                     }
                 });
+            }
+            if(maxWeek < calendarDay.length){
+                //最終行が空の場合にリセット
+                weekLayout = mWeeks.get(calendarDay.length-1);
+                weekLayout.setBackgroundColor(DEFAULT_BACKGROUND_COLOR);
+                for (int j = 0; j < MonthlyCalendar.WEEKDAYS; j++) {
+                    final LinearLayout dayView = (LinearLayout) weekLayout.getChildAt(j);
+                    final TextView dayTextView = (TextView) dayView.getChildAt(0);
+                    dayTextView.setText(" ");
+                }
+            }
+        }
+    }
+
+    /**
+     * 指定年月のカレンダーの日付一覧を取得
+     *
+     * @param dateFormat
+     *        日付形式の指定
+     * @return String[] 表示されている日付
+     */
+    public String[] getDates(final int year, final int month, boolean flexibleLine, String dateFormat) {
+        MonthlyCalendar calendar = new MonthlyCalendar(year, month);
+        int[][] calendarDay = calendar.getCalendarMatrix();
+        int maxWeek = calendar.getMaxWeek(flexibleLine);
+
+        ArrayList<String> formatedDates = new ArrayList<String>();
+        SimpleDateFormat dstDateFormat = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat srcDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        for(int row = 0; row < maxWeek; row++){
+            for(int col = 0; col < calendarDay[row].length; col++){
+                int day = calendarDay[row][col];
+                String date="";
+                if(day > 0){
+                    //当月
+                    date = year + "-" + month + "-" + day;
+                } else if (day < -20) {
+                    //前月
+                    int backMonth = month - 1;
+                    int backYear = year;
+                    int backDay = day * -1;
+                    if (backMonth == 0) {
+                        backYear = backYear - 1;
+                        backMonth = 12;
+                    }
+                    date = backYear + "-" + backMonth + "-" + backDay;
+                } else if (day < 0 && day >= -20) {
+                    //翌月
+                    int nextMonth = month + 1;
+                    int nextYear = year;
+                    int nextDay = day * -1;
+                    if (nextMonth == 13) {
+                        nextMonth = 1;
+                        nextYear = nextYear + 1;
+                    }
+                    date = nextYear + "-" + nextMonth + "-" + nextDay;
+                } else {
+                    continue;
+                }
+                try {
+                    //dateFormatに整形して保存
+                    formatedDates.add(dstDateFormat.format(srcDateFormat.parse(date)));
+                }catch(java.text.ParseException e){
+
+                }
+            }
+        }
+
+        String[] resultArray = new String[formatedDates.size()];
+        formatedDates.toArray(resultArray);
+        return resultArray;
+    }
+
+    /**
+     * カレンダー日付部分のDetail部分にテキストを表示する
+     *
+     * @param detailTexts
+     *        detailTexts["yyyy-MM-dd"] = detailText
+     */
+    public void setDetailText(int year, int month, String dateFormat, HashMap<String, String> detailTexts) {
+        MonthlyCalendar calendar = new MonthlyCalendar(year, month);
+        int[][] calendarDay = calendar.getCalendarMatrix();
+
+        for (int i = 0; i < mWeeks.size(); i++) {
+            LinearLayout weekLayout = mWeeks.get(i);
+            for (int j = 0; j < MonthlyCalendar.WEEKDAYS; j++) {
+                final LinearLayout dayView = (LinearLayout) weekLayout.getChildAt(j);
+                final TextView detailTextView = (TextView) dayView.getChildAt(1);
+
+                int day = calendarDay[i][j];
+                SimpleDateFormat dstDateFormat = new SimpleDateFormat(dateFormat);
+                SimpleDateFormat srcDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String formatedDate = ""; //dateFormatに合わせた日付
+                String date;
+
+                if(day > 0){
+                    //当月
+                    date = year + "-" + month + "-" + day;
+                } else if (day < -20) {
+                    //前月
+                    int backMonth = month - 1;
+                    int backYear = year;
+                    int backDay = day * -1;
+                    if (backMonth == 0) {
+                        backYear = backYear - 1;
+                        backMonth = 12;
+                    }
+                    date = backYear + "-" + backMonth + "-" + backDay;
+                } else if (day < 0 && day >= -20) {
+                    //翌月
+                    int nextMonth = month + 1;
+                    int nextYear = year;
+                    int nextDay = day * -1;
+                    if (nextMonth == 13) {
+                        nextMonth = 1;
+                        nextYear = nextYear + 1;
+                    }
+                    date = nextYear + "-" + nextMonth + "-" + nextDay;
+                } else {
+                    detailTextView.setText(" ");
+                    continue;
+                }
+                try {
+                    formatedDate = dstDateFormat.format(srcDateFormat.parse(date));
+                    if(!detailTexts.containsKey(formatedDate)) {
+                        detailTextView.setText(" ");
+                    } else {
+                        detailTextView.setText(detailTexts.get(formatedDate));
+                    }
+                }catch(java.text.ParseException e){
+
+                }
             }
         }
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.text.ParseException;
+import java.util.HashMap;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.R;
 
@@ -26,6 +27,8 @@ public class PlaceholderFragment extends Fragment implements
     final boolean FLEXIBLE_LINE = true;
     final boolean HAS_NEXTBACK_BUTTON = true;
 
+    String dateFormat = "yyyy-MM-dd";
+
     public PlaceholderFragment() {
     }
     @Override
@@ -37,13 +40,10 @@ public class PlaceholderFragment extends Fragment implements
         //カレンダービューの取得
         calendarView = (CalendarView) rootView.findViewById(R.id.calendar);
         //カレンダーに日付をセット
-        //第一引数：表示する年
-        //第二引数：表示する月
-        //第三引数：カレンダーの縦の長さを可変にするか true、６行固定にするか false
-        //第四引数：前月(≪)、翌月（≫）ボタンを表示するか true
-        calendarView.set(MonthlyCalendar.today(MonthlyCalendar.TODAY_YEAR),
-                MonthlyCalendar.today(MonthlyCalendar.TODAY_MONTH), FLEXIBLE_LINE,
-                HAS_NEXTBACK_BUTTON);
+        int year = MonthlyCalendar.today(MonthlyCalendar.TODAY_YEAR);
+        int month = MonthlyCalendar.today(MonthlyCalendar.TODAY_MONTH);
+        calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
+        setRecipeNames(year, month);
         calendarView.setOnDateClickListener(this);
         calendarView.setOnNextBackClickListener(this);
 
@@ -51,7 +51,7 @@ public class PlaceholderFragment extends Fragment implements
     }
 
     /**
-     *  CalendarViewを複数Activityで使いまわしたので実装 by Tanaka
+     *  CalendarViewを複数Activityで使いまわしたいので実装 by Tanaka
      *  日付クリック(OnDateClick)と[<<][>>](OnNextBackClick)の動作を
      *  Activityごとに切り替えられるようにする
      *
@@ -104,13 +104,31 @@ public class PlaceholderFragment extends Fragment implements
             mNextBackListener.onNextBackClick(year, month, nextback);
         }else {
             //  デフォルト動作
-            //  押したボタンに応じてカレンダーを前月/来月に更新
-            if (nextback == MonthlyCalendar.BACK_MONTH) {
-                calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
-            } else if (nextback == MonthlyCalendar.NEXT_MONTH) {
-                calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
-            }
+            //  カレンダーの内容を前月/来月に更新
+            calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
+            setRecipeNames(year, month);
         }
+    }
+
+
+    /**
+     * DBから指定月のレシピ名を読み込み、カレンダーに書き込む
+     *
+     * @param year
+     * @param month
+     */
+    private void setRecipeNames(int year, int month){
+        String[] dates = calendarView.getDates(year, month, FLEXIBLE_LINE, dateFormat);
+        HashMap<String, String> calendarTexts= new HashMap<String, String>();//カレンダーに書き込むテキスト
+
+        for(String date : dates){
+            String recipe_name = "test";
+            //String recipe_name = getRecipeNameFromDB();
+
+            calendarTexts.put(date, recipe_name);
+        }
+
+        calendarView.setDetailText(year, month, dateFormat, calendarTexts);
     }
 
 }
