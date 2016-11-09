@@ -10,6 +10,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
+
 /**
  * Created by Yamada on 2016/10/10.
  */
@@ -71,10 +73,9 @@ public class evaluateActivity extends Activity {
         //作った場合
         else if(fRadioGroup.getCheckedRadioButtonId() == fRadioButtonMake.getId()) {
 
-            // TODO 評価をつけてDBに保存
-
-            System.out.println(fRatingBar.getRating());
-
+            //評価をDBに保存, レートはdouble型で0.5刻みのため, 2倍してintにキャスト
+            LocalDatabaseService localDatabaseService = new LocalDatabaseService(getApplicationContext());
+            localDatabaseService.updateData(fRequestId, fRecipeName, fRequestDate, (int)fRatingBar.getRating() * 2);
 
             Toast.makeText(this, "フィードバックを保存しました!", Toast.LENGTH_SHORT).show();
 

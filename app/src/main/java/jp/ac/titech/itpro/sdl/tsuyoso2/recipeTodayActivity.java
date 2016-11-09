@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 
 /**
  * Created by Yamada on 2016/10/10.
@@ -39,16 +42,22 @@ public class recipeTodayActivity extends Activity {
         //リクエストしてもらう日数を取得する
         fRequestDate= (String) getIntent().getSerializableExtra("Request_Date");
 
+        //ヘッダーに日付の表示
         TextView header_date = (TextView)findViewById(R.id.recipe_date);
         header_date.setText(fRequestDate);
 
-        fRequestId = 4;
+        //日付からIDを取得する
+        LocalDatabaseService localDatabaseService = new LocalDatabaseService(getApplicationContext());
+        fRequestId = localDatabaseService.getRecipeIdByDate(fRequestDate);
+        fRequestId = 3;
+
         /* TODO
          * "fRequestId = getFromLocalDB;"
          */
 //        Random random = new Random();
 //        fRequestId = random.nextInt(23);
 
+        //レシピが提案されている時はサーバーと通信
         if(fRequestId != -1) {
 
             //セットするViewのIDを取得
@@ -86,5 +95,13 @@ public class recipeTodayActivity extends Activity {
             intent.putExtra("recipe_genre", genre.getText());
             startActivity(intent);
         }
+
+        //レシピが提案されてない時
+        else{
+            Toast.makeText(this, "レシピが提案されてないよ!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivityForResult(intent, 0);
+        }
+
     }
 }

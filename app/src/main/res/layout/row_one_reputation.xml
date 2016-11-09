@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@android:color/holo_orange_dark"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/reputation_recipe_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="reputation_recipe_date"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/reputation_hd_recipe_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:text="レシピ名: "
+        android:paddingLeft="20dp"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_toRightOf="@id/reputation_recipe_date"/>
+
+    <TextView
+        android:id="@+id/reputation_recipe_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="name"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/reputation_hd_recipe_name"/>
+
+    <TextView
+        android:id="@+id/reputation_hd_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:text="星 : "
+        android:paddingLeft="20dp"
+        android:padding="10dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_toRightOf="@id/reputation_recipe_name"/>
+
+    <TextView
+        android:id="@+id/reputation_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/reputation_hd_star"/>
+
+</LinearLayout>

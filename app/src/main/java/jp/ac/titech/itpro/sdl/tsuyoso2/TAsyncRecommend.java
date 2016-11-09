@@ -85,7 +85,6 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         String urlString = "http://160.16.213.209:8080/api/recipes/suggest";
         String readData = "";
 
-
         //その日の日付を取得
         Calendar calendar = Calendar.getInstance();
         String dateStr = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
