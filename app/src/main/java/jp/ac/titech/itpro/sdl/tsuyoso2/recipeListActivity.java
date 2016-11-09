@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 /**
@@ -13,15 +15,8 @@ import java.util.ArrayList;
  */
 public class recipeListActivity extends Activity {
 
-    /* TODO
-     * ListViewによるレシピリストの生成
-     * ListViewに入れるArrayAdapterの作成
-     * 提案してもらう日付と日数を保存する項目の作成
-     * 受け取るレシピリストの入れ物の作成
-     *
-     */
-
     int fRequestCount;
+    TAsyncRecommend asyncJson;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +29,7 @@ public class recipeListActivity extends Activity {
 
         ListView listView = (ListView)findViewById(R.id.listView2);
         ArrayList<String> recipeList = new ArrayList<>();
-        TAsyncRecommend asyncJson = new TAsyncRecommend(this, listView, fRequestCount, recipeList);
+        asyncJson = new TAsyncRecommend(this, listView, fRequestCount, recipeList);
         asyncJson.execute();
 
     }
@@ -44,9 +39,13 @@ public class recipeListActivity extends Activity {
      * @param view
      */
     public void onClickRecipeListEnterButton(View view){
+
         /* TODO
-         * レシピリストのIDと名前をローカルDBに保存。
+         * レシピリストのJSONArrayを受け取ってローカルDBに保存する
          */
+
+        JSONArray recipeListJsonArray = asyncJson.getRecipeListJsonArray();
+
 
         //メインアクティビティに遷移
         Intent intent = new Intent(this, MainActivity.class);

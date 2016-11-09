@@ -79,7 +79,8 @@
             android:onClick="onClickMoveToShoppingList"
             android:background="@drawable/circle"
             android:layout_weight="0.25"
-            android:textSize="18dp"
+            android:textSize="22dp"
+            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
@@ -92,20 +93,22 @@
             android:onClick="onClickMoveToTodayRecipe"
             android:background="@drawable/circle"
             android:layout_weight="0.25"
-            android:textSize="18dp"
+            android:textSize="22dp"
+            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="180dp"
-            android:text="冷蔵庫"
+            android:text="レシピ評価一覧"
             android:id="@+id/button3"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:onClick="onClickMoveToRefrigerator"
             android:background="@drawable/circle"
             android:layout_weight="0.25"
-            android:textSize="18dp"
+            android:textSize="22dp"
+            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <Button
@@ -119,7 +122,8 @@
             android:background="@drawable/circle"
             android:layout_weight="0.25"
             android:textStyle="bold"
-            android:textSize="18dp" />
+            android:textColor="@android:color/white"
+            android:textSize="22dp" />
     </LinearLayout>
 
 
