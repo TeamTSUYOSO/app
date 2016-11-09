@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:tag="fragment"
         android:id="@+id/frag_calendar"
-        android:name="jp.ac.titech.itpro.sdl.tsuyoso2.PlaceholderFragment"
+        android:name="jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.PlaceholderFragment"
         tools:layout="@layout/fragment_main"
         android:layout_weight="0.36"
         android:layout_marginTop="32dp" />

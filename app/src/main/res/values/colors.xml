@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">@android:color/holo_orange_dark</color>
+    <color name="colorPrimaryDark">#EA4E31</color>
+    <!--<color name="colorPrimary">#EA4E31</color>-->
+    <!--<color name="colorPrimaryDark">#CE432B</color>-->
     <color name="colorAccent">#FF4081</color>
 
     <color name="gridItemColor">#FFFFBF</color>
+    <color name="backgroundColor">#FFECC6</color>
 </resources>

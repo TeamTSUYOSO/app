@@ -9,6 +9,7 @@
         <attr name="TODAY_BACKGROUND_COLOR" format="color" />
         <attr name="DEFAULT_BACKGROUND_COLOR" format="color" />
         <attr name="FOCUSED_BACKGROUND_COLOR" format="color" />
+        <attr name="OTHERMONTH_BACKGROUND_COLOR" format="color" />
         <attr name="BUTTON_BACKGROUND_COLOR" format="color" />
         <attr name="BEGINNING_DAY_OF_WEEK">
             <enum name="SUNDAY" value="0" />

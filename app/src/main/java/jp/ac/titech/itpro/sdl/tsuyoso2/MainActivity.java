@@ -7,14 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnDateClickListener;
 import jp.ac.titech.itpro.sdl.tsuyoso2.DB.DatabaseHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnDateClickListener{
 
     String dateFormat = "yyyy-MM-dd";
 
@@ -96,5 +98,28 @@ public class MainActivity extends AppCompatActivity {
 //        Intent intent = new Intent(this, DBActivity.class);
 //        startActivityForResult(intent, 0);
 //    }
+
+
+    // カレンダー日付クリック時の処理
+    @Override
+    public void onDateClick(View dayView, int year, int month, int day) throws ParseException {
+        Toast.makeText(
+                this,
+                Integer.toString(year) + "-" + Integer.toString(month)
+                        + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
+                .show();
+
+        String requestDate;
+        if(day < 10){
+            requestDate = year + "-" + month + "-0" + day;
+        }
+        else {
+            requestDate = year + "-" + month + "-" + day;
+        }
+
+        Intent intent = new Intent( this, recipeTodayActivity.class);
+        intent.putExtra("Request_Date",requestDate);
+        startActivity(intent);
+    }
 
 }
