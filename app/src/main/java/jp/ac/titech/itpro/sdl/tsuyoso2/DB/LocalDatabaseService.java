@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,10 +28,10 @@ public class LocalDatabaseService {
 
     /**
      * 下記のパラメータを指定すると新規に登録される
-     * @param recipeId
-     * @param recipeName
-     * @param cookDate
-     * @param evaluation
+     * recipeId
+     * recipeName
+     * cookDate
+     * evaluation
      */
     public void saveSingleData(int recipeId,
                                String recipeName,
@@ -53,6 +55,29 @@ public class LocalDatabaseService {
         }
     }
 
+    public void saveAllDateFromJSON(JSONArray data, String startDate){
+        int recipeId;
+        String recipeName;
+        String cookDate;
+        //int evaluation;
+        int date = Integer.parseInt(startDate.replaceAll("-", ""));
+        JSONObject jsdata;
+        for(int i = 0; i < data.length(); i++) {
+            try {
+                jsdata = data.getJSONObject(i);
+                recipeId = Integer.parseInt(jsdata.get("recipeId").toString());
+                recipeName = jsdata.get("name").toString();
+                cookDate = Integer.toString(date);
+            } catch (JSONException e) {
+                recipeId = -1;
+                recipeName = "";
+                cookDate = "";
+            }
+            saveSingleData(recipeId, recipeName, cookDate, 0);
+            date++;
+        }
+
+    }
     public void updateData(int recipeId,
                            String recipeName,
                            String cookDate,
@@ -75,6 +100,21 @@ public class LocalDatabaseService {
         }
     }
 
+    public void saveEvaluation(String date, int evaluation) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        date = date.replaceAll("-", "");
+        String sql_getdata =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                + " WHERE "
+                        + DatabaseHelper.COOK_DATE + " == " + date
+                        +";";
+        Cursor c = db.rawQuery(sql_getdata, null);
+        c.moveToFirst();
+        int recipeId = c.getInt(c.getColumnIndex(DatabaseHelper.RECIPE_ID));
+        String recipeName = c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_NAME));
+        String cookDate = date;
+        updateData(recipeId, recipeName, cookDate, evaluation);
+    }
     /**
      * _id (primary key)を指定してレコードを削除する
      */
@@ -117,6 +157,26 @@ public class LocalDatabaseService {
         }
     }
 
+    public String getCookDateById(int id) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        String select_by_date =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                + " WHERE " + DatabaseHelper.RECIPE_ID + " == " + Integer.toString(id)
+                        + " ORDER BY " + DatabaseHelper.COOK_DATE + " DESC"
+                        +  ";";
+        Cursor c = db.rawQuery(select_by_date, null);
+        c.moveToFirst();
+        if(c.getCount() == 0){
+            return "";
+        } else {
+            String date = c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+            StringBuffer buffer = new StringBuffer(date);
+            buffer.insert(6,"-");
+            buffer.insert(4,"-");
+            date = buffer.toString();
+            return date;
+        }
+    }
     /**
      * date(yyyy-mm-dd)を指定するとその日のメニュー名(String)が帰ってくる
      * @param date
@@ -153,6 +213,8 @@ public class LocalDatabaseService {
                         + DatabaseHelper.COOK_DATE + " >= " + start
                         + " AND "
                         + DatabaseHelper.COOK_DATE + " <= " + end
+                        + " AND "
+                        + DatabaseHelper.EVALUATION + " >= 0"
                 + " ORDER BY " + DatabaseHelper.COOK_DATE + " DESC"
                 +";";
         Cursor c = db.rawQuery(select_start_to_end, null);
@@ -171,20 +233,27 @@ public class LocalDatabaseService {
         Cursor c = getRecipeBetween(startDate, endDate);
         if(c.getCount() == 0){
             return "\"past_recipe_ids\":[],\"reputations\":[]";
+            //return startDate + " " + endDate;
         }
         c.moveToFirst();
         while(!c.isLast()) {
             pastRecipeIds.add(c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID)));
             c.moveToNext();
         }
+        pastRecipeIds.add(c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID)));
         c.moveToFirst();
 
         if(pastRecipeIds.isEmpty()){
             recipeIds += "[]";
         } else {
             recipeIds += "[";
+            int i = 0;
             for (String str : pastRecipeIds) {
-                recipeIds += str + ",";
+                recipeIds += str;
+                if(i < pastRecipeIds.size() - 1){
+                    recipeIds += ",";
+                }
+                i++;
             }
             recipeIds += "]";
         }
@@ -252,7 +321,11 @@ public class LocalDatabaseService {
         year = today.get("year");
         month = today.get("month");
         day = today.get("day");
-        return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+        if(day/10 == 0) {
+            return Integer.toString(year) + "-" + Integer.toString(month) + "-0" + Integer.toString(day);
+        } else {
+            return Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+        }
     }
 
     public Map<String, Integer> getLastDay(Map<String, Integer> ymd) {

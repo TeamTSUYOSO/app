@@ -83,7 +83,6 @@ public class CalendarView extends LinearLayout{
         mWeeks = new ArrayList<LinearLayout>();
         LinearLayout weeklineLayout;
 
-
         // 属性値の読み取り
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CalendarView);
         TODAY_COLOR = array.getColor(R.styleable.CalendarView_TODAY_COLOR, Color.MAGENTA);

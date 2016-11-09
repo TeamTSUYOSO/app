@@ -25,7 +25,7 @@
                 android:id="@+id/recipe_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2016/11/02"
+                android:text="date"
                 android:textSize="32dp"
                 android:layout_toRightOf="@id/ic_header_date"
                 android:textStyle="bold"
@@ -53,7 +53,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="レシピ名：ハンバーグ"
+                android:text="レシピ名："
                 android:id="@+id/recipe_name"
                 android:textSize="32dp"
                 android:layout_toRightOf="@id/genre_item"
@@ -159,7 +159,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/hd_cooking_time"
                                 android:layout_toRightOf="@id/ic_cooking_time"
-                                android:text="15"/>
+                                android:text="-"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/hd_calorie"
                                 android:layout_toRightOf="@id/ic_calorie"
-                                android:text="15"/>
+                                android:text="-"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -242,7 +242,7 @@
                                 android:id="@+id/recipe_price"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="15"
+                                android:text="-"
                                 android:layout_below="@+id/hd_price"
                                 android:layout_toRightOf="@id/ic_price" />
                             <TextView
@@ -290,7 +290,7 @@
                             android:id="@+id/recipe_serving_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="n"
+                            android:text="-"
                             android:textSize="20dp"
                             android:textColor="@android:color/white"
                             android:layout_centerVertical="true"
