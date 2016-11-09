@@ -123,6 +123,21 @@ public class LocalDatabaseService {
         }
     }
 
+    public String getCookDateById(int id) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        String select_by_date =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                + " WHERE " + DatabaseHelper.RECIPE_ID + " == " + Integer.toString(id)
+                        + "ORDER BY " + DatabaseHelper.COOK_DATE + " DESC"
+                        +  ";";
+        Cursor c = db.rawQuery(select_by_date, null);
+        c.moveToFirst();
+        if(c.getCount() == 0){
+            return "";
+        } else {
+            return c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+        }
+    }
     /**
      * startDate と endDate　の間のデータ（Cursor形式）を取得する
      * @param startDate
