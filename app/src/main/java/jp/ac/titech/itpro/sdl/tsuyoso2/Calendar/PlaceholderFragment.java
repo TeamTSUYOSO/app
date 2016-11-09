@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.util.HashMap;
 
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 import jp.ac.titech.itpro.sdl.tsuyoso2.R;
 
 /**
@@ -20,6 +21,7 @@ public class PlaceholderFragment extends Fragment implements
     OnDateClickListener, OnNextBackClickListener{
 
     CalendarView calendarView;
+    private LocalDatabaseService dbs;
 
     private OnDateClickListener mDateListener;
     private OnNextBackClickListener mNextBackListener;
@@ -67,6 +69,9 @@ public class PlaceholderFragment extends Fragment implements
         if (context instanceof OnNextBackClickListener) {
             mNextBackListener = (OnNextBackClickListener) context;
         }
+
+        //DB
+        dbs = new LocalDatabaseService(context);
     }
 
     /**
@@ -122,9 +127,7 @@ public class PlaceholderFragment extends Fragment implements
         HashMap<String, String> calendarTexts= new HashMap<String, String>();//カレンダーに書き込むテキスト
 
         for(String date : dates){
-            String recipe_name = "test";
-            //String recipe_name = getRecipeNameFromDB();
-
+            String recipe_name = dbs.getRecipeNameByDate(date);
             calendarTexts.put(date, recipe_name);
         }
 
