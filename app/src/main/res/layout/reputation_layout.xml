@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#ffecc6">
 
     <!-- タイトルバー-->
     <RelativeLayout
@@ -46,10 +47,12 @@
             android:background="#ffecc6"
             android:divider="@android:drawable/divider_horizontal_bright"
             android:dividerPadding="10dp"
-            android:showDividers="middle">
-
+            android:showDividers="middle"
+            >
         </LinearLayout>
     </ScrollView>>
+
+
 
 
 </LinearLayout>
