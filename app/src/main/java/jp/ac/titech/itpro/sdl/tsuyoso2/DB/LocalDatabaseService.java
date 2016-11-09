@@ -32,10 +32,10 @@ public class LocalDatabaseService {
 
     /**
      * 下記のパラメータを指定すると新規に登録される
-     * @param recipeId
-     * @param recipeName
-     * @param cookDate
-     * @param evaluation
+     * recipeId
+     * recipeName
+     * cookDate
+     * evaluation
      */
     public void saveSingleData(int recipeId,
                                String recipeName,
@@ -128,14 +128,19 @@ public class LocalDatabaseService {
         String select_by_date =
                 "SELECT * FROM " + DatabaseHelper.TABLE_NAME
                 + " WHERE " + DatabaseHelper.RECIPE_ID + " == " + Integer.toString(id)
-                        + "ORDER BY " + DatabaseHelper.COOK_DATE + " DESC"
+                        + " ORDER BY " + DatabaseHelper.COOK_DATE + " DESC"
                         +  ";";
         Cursor c = db.rawQuery(select_by_date, null);
         c.moveToFirst();
         if(c.getCount() == 0){
             return "";
         } else {
-            return c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+            String date = c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+            StringBuffer buffer = new StringBuffer(date);
+            buffer.insert(6,"-");
+            buffer.insert(4,"-");
+            date = buffer.toString();
+            return date;
         }
     }
     /**
