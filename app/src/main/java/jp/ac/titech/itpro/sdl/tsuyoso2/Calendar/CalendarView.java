@@ -251,6 +251,8 @@ public class CalendarView extends LinearLayout{
      *            月の指定
      * @param flexibleLine
      *            日数に応じて、行数を可変にするかどうか？true：可変
+     * @param hasNextbackButton
+     *            [<<][>>]ボタンを持つかどうか
      *
      */
     public void set(int year, int month, boolean flexibleLine,boolean hasNextbackButton) {
@@ -402,6 +404,7 @@ public class CalendarView extends LinearLayout{
                         new int[] { android.R.attr.state_pressed }, tap);
 
                 final LinearLayout dayView = (LinearLayout) weekLayout.getChildAt(j);
+                dayView.setSelected(false);
                 final TextView dayTextView = (TextView) dayView.getChildAt(0);
                 int c = calendarDay[i][j];
 
@@ -545,44 +548,16 @@ public class CalendarView extends LinearLayout{
         int maxWeek = calendar.getMaxWeek(flexibleLine);
 
         ArrayList<String> formatedDates = new ArrayList<String>();
-        SimpleDateFormat dstDateFormat = new SimpleDateFormat(dateFormat);
-        SimpleDateFormat srcDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         for(int row = 0; row < maxWeek; row++){
             for(int col = 0; col < calendarDay[row].length; col++){
                 int day = calendarDay[row][col];
-                String date="";
-                if(day > 0){
-                    //当月
-                    date = year + "-" + month + "-" + day;
-                } else if (day < -20) {
-                    //前月
-                    int backMonth = month - 1;
-                    int backYear = year;
-                    int backDay = day * -1;
-                    if (backMonth == 0) {
-                        backYear = backYear - 1;
-                        backMonth = 12;
-                    }
-                    date = backYear + "-" + backMonth + "-" + backDay;
-                } else if (day < 0 && day >= -20) {
-                    //翌月
-                    int nextMonth = month + 1;
-                    int nextYear = year;
-                    int nextDay = day * -1;
-                    if (nextMonth == 13) {
-                        nextMonth = 1;
-                        nextYear = nextYear + 1;
-                    }
-                    date = nextYear + "-" + nextMonth + "-" + nextDay;
-                } else {
-                    continue;
-                }
-                try {
-                    //dateFormatに整形して保存
-                    formatedDates.add(dstDateFormat.format(srcDateFormat.parse(date)));
-                }catch(java.text.ParseException e){
+                if(day != 0){
+                    try {
+                        //dateFormatに整形して保存
+                        formatedDates.add(formatCalendarDate(year, month, day, dateFormat));
+                    }catch(java.text.ParseException e){
 
+                    }
                 }
             }
         }
@@ -609,50 +584,64 @@ public class CalendarView extends LinearLayout{
                 final TextView detailTextView = (TextView) dayView.getChildAt(1);
 
                 int day = calendarDay[i][j];
-                SimpleDateFormat dstDateFormat = new SimpleDateFormat(dateFormat);
-                SimpleDateFormat srcDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String formatedDate = ""; //dateFormatに合わせた日付
-                String date;
-
-                if(day > 0){
-                    //当月
-                    date = year + "-" + month + "-" + day;
-                } else if (day < -20) {
-                    //前月
-                    int backMonth = month - 1;
-                    int backYear = year;
-                    int backDay = day * -1;
-                    if (backMonth == 0) {
-                        backYear = backYear - 1;
-                        backMonth = 12;
-                    }
-                    date = backYear + "-" + backMonth + "-" + backDay;
-                } else if (day < 0 && day >= -20) {
-                    //翌月
-                    int nextMonth = month + 1;
-                    int nextYear = year;
-                    int nextDay = day * -1;
-                    if (nextMonth == 13) {
-                        nextMonth = 1;
-                        nextYear = nextYear + 1;
-                    }
-                    date = nextYear + "-" + nextMonth + "-" + nextDay;
-                } else {
+                if(day == 0){
+                    //空欄
                     detailTextView.setText(" ");
                     continue;
-                }
-                try {
-                    formatedDate = dstDateFormat.format(srcDateFormat.parse(date));
-                    if(!detailTexts.containsKey(formatedDate)) {
+                }else{
+                    try {
+                        String formatedDate = formatCalendarDate(year, month, day, dateFormat);
+                        if(!detailTexts.containsKey(formatedDate)) {
+                            detailTextView.setText(" ");
+                        } else {
+                            detailTextView.setText(detailTexts.get(formatedDate));
+                        }
+                    }catch(java.text.ParseException e){
                         detailTextView.setText(" ");
-                    } else {
-                        detailTextView.setText(detailTexts.get(formatedDate));
                     }
-                }catch(java.text.ParseException e){
-
                 }
             }
         }
+    }
+
+    /**
+     * CalendarView独自の日付形式を指定dateFormatに変換
+     * ex. formatCalendarDate(2016, 11, -5, "yyyy-MM-dd") -> "2016-12-05"
+     */
+    private String formatCalendarDate(int year, int month, int day, String dateFormat) throws java.text.ParseException{
+        SimpleDateFormat dstDateFormat = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat srcDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = "";
+
+        if(day > 0){
+            //当月
+            date = year + "-" + month + "-" + day;
+        } else if (day < -20) {
+            //前月
+            int backMonth = month - 1;
+            int backYear = year;
+            int backDay = day * -1;
+            if (backMonth == 0) {
+                backYear = backYear - 1;
+                backMonth = 12;
+            }
+            date = backYear + "-" + backMonth + "-" + backDay;
+        } else if (day < 0 && day >= -20) {
+            //翌月
+            int nextMonth = month + 1;
+            int nextYear = year;
+            int nextDay = day * -1;
+            if (nextMonth == 13) {
+                nextMonth = 1;
+                nextYear = nextYear + 1;
+            }
+            date = nextYear + "-" + nextMonth + "-" + nextDay;
+        }else{
+            //day == 0
+            return "";
+        }
+
+        return dstDateFormat.format(srcDateFormat.parse(date));
     }
 
     /**

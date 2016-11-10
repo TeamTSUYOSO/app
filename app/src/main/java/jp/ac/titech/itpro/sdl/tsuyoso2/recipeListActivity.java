@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class recipeListActivity extends Activity {
 
     int fRequestCount;
+    ArrayList<String> fSelectedDates;
     TAsyncRecommend asyncJson;
 
     @Override
@@ -23,13 +24,14 @@ public class recipeListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_list);
 
-
         //リクエストしてもらう日数を取得する
         fRequestCount = (int)getIntent().getSerializableExtra("request_num");
+        fSelectedDates = getIntent().getStringArrayListExtra("selectedDates");
 
-        ListView listView = (ListView)findViewById(R.id.listView2);
-        ArrayList<String> recipeList = new ArrayList<>();
-        asyncJson = new TAsyncRecommend(this, listView, fRequestCount, recipeList);
+        ListView listView = (ListView)findViewById(R.id.recommend_list);
+
+        ArrayList<TRecommend> recipeList = new ArrayList<>();
+        asyncJson = new TAsyncRecommend(this, listView, fRequestCount, recipeList, fSelectedDates);
         asyncJson.execute();
 
     }

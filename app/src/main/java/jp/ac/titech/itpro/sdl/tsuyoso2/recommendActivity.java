@@ -5,50 +5,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.DatePicker;
-import android.widget.NumberPicker;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnDateClickListener;
-import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnNextBackClickListener;
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 
 /**
  * Created by Yamada on 2016/10/10.
  */
-public class recommendActivity extends Activity implements OnDateClickListener, OnNextBackClickListener {
+public class recommendActivity extends Activity implements OnDateClickListener{
 
-    /* TODO
-     * 提案してもらう日を設定するためのカレンダーもしくはDatePickerを追加
-     * 提案してもらう日付と日数を保存するための項目の追加
-     */
+    private LocalDatabaseService dbs;
 
-    NumberPicker numberPicker;
-    DatePicker datePicker;
-    List<Date> selectedDate;
+    ArrayList<String> selectedDates;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dbs = new LocalDatabaseService(this);
+        selectedDates = new ArrayList<String>();
+
         setContentView(R.layout.recommend_auto);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        /* TODO
-         * カレンダー,DatePickerのidを取得
-         */
-
-        setViews();
-        initViews();
-
     }
-
-    /* TODO
-     * カレンダーもしくはDatePickerのリスナーを作る
-     * 提案してもらう日付の取得と日数の取得を行う。
-     */
 
 
     /**
@@ -56,59 +39,31 @@ public class recommendActivity extends Activity implements OnDateClickListener, 
      * @param view
      */
     public void onClickMoveToRecipeList(View view) throws ParseException {
-        /* TODO
-         * 提案してもらう日付と日数を送る
-         */
-
-//        //日付のオブジェクト化
-//        String dateStr = datePicker.getYear() + "-" + (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth();
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        Date startDate = simpleDateFormat.parse(dateStr);
-
         //Intentにデータをつけて送る
-        Intent intent = new Intent(this, recipeListActivity.class);
-        intent.putExtra("request_num", selectedDate.size());
-//        intent.putExtra("start_Date",startDate);
-        startActivity(intent);
+        if(selectedDates.size() > 0) {
+            Collections.sort(selectedDates);
+            Intent intent = new Intent(this, recipeListActivity.class);
+            intent.putExtra("request_num", selectedDates.size());
+            intent.putExtra("selectedDates", selectedDates);
+            startActivity(intent);
+        }
 
-    }
-
-    /**
-     * 画面構成要素のIDの設定
-     */
-    private void setViews(){
-//        numberPicker = (NumberPicker)findViewById(R.id.numPicker);
-//        datePicker = (DatePicker)findViewById(R.id.datePicker);
-    }
-
-    /**
-     * NUmberPickerの値の設定
-     */
-    private void initViews(){
-        //提案してもらう日数最大値、最小値の設定
-//        numberPicker.setMaxValue(7);
-//        numberPicker.setMinValue(1);
     }
 
     // カレンダー日付クリック時の処理
     @Override
     public void onDateClick(View dayView, int year, int month, int day) throws ParseException {
-        String dateStr = year + "-" + month + "-" + day;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date requestDate = simpleDateFormat.parse(dateStr);
-
+        //日付選択状態の制御
+        String dateStr = year + "-" + month + "-" + (day < 10 ? "0" + day : day);
         if(!dayView.isSelected()){
-            //未選択 -> 選択
-            dayView.setSelected(true);
-            selectedDate.add(requestDate);
+            if(dbs.getRecipeIdByDate(dateStr) == -1){
+                //レシピが未設定なら 未選択 -> 選択
+                dayView.setSelected(true);
+                selectedDates.add(dateStr);
+            }
         }else{
             dayView.setSelected(false);
-            selectedDate.remove(requestDate);
+            selectedDates.remove(dateStr);
         }
-    }
-
-    @Override
-    public void onNextBackClick(int year,int month,int nextback){
-
     }
 }
