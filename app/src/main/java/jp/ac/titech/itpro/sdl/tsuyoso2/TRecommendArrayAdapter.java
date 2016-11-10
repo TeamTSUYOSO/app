@@ -43,6 +43,11 @@ public class TRecommendArrayAdapter extends ArrayAdapter<TRecommend> {
         return items.size();
     }
 
+    @Override
+    public TRecommend getItem(int pos) {
+        return items.get(pos);
+    }
+
     /**
      * 1アイテム分のビューを取得
      * @param position
