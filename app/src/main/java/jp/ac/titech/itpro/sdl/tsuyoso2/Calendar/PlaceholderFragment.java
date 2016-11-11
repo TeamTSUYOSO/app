@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 import jp.ac.titech.itpro.sdl.tsuyoso2.R;
@@ -22,14 +23,20 @@ public class PlaceholderFragment extends Fragment implements
 
     CalendarView calendarView;
     private LocalDatabaseService dbs;
-
     private OnDateClickListener mDateListener;
     private OnNextBackClickListener mNextBackListener;
 
+    //config
+    String dateFormat = "yyyy-MM-dd";
     final boolean FLEXIBLE_LINE = true;
     final boolean HAS_NEXTBACK_BUTTON = true;
 
-    String dateFormat = "yyyy-MM-dd";
+    //現在表示中の年月
+    int mYear;
+    int mMonth;
+
+    //選択中の日付
+    List<String> selectedDate;
 
     public PlaceholderFragment() {
     }
@@ -42,10 +49,10 @@ public class PlaceholderFragment extends Fragment implements
         //カレンダービューの取得
         calendarView = (CalendarView) rootView.findViewById(R.id.calendar);
         //カレンダーに日付をセット
-        int year = MonthlyCalendar.today(MonthlyCalendar.TODAY_YEAR);
-        int month = MonthlyCalendar.today(MonthlyCalendar.TODAY_MONTH);
-        calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
-        setRecipeNames(year, month);
+        mYear = MonthlyCalendar.today(MonthlyCalendar.TODAY_YEAR);
+        mMonth = MonthlyCalendar.today(MonthlyCalendar.TODAY_MONTH);
+        calendarView.set(mYear, mMonth, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
+        setRecipeNames(mYear, mMonth);
         calendarView.setOnDateClickListener(this);
         calendarView.setOnNextBackClickListener(this);
 
@@ -109,6 +116,8 @@ public class PlaceholderFragment extends Fragment implements
         }
         //  デフォルト動作
         //  カレンダーの内容を前月/来月に更新
+        mYear = year;
+        mMonth = month;
         calendarView.set(year, month, FLEXIBLE_LINE, HAS_NEXTBACK_BUTTON);
         setRecipeNames(year, month);
     }
@@ -131,5 +140,7 @@ public class PlaceholderFragment extends Fragment implements
 
         calendarView.setDetailText(year, month, dateFormat, calendarTexts);
     }
+
+
 
 }

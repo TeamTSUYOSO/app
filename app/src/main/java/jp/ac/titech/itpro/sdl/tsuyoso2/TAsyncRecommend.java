@@ -3,7 +3,6 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,9 +28,11 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
 
     private Activity fActivity;
     private ListView fListView;
+
     private ProgressDialog progressDialog;
     private int fRequestCount;
-    private ArrayList<String> fRecipeList;
+    private ArrayList<TRecommend> fRecipeList;
+    private ArrayList<String> fSelectedDates;
 
     private String dateFormat = "yyyy-MM-dd";
 
@@ -41,11 +42,12 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
      * コンストラクタ
      * @param activity
      */
-    public TAsyncRecommend(Activity activity, ListView listView, int requestCount, ArrayList<String> recipeList){
+    public TAsyncRecommend(Activity activity, ListView listView, int requestCount, ArrayList<TRecommend> recipeList, ArrayList<String> selectedDates){
         this.fActivity = activity;
         fListView = listView;
         fRequestCount = requestCount;
         fRecipeList = recipeList;
+        fSelectedDates = selectedDates;
     }
 
     /**
@@ -168,12 +170,14 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
             System.out.println(jsonObject.toString());
             fRecipeListJsonArray = jsonObject;
 
-
             try {
                 for (int i = 0; i < jsonObject.length(); i++) {
                     JSONObject temp = jsonObject.getJSONObject(i);
-//                JSONObject event = temp.getJSONObject("recipe");
-                    fRecipeList.add(temp.getString("name"));
+                    TRecommend recommend = new TRecommend();
+                    recommend.setRecipeId(temp.getInt("recipeId"));
+                    recommend.setRecipeName(temp.getString("name"));
+                    recommend.setDate(fSelectedDates.get(i));
+                    fRecipeList.add(recommend);
 
                 /*TODO
                  jsonArray をローカルDBに保存する部分に渡す.
@@ -181,7 +185,7 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
                 }
 
                 //List用ArrayAdapterの生成
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(fActivity, android.R.layout.simple_list_item_multiple_choice, fRecipeList);
+                TRecommendArrayAdapter arrayAdapter = new TRecommendArrayAdapter(fActivity, R.layout.recommend_list_item, fRecipeList);
                 fListView.setAdapter(arrayAdapter);
 
             } catch (JSONException e) {
