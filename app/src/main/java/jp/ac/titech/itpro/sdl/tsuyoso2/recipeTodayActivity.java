@@ -49,13 +49,6 @@ public class recipeTodayActivity extends Activity {
         //日付からIDを取得する
         LocalDatabaseService localDatabaseService = new LocalDatabaseService(getApplicationContext());
         fRequestId = localDatabaseService.getRecipeIdByDate(fRequestDate);
-        fRequestId = 3;
-
-        /* TODO
-         * "fRequestId = getFromLocalDB;"
-         */
-//        Random random = new Random();
-//        fRequestId = random.nextInt(23);
 
         //レシピが提案されている時はサーバーと通信
         if(fRequestId != -1) {
