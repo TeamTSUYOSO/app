@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/backgroundColor"
     tools:context="jp.ac.titech.itpro.sdl.tsuyoso2.evaluateActivity">
-    <!-- 日付バー-->
+    <!-- タイトルバー-->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
