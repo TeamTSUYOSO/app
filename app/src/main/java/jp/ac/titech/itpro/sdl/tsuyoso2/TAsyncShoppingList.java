@@ -21,8 +21,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 
 /**
  * Created by Yamada on 2016/10/17.
@@ -35,9 +37,11 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
     LinearLayout fShoppingListView;
     String dateFormat = "yyyy-MM-dd";
 
-    //日付のリスト
-    ArrayList<Date> fDateList;
+    Calendar fCalendar;
+    String fDateString;
+    String fInputString;
 
+    LocalDatabaseService fLocalDatabaseService;
     /**
      * コンストラクタ
      * @param activity
@@ -46,6 +50,14 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
 
         this.fActivity = activity;
         fShoppingListView = shoppingList;
+
+        //今日の日付を取得する
+        fCalendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        fDateString = simpleDateFormat.format(fCalendar.getTime());
+
+        fLocalDatabaseService = new LocalDatabaseService(fActivity.getApplicationContext());
+
     }
 
     /**
@@ -53,9 +65,6 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
      */
     @Override
     protected void onPreExecute() {
-        /* TODO
-         * doInBackGroundの前処理.
-         */
 
         System.out.println("onPreExecute");
         super.onPreExecute();
@@ -73,18 +82,11 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
      */
     @Override
     protected JSONArray doInBackground(String... params) {
-        /* TODO
-         * Activityから受け渡されるデータをサーバに送って帰ってきたデータをリターンする
-         * onPostExecuteに渡される.
-         */
+
         System.out.println("doInBackGround");
 
         HttpURLConnection connection = null;
         URL url = null;
-
-        /* TODO
-         * fRequestIdはローカルDBから受け取ったものを送る
-         */
 
         String urlString = "http://160.16.213.209:8080/api/lists/list";
         String readData = "";
@@ -110,12 +112,11 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
 
             //データを送る場合は,BufferedWriterに書き込む
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-//            bufferedWriter.write(requestJson.toString());
-//            bufferedWriter.write("{\"request_num\":" + fRequestCount + ", \"past_recipe_ids\":[1,2], \"reputations\":[{\"recipe_id\" : 10, \"value\" : 5, \"proposed_time\" : 1}, {\"recipe_id\" : 12, \"value\" : 3, \"proposed_time\" : 2}]}");
-            /* TODO
-                ローカルDBから作ってないレシピ受け取って送る
-             */
-            bufferedWriter.write("{\"past_recipe_ids\":[1,2,3]}");
+
+            //今日の日付から買い物リストを作るためのIDリストを作成
+            fInputString = fLocalDatabaseService.getShoppingList(fDateString);
+
+            bufferedWriter.write(fInputString);
             bufferedWriter.close();
             publishProgress();
 
@@ -157,29 +158,20 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
     protected void onPostExecute(JSONArray jsonObject){
 
         System.out.println("onPostExecute");
-//        System.out.println(jsonObject.toString());
         // doInBackground後処理
 
         if(jsonObject != null) {
             try {
 
-                /* TODO
-                 * レシピIDに対応する日付をローカルDBから受け取る.
-                 */
-
                 for (int i = 0; i < jsonObject.length(); i++) {
                     JSONObject temp = jsonObject.getJSONObject(i);
                     JSONArray tempIngredients = temp.getJSONArray("ingredients");
 
-                    /* TODO
-                     * temp.getString("id");
-                     * でレシピIDを取得し、ローカルDBと照らし合わせてDateを取得
-                     */
                     View dateView = fActivity.getLayoutInflater().inflate(R.layout.row_shopping_list_date, null);
                     fShoppingListView.addView(dateView);
                     TextView dateTextView = (TextView)dateView.findViewById(R.id.shopping_list_recipe_date);
-                    // TODO ローカルから持ってくる
-                    dateTextView.setText("2016/temp/temp");
+                    //idをもとにローカルDBから日付取得
+                    dateTextView.setText(fLocalDatabaseService.getCookDateById(Integer.parseInt(temp.getString("recipeId"))));
 
                     TextView recipeNameView = (TextView)dateView.findViewById(R.id.shopping_list_recipe_name);
                     recipeNameView.setText(temp.getString("name"));
@@ -206,7 +198,6 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
 
         }else {
             Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
-        }
         //ダイアログ消す
         progressDialog.dismiss();
     }
