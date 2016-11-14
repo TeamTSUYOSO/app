@@ -115,6 +115,34 @@ public class LocalDatabaseService {
         String cookDate = date;
         updateData(recipeId, recipeName, cookDate, evaluation);
     }
+
+    public String getShoppingList(String date) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String startDate = date.replaceAll("-", "");
+        String sql_getdata =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                + " WHERE "
+                        + DatabaseHelper.COOK_DATE + " > " + startDate
+                        +";";
+        Cursor c = db.rawQuery(sql_getdata, null);
+        c.moveToFirst();
+        String msg = "{\"past_recipe_ids\":";
+        String recipeIds = "";
+        if(c.getCount() == 0) {
+            recipeIds = "[]";
+        }else {
+            recipeIds += "[";
+            for(int i = 0 ; i < c.getCount(); i++){
+                recipeIds += c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+                if(i != c.getCount() - 1){
+                    recipeIds += ",";
+                }
+            }
+            recipeIds += "]";
+        }
+        msg += recipeIds + "}";
+        return msg;
+    }
     /**
      * _id (primary key)を指定してレコードを削除する
      */
