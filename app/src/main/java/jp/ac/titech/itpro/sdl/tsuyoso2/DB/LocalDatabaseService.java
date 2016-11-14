@@ -122,7 +122,7 @@ public class LocalDatabaseService {
         String sql_getdata =
                 "SELECT * FROM " + DatabaseHelper.TABLE_NAME
                 + " WHERE "
-                        + DatabaseHelper.COOK_DATE + " > " + startDate
+                        + DatabaseHelper.COOK_DATE + " >= " + startDate
                         +";";
         Cursor c = db.rawQuery(sql_getdata, null);
         c.moveToFirst();
@@ -133,13 +133,15 @@ public class LocalDatabaseService {
         }else {
             recipeIds += "[";
             for(int i = 0 ; i < c.getCount(); i++){
-                recipeIds += c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+                recipeIds += c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID));
                 if(i != c.getCount() - 1){
                     recipeIds += ",";
                 }
+                c.moveToNext();
             }
             recipeIds += "]";
         }
+        c.close();
         msg += recipeIds + "}";
         return msg;
     }
