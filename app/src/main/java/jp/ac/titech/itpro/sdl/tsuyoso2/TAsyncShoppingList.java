@@ -198,6 +198,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
 
         }else {
             Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
+        }
         //ダイアログ消す
         progressDialog.dismiss();
     }
