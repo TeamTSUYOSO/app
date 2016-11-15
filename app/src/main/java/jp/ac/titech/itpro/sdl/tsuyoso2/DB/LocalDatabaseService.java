@@ -8,12 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -398,20 +395,21 @@ public class LocalDatabaseService {
         map.put("day", day);
         return map;
     }
-    public List<String> getAllEvaluations() {
+    public JSONArray getAllEvaluations() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        JSONArray allData = new JSONArray();
         String sql_request =
                 "SELECT * FROM " + DatabaseHelper.TABLE_NAME
                         + " ORDER BY " + DatabaseHelper.COOK_DATE + " DESC" + ";";
-        List<String> allData = new ArrayList<>();
 
         Cursor c = db.rawQuery(sql_request, null);
 
         if(c.getCount() == 0){
-            return Collections.emptyList();
+            return null;
         }
 
         c.moveToFirst();
+        JSONObject data;
         for (int i = 0; i < c.getCount(); i++) {
             String query = "{recipe_id:";
             query += c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID));
@@ -424,11 +422,19 @@ public class LocalDatabaseService {
             query += ", evaluation:";
             query += c.getString(c.getColumnIndex(DatabaseHelper.EVALUATION));
             query += "}";
-            allData.add(query);
+
+            try{
+                data = new JSONObject(query);
+            } catch(JSONException e){
+                return null;
+            }
+            allData.put(data);
+
             c.moveToNext();
         }
-        if (allData.isEmpty()) {
-            return Collections.emptyList();
+
+        if(allData.length() == 0) {
+            return null;
         } else {
             return allData;
         }
