@@ -7,9 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -402,11 +406,16 @@ public class LocalDatabaseService {
         List<String> allData = new ArrayList<>();
 
         Cursor c = db.rawQuery(sql_request, null);
+
+        if(c.getCount() == 0){
+            return Collections.emptyList();
+        }
+
         c.moveToFirst();
         for (int i = 0; i < c.getCount(); i++) {
-            String query = "{recipe_id";
+            String query = "{recipe_id:";
             query += c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID));
-            query += ", cook_date";
+            query += ", cook_date:";
             String cook_date = c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
             StringBuffer buffer = new StringBuffer(cook_date);
             buffer.insert(6,"-");
