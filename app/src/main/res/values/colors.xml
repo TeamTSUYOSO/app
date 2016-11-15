@@ -8,4 +8,6 @@
 
     <color name="gridItemColor">#FFFFBF</color>
     <color name="backgroundColor">#FFECC6</color>
+
+    <color name="reputationColor">#F6AD3C</color>>
 </resources>
