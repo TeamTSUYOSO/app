@@ -9,10 +9,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
+
 /**
  * Created by Yamada on 2016/10/10.
  */
 public class recipeTodayActivity extends Activity {
+
+    //DB
+    LocalDatabaseService ldbs;
 
     //表示するレシピの日付
     String fRequestDate;
@@ -36,18 +41,15 @@ public class recipeTodayActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_today);
 
+        //Connect to DB
+        ldbs = new LocalDatabaseService(this);
         //リクエストしてもらう日数を取得する
         fRequestDate= (String) getIntent().getSerializableExtra("Request_Date");
 
         TextView header_date = (TextView)findViewById(R.id.recipe_date);
         header_date.setText(fRequestDate);
 
-        fRequestId = 4;
-        /* TODO
-         * "fRequestId = getFromLocalDB;"
-         */
-//        Random random = new Random();
-//        fRequestId = random.nextInt(23);
+        fRequestId = ldbs.getRecipeIdByDate(fRequestDate);
 
         if(fRequestId != -1) {
 
