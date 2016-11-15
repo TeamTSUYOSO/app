@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
     ArrayList<String> fInstructionList;
     LinearLayout fIngredients;
     ArrayList<String> fIngredientList;
+    ImageView fImageView;
 
     /**
      * コンストラクタ
@@ -48,7 +50,7 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
      */
     public TAsyncTodayRecipe(Activity activity,int requestId, TextView recipe_name, TextView serving_num, TextView cooking_time, TextView genre, TextView calorie,
                              TextView price, LinearLayout instructions,  ArrayList<String> instructionList,
-                             LinearLayout ingredients, ArrayList<String> ingredientList){
+                             LinearLayout ingredients, ArrayList<String> ingredientList, ImageView imageView){
         this.fActivity = activity;
         fRequestId = requestId;
         fRecipe_name = recipe_name;
@@ -61,6 +63,8 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
         fInstructionList = instructionList;
         fIngredients = ingredients;
         fIngredientList = ingredientList;
+        fImageView = imageView;
+
     }
 
     /**
@@ -167,6 +171,7 @@ public class TAsyncTodayRecipe extends AsyncTask<String, Integer, JSONObject> {
 
         if(jsonObject != null) {
             try {
+
                 fRecipe_name.setText(jsonObject.getString("name"));
                 fCooking_time.setText(jsonObject.getString("takes_time"));
                 fServing_num.setText(jsonObject.getString("serving_num"));

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class recipeTodayActivity extends Activity {
     ArrayList<String> ingredientList;
     LinearLayout table_ingredients;
     LinearLayout table_instructions;
+    ImageView recipe_image;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,11 +66,16 @@ public class recipeTodayActivity extends Activity {
             ingredientList = new ArrayList<>();
             table_ingredients = (LinearLayout) findViewById(R.id.table_ingredients);
             table_instructions = (LinearLayout) findViewById(R.id.table_instructions);
+            recipe_image = (ImageView)findViewById(R.id.imageView);
 
             //引数にラベルを送る or 今日のレシピデータを受けっとってActivityでセットする
             TAsyncTodayRecipe asyncTodayRecipe = new TAsyncTodayRecipe(this, fRequestId, recipe_name, serving_num, cooking_time, genre, calorie, price,
-                    table_instructions, instructionList, table_ingredients, ingredientList);
+                    table_instructions, instructionList, table_ingredients, ingredientList, recipe_image);
             asyncTodayRecipe.execute();
+
+            //画像の表示
+            TAsyncImage asyncImage = new TAsyncImage(this, recipe_image, fRequestId);
+            asyncImage.execute();
 
         }
     }

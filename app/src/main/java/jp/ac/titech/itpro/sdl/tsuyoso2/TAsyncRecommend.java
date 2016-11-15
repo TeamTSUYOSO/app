@@ -75,10 +75,7 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
      */
     @Override
     protected JSONArray doInBackground(String... params) {
-        /* TODO
-         * Activityから受け渡されるデータをサーバに送って帰ってきたデータをリターンする
-         * onPostExecuteに渡される.
-         */
+
         System.out.println("doInBackGround");
 
         HttpURLConnection connection = null;
@@ -95,7 +92,6 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
         //日付と日数(現在:14日)を指定
         int pastDataNum = 14;
         String pastData = databaseService.getRequestRecipeIds(dateStr, pastDataNum);
-        System.out.println(pastData);
 
         try{
             //URL生成
@@ -177,10 +173,6 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
                     recommend.setRecipeName(temp.getString("name"));
                     recommend.setDate(fSelectedDates.get(i));
                     fRecipeList.add(recommend);
-
-                /*TODO
-                 jsonArray をローカルDBに保存する部分に渡す.
-                 */
                 }
 
                 //List用ArrayAdapterの生成
