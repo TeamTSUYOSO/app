@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#ffecc6">
+
+    <!-- タイトルバー-->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark">
+        <ImageView
+            android:src="@drawable/ic_star_border"
+            android:layout_height="32dp"
+            android:layout_width="32dp"
+            android:layout_margin="10dp"
+            android:id="@+id/reputation_hd_ic"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="レシピの評価"
+            android:id="@+id/reputation_hd_text"
+            android:textSize="32dp"
+            android:layout_toRightOf="@id/reputation_hd_ic"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="false"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/reputation_list_scrollView"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <LinearLayout
+            android:id="@+id/reputation_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:background="#ffecc6"
+            android:divider="@android:drawable/divider_horizontal_bright"
+            android:dividerPadding="10dp"
+            android:showDividers="middle"
+            >
+        </LinearLayout>
+    </ScrollView>>
+
+
+
+
+</LinearLayout>

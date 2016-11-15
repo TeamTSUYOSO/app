@@ -77,13 +77,12 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
     }
 
     /**
-     * ボタン3のクリック、冷蔵庫に遷移
+     * ボタン3のクリック、レシピ評価一覧に遷移
      * @param view
      */
-    public void onClickMoveToRefrigerator(View view){
-        /* TODO
-         * 冷蔵庫の画面に遷移
-         */
+    public void onClickMoveToReputation(View view){
+        Intent intent = new Intent(this, reputationActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     /**

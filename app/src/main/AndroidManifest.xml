@@ -41,6 +41,11 @@
             >
         </activity>
 
+        <activity
+            android:name="jp.ac.titech.itpro.sdl.tsuyoso2.reputationActivity"
+            >
+        </activity>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
