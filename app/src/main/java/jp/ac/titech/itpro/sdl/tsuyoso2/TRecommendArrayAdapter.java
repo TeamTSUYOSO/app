@@ -76,7 +76,7 @@ public class TRecommendArrayAdapter extends ArrayAdapter<TRecommend> {
         ((TextView)view.findViewById(R.id.month)).setText(recommend.getMonth() + "");
         ((TextView)view.findViewById(R.id.recipe_name)).setText(recommend.getRecpeName());
         //TODO::画像差し替え
-        ((ImageView)view.findViewById(R.id.recipe_image)).setImageResource(R.drawable.hamburg);
+        ((ImageView)view.findViewById(R.id.recipe_image)).setImageResource(R.drawable.ic_action_restaurant_mini);
 
         return view;
     }
