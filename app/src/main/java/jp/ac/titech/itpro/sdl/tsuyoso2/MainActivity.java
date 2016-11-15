@@ -15,10 +15,14 @@ import java.util.Calendar;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.Calendar.OnDateClickListener;
 import jp.ac.titech.itpro.sdl.tsuyoso2.DB.DatabaseHelper;
+import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 
 public class MainActivity extends AppCompatActivity implements OnDateClickListener{
 
     String dateFormat = "yyyy-MM-dd";
+
+    //DB
+    LocalDatabaseService ldbs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
         DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.close();
+
+        ldbs = new LocalDatabaseService(this);
 
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.frag_calendar);
@@ -70,10 +76,19 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         String requestDate = simpleDateFormat.format(calendar.getTime());
 
-        //Intentにデータをつけて送る
-        Intent intent = new Intent(this, recipeTodayActivity.class);
-        intent.putExtra("Request_Date",requestDate);
-        startActivity(intent);
+        if(hasRecipe(requestDate)) {
+            //Intentにデータをつけて送る
+            Intent intent = new Intent(this, recipeTodayActivity.class);
+            intent.putExtra("Request_Date", requestDate);
+            startActivity(intent);
+        }else{
+            //今日のレシピが未設定
+            Toast.makeText(
+                    this,
+                    "今日のレシピが未設定です",
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     /**
@@ -117,9 +132,19 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
             requestDate = year + "-" + month + "-" + day;
         }
 
-        Intent intent = new Intent( this, recipeTodayActivity.class);
-        intent.putExtra("Request_Date",requestDate);
-        startActivity(intent);
+        if(hasRecipe(requestDate)) {
+            //Intentにデータをつけて送る
+            Intent intent = new Intent( this, recipeTodayActivity.class);
+            intent.putExtra("Request_Date",requestDate);
+            startActivity(intent);
+        }
     }
 
+    //指定日にレシピが設定されているかチェック
+    //@return true -> レシピ設定済み
+    //        false -> 未設定
+    private boolean hasRecipe(String date){
+        int recipe_id = ldbs.getRecipeIdByDate(date);
+        return recipe_id != -1;
+    }
 }
