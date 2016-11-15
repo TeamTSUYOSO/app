@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
         db.close();
 
         ldbs = new LocalDatabaseService(this);
-        ldbs.resetDatabase();
 
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.frag_calendar);
