@@ -394,7 +394,36 @@ public class LocalDatabaseService {
         map.put("day", day);
         return map;
     }
+    public List<String> getAllEvaluations() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String sql_request =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                        + " ORDER BY " + DatabaseHelper.COOK_DATE + " DESC" + ";";
+        List<String> allData = new ArrayList<>();
 
+        Cursor c = db.rawQuery(sql_request, null);
+        c.moveToFirst();
+        for (int i = 0; i < c.getCount(); i++) {
+            String query = "{recipe_id";
+            query += c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID));
+            query += ", cook_date";
+            String cook_date = c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+            StringBuffer buffer = new StringBuffer(cook_date);
+            buffer.insert(6,"-");
+            buffer.insert(4,"-");
+            query += buffer.toString();
+            query += ", evaluation:";
+            query += c.getString(c.getColumnIndex(DatabaseHelper.EVALUATION));
+            query += "}";
+            allData.add(query);
+            c.moveToNext();
+        }
+        if (allData.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return allData;
+        }
+    }
     /**
     public void saveDummyData(){
         saveSingleData(34, "Hamburg", "2016-11-12", 3);
