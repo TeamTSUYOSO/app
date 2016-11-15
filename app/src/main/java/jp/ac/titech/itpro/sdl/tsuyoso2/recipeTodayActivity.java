@@ -17,9 +17,6 @@ import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
  */
 public class recipeTodayActivity extends Activity {
 
-    //DB
-    LocalDatabaseService ldbs;
-
     //表示するレシピの日付
     String fRequestDate;
     //表示するレシピID
@@ -42,8 +39,6 @@ public class recipeTodayActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_today);
 
-        //Connect to DB
-        ldbs = new LocalDatabaseService(this);
         //リクエストしてもらう日数を取得する
         fRequestDate= (String) getIntent().getSerializableExtra("Request_Date");
 
