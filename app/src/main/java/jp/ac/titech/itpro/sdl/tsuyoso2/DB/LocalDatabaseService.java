@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -394,7 +395,50 @@ public class LocalDatabaseService {
         map.put("day", day);
         return map;
     }
+    public JSONArray getAllEvaluations() {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        JSONArray allData = new JSONArray();
+        String sql_request =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                        + " ORDER BY " + DatabaseHelper.COOK_DATE + " DESC" + ";";
 
+        Cursor c = db.rawQuery(sql_request, null);
+
+        if(c.getCount() == 0){
+            return null;
+        }
+
+        c.moveToFirst();
+        JSONObject data;
+        for (int i = 0; i < c.getCount(); i++) {
+            String query = "{recipe_id:";
+            query += c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID));
+            query += ", cook_date:";
+            String cook_date = c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+            StringBuffer buffer = new StringBuffer(cook_date);
+            buffer.insert(6,"-");
+            buffer.insert(4,"-");
+            query += buffer.toString();
+            query += ", evaluation:";
+            query += c.getString(c.getColumnIndex(DatabaseHelper.EVALUATION));
+            query += "}";
+
+            try{
+                data = new JSONObject(query);
+            } catch(JSONException e){
+                return null;
+            }
+            allData.put(data);
+
+            c.moveToNext();
+        }
+
+        if(allData.length() == 0) {
+            return null;
+        } else {
+            return allData;
+        }
+    }
     /**
     public void saveDummyData(){
         saveSingleData(34, "Hamburg", "2016-11-12", 3);
