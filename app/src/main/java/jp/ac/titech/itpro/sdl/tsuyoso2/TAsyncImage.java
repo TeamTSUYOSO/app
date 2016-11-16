@@ -66,7 +66,7 @@ public class TAsyncImage extends AsyncTask<String, Integer, Bitmap> {
         URL url = null;
 
         Bitmap bitmap;
-        String urlString = "http://160.16.213.209:8080/server/image/" + fRequestId + ".jpg";
+        String urlString = "http://160.16.213.209:8080/api/image/" + fRequestId;
 //        String urlString = "http://160.16.213.209:8080/server/image/1.jpg";
         System.out.println(urlString);
         String readData = "";
