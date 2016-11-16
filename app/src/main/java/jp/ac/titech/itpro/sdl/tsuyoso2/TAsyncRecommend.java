@@ -172,6 +172,10 @@ public class TAsyncRecommend extends AsyncTask<String, Integer, JSONArray> {
                     recommend.setRecipeId(temp.getInt("recipeId"));
                     recommend.setRecipeName(temp.getString("name"));
                     recommend.setDate(fSelectedDates.get(i));
+                    //画像の表示
+                    //TODO:とりあえず動かしただけなのでロジック変更
+                    TAsyncRecommendImage asyncImage = new TAsyncRecommendImage(fActivity, recommend);
+                    asyncImage.execute();
                     fRecipeList.add(recommend);
                 }
 

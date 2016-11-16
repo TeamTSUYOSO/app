@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -15,25 +15,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by Yamada on 2016/11/15.
+ * Created by Tanaka on 2016/11/16.
  */
-public class TAsyncImage extends AsyncTask<String, Integer, Bitmap> {
+public class TAsyncRecommendImage extends AsyncTask<String, Integer, Bitmap> {
 
     private Activity fActivity;
     private ProgressDialog progressDialog;
 
-    ImageView fImageView;
+    TRecommend fRecommend;
     int fRequestId;
 
     /**
      * コンストラクタ
      * @param activity
      */
-    public TAsyncImage(Activity activity, ImageView imageView, int recipe_id){
+    public TAsyncRecommendImage(Activity activity, TRecommend recommend){
         this.fActivity = activity;
-        fImageView = imageView;
-        fRequestId = recipe_id;
-        System.out.println("TAsyncImage 起動");
+        fRecommend = recommend;
+        fRequestId = recommend.getRecpeId();
+        System.out.println("TAsyncRecommendImage 起動");
     }
 
     /**
@@ -45,9 +45,9 @@ public class TAsyncImage extends AsyncTask<String, Integer, Bitmap> {
         System.out.println("onPreExecute");
         super.onPreExecute();
 
-        progressDialog = new ProgressDialog(fActivity);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(fActivity);
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progressDialog.show();
     }
 
     /**
@@ -59,7 +59,7 @@ public class TAsyncImage extends AsyncTask<String, Integer, Bitmap> {
     protected Bitmap doInBackground(String... params) {
 
         System.out.println("doInBackGround");
-        System.out.println("TAsyncImage background");
+        System.out.println("TAsyncRecommendImage background");
 
 
         HttpURLConnection connection = null;
@@ -89,7 +89,7 @@ public class TAsyncImage extends AsyncTask<String, Integer, Bitmap> {
             // 接続
             connection.connect();
 
-            publishProgress();
+            //publishProgress();
 
             final int status = connection.getResponseCode();
             if(status == HttpURLConnection.HTTP_OK){
@@ -115,7 +115,7 @@ public class TAsyncImage extends AsyncTask<String, Integer, Bitmap> {
      * @param progress
      */
     public void progressUpdate(Integer... progress) {
-        progressDialog.incrementProgressBy(progress[0]);
+        //progressDialog.incrementProgressBy(progress[0]);
     }
 
     /**
@@ -131,13 +131,16 @@ public class TAsyncImage extends AsyncTask<String, Integer, Bitmap> {
         // doInBackground後処理
 
         if(bitmap != null) {
-            this.fImageView.setImageBitmap(bitmap);
+            this.fRecommend.setImageBitMap(bitmap);
         }else {
             System.out.println("bitmap is null");
             Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
         }
         //ダイアログ消す
-        progressDialog.dismiss();
+        //progressDialog.dismiss();
+        ListView recipeListView = (ListView)fActivity.findViewById(R.id.recommend_list);
+
+        recipeListView.invalidateViews();
     }
 
 }

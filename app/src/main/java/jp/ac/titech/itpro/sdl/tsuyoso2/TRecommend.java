@@ -1,5 +1,7 @@
 package jp.ac.titech.itpro.sdl.tsuyoso2;
 
+import android.graphics.Bitmap;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -11,6 +13,7 @@ public class TRecommend {
     private String fRecipeName; //レシピ名
     private String fDate; //提案対象日付 yyyy-MM-dd
     public final String dateFormat = "yyyy-MM-dd";
+    private Bitmap fImageBitMap; //画像
     //private URL fImageURL; //レシピ画像URL
 
     /**
@@ -22,11 +25,11 @@ public class TRecommend {
     /**
      * コンストラクタ
      */
-    public TRecommend(int recipeId, String recipeName , String date /* URL imageUrl */) {
+    public TRecommend(int recipeId, String recipeName , String date, Bitmap image) {
         this.fRecipeId = recipeId;
         this.fRecipeName = recipeName;
         this.fDate = date;
-        //this.fImageURL = imageUrl;
+        this.fImageBitMap = image;
     }
 
 
@@ -38,6 +41,11 @@ public class TRecommend {
         this.fRecipeId = src.fRecipeId;
         this.fRecipeName = src.fRecipeName;
         this.fDate = src.fDate;
+        this.fImageBitMap = src.fImageBitMap;
+    }
+
+    public boolean hasImage(){
+        return this.fImageBitMap != null;
     }
 
     /**
@@ -82,6 +90,10 @@ public class TRecommend {
         }
     }
 
+    public Bitmap getImage(){
+        return this.fImageBitMap;
+    }
+
     /**
      * setter
      */
@@ -92,4 +104,5 @@ public class TRecommend {
     public void setDate(String date) {
         this.fDate = date;
     }
+    public void setImageBitMap(Bitmap image){ this.fImageBitMap = image; }
 }
