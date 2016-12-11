@@ -1,4 +1,4 @@
-package jp.ac.titech.itpro.sdl.tsuyoso2;
+package jp.ac.titech.itpro.sdl.tsuyoso2.NotUse;
 
 import android.content.Context;
 import android.view.LayoutInflater;
