@@ -204,19 +204,22 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
                  * 12/15.16に向けて
                  */
 
-                //日付とIDのマップ, 日付も送る必要があるが、とりあえず順序通りになっているので、日付だけ順序で取得
+                //日付とIDのマップ, 日付も送る必要があるが、とりあえず帰ってくる材料リストがmapと同じ順序なので日付も順序通りに取得してる
                 Map<String, String> map = fLocalDatabaseService.getShoppingMap(fDateString);
                 Iterator iterator = map.keySet().iterator();
 //                iterator = map.keySet().iterator();
 
-                //材料のリスト
+                //全てのレシピの材料リスト
                 ArrayList<TShoppingItem> ingredientList = new ArrayList<>();
 
                 for(int i = 0; i < jsonObject.length(); i++){
-
+                    //1レシピ
                     JSONObject temp = jsonObject.getJSONObject(i);
+                    //レシピの全ての材料
                     JSONArray tempIngredients = temp.getJSONArray("ingredients");
+                    //材料の日付を取得
                     String date = (String)iterator.next();
+
 
                     for(int j = 0; j < tempIngredients.length(); j++) {
                         JSONObject ingredient = tempIngredients.getJSONObject(j);
@@ -237,7 +240,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
                         if(existFlag){ //すでに材料があるなら追加
                             ingredientList.get(position).getDateAndQuantityList().add(oneSet);
                         }
-                        else { //材料がないなら新規作成で追加
+                        else { //材料がないなら新規作成
                             TShoppingItem item = new TShoppingItem(ingredient.getString("name"));
                             item.getDateAndQuantityList().add(oneSet);
                             ingredientList.add(item);

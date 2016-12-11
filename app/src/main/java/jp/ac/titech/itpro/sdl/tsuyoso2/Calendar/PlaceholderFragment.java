@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -92,11 +91,7 @@ public class PlaceholderFragment extends Fragment implements
             mDateListener.onDateClick(dayView, year, month, day);
         }
         //デフォルト動作
-        Toast.makeText(
-                getActivity(),
-                Integer.toString(year) + "-" + Integer.toString(month)
-                        + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
-                .show();
+//        Toast.makeText(getActivity(), Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day), Toast.LENGTH_SHORT).show();
     }
 
     /**
