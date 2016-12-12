@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/backgroundColor">
 
     <!-- タイトルバー-->
     <RelativeLayout
@@ -29,27 +30,35 @@
             android:layout_centerVertical="true" />
     </RelativeLayout>
 
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/shopping_list_scrollView"
-        android:layout_gravity="center_horizontal"
-        >
-
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+        <!-- header -->
         <LinearLayout
+            android:id="@+id/otsukai_list_header"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/otsukai_header_height"
+            android:showDividers="middle"
+            android:divider="@android:drawable/divider_horizontal_bright">
+            <TextView
+                android:layout_width="@dimen/otsukai_header_width2"
+                android:layout_height="@dimen/otsukai_header_height"
+                android:background="@android:color/holo_orange_dark"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:text="食材名"/>
+        </LinearLayout>
+        <!-- Table -->
+        <ListView
             android:id="@+id/shopping_list_ingredients"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="10dp"
-            android:background="#ffecc6"
-            android:divider="@android:drawable/divider_horizontal_bright"
-            android:dividerPadding="10dp"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider_horizontal"
             android:showDividers="middle">
-
-        </LinearLayout>
-    </ScrollView>>
-
-
+        </ListView>
+    </LinearLayout>
 </LinearLayout>

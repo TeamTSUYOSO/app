@@ -3,7 +3,7 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -35,7 +35,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
     private Activity fActivity;
     private ProgressDialog progressDialog;
 
-    LinearLayout fShoppingListView;
+    ListView fShoppingListView;
     String dateFormat = "yyyy-MM-dd";
 
     Calendar fCalendar;
@@ -47,7 +47,7 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
      * コンストラクタ
      * @param activity
      */
-    public TAsyncShoppingList(Activity activity , LinearLayout shoppingList){
+    public TAsyncShoppingList(Activity activity , ListView shoppingList){
 
         this.fActivity = activity;
         fShoppingListView = shoppingList;
@@ -259,11 +259,13 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
                     System.out.println();
                 }
 
+                //List用ArrayAdapterの生成
+                TShoppingListArayAdapter arrayAdapter = new TShoppingListArayAdapter(fActivity, R.layout.row_shopping_item, ingredientList);
+                fShoppingListView.setAdapter(arrayAdapter);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }else {
             Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
         }

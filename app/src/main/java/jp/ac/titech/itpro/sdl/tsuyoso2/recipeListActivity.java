@@ -29,7 +29,7 @@ public class recipeListActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_list);
+        setContentView(R.layout.recomend_recipe_list);
 
         dbs = new LocalDatabaseService(this);
         //リクエストしてもらう日数を取得する
