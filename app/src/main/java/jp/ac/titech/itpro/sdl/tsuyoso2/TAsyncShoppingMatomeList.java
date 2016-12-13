@@ -3,9 +3,13 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,11 +23,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 
@@ -35,8 +42,10 @@ public class TAsyncShoppingMatomeList extends AsyncTask<String, Integer, JSONArr
     private Activity fActivity;
     private ProgressDialog progressDialog;
 
+    LinearLayout fHeaderView;
     ListView fShoppingListView;
     String dateFormat = "yyyy-MM-dd";
+    SimpleDateFormat simpleDateFormat;
 
     Calendar fCalendar;
     String fDateString;
@@ -46,14 +55,15 @@ public class TAsyncShoppingMatomeList extends AsyncTask<String, Integer, JSONArr
     /**
      * コンストラクタ
      */
-    public TAsyncShoppingMatomeList(Activity activity , ListView shoppingList){
+    public TAsyncShoppingMatomeList(Activity activity , LinearLayout headerView, ListView shoppingList){
 
         this.fActivity = activity;
+        fHeaderView = headerView;
         fShoppingListView = shoppingList;
 
         //今日の日付を取得する
         fCalendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        simpleDateFormat = new SimpleDateFormat(dateFormat);
         fDateString = simpleDateFormat.format(fCalendar.getTime());
 
         fLocalDatabaseService = new LocalDatabaseService(fActivity.getApplicationContext());
@@ -114,6 +124,7 @@ public class TAsyncShoppingMatomeList extends AsyncTask<String, Integer, JSONArr
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
 
             //今日の日付から買い物リストを作るためのIDリストを作成
+            //TODO::未来分全て送信しているため何日分かに設定する？ -> DBのSQL limit 7
             fInputString = fLocalDatabaseService.getShoppingList(fDateString);
 
             bufferedWriter.write(fInputString);
@@ -165,9 +176,12 @@ public class TAsyncShoppingMatomeList extends AsyncTask<String, Integer, JSONArr
                 //日付とIDのマップ, 日付も送る必要があるが、とりあえず帰ってくる材料リストがmapと同じ順序なので日付も順序通りに取得してる
                 Map<String, String> map = fLocalDatabaseService.getShoppingMap(fDateString);
                 Iterator iterator = map.keySet().iterator();
-
+                //日付リスト
+                Set<String> dateSet = map.keySet();
                 //全てのレシピの材料リスト
                 ArrayList<TShoppingItem> ingredientList = new ArrayList<>();
+                //レシピ名リスト
+                HashMap<String, String> recipeNameMap = new HashMap<String, String>();
 
                 for(int i = 0; i < jsonObject.length(); i++){
                     //1レシピ
@@ -176,44 +190,46 @@ public class TAsyncShoppingMatomeList extends AsyncTask<String, Integer, JSONArr
                     JSONArray tempIngredients = temp.getJSONArray("ingredients");
                     //材料の日付を取得
                     String date = (String)iterator.next();
-
+                    String recipe_name = temp.getString("name");
+                    recipeNameMap.put(date, recipe_name);
 
                     for(int j = 0; j < tempIngredients.length(); j++) {
                         JSONObject ingredient = tempIngredients.getJSONObject(j);
-                        //日付と量のセットを作る
-//                        String date = fLocalDatabaseService.getCookDateById(Integer.parseInt(temp.getString("recipeId")));
-                        TDateAndQuantity oneSet = new TDateAndQuantity(date, ingredient.getString("quantity"));
+                        String ingredient_name = ingredient.getString("name");
+                        String quantity = ingredient.getString("quantity");
 
-                        boolean existFlag = false;
-                        int position = -1;
-                        for(int k = 0; k < ingredientList.size(); k++){
-                            //すでに材料が出ているならtrue
-                            if(ingredientList.get(k).getName().equals(ingredient.getString("name"))){
-                                existFlag = true;
-                                position = k;
-                                break;
-                            }
-                        }
-                        if(existFlag){ //すでに材料があるなら追加
-                            ingredientList.get(position).getDateAndQuantityList().add(oneSet);
+                        TShoppingItem item = new TShoppingItem(ingredient_name);
+                        if(ingredientList.contains(item)){ //すでに材料があるなら追加
+                            int position = ingredientList.indexOf(item);
+                            ingredientList.get(position).addDateQuantity(date, quantity);
                         }
                         else { //材料がないなら新規作成
-                            TShoppingItem item = new TShoppingItem(ingredient.getString("name"));
-                            item.getDateAndQuantityList().add(oneSet);
+                            item.initQuantityMap(dateSet);
+                            item.addDateQuantity(date, quantity);
                             ingredientList.add(item);
                         }
                     }
 
                 }
 
-                //表示、消していい
-                for(int i = 0; i < ingredientList.size(); i++){
-                    System.out.println("材料名 = " + ingredientList.get(i).getName());
-                    System.out.print("日/量 = ");
-                    for(int j = 0; j < ingredientList.get(i).getDateAndQuantityList().size(); j++){
-                        System.out.print(ingredientList.get(i).getDateAndQuantityList().get(j).getDate() + " / " + ingredientList.get(i).getDateAndQuantityList().get(j).getQuantity() + " , ");
+                for(String date : dateSet){
+                    try {
+                        DateTime nowDateTime = new DateTime(simpleDateFormat.parse(date));
+                        int month = nowDateTime.getMonthOfYear();
+                        int day = nowDateTime.getDayOfMonth();
+
+                        View dateView = fActivity.getLayoutInflater().inflate(R.layout.header_otsukai_date, fHeaderView, false);
+                        TextView monthView = (TextView)dateView.findViewById(R.id.month);
+                        monthView.setText(month + "");
+                        TextView dayView = (TextView) dateView.findViewById(R.id.day);
+                        dayView.setText(day + "");
+                        TextView recipeNameView = (TextView) dateView.findViewById(R.id.recipe_name);
+                        recipeNameView.setText(recipeNameMap.get(date));
+
+                        fHeaderView.addView(dateView);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                    System.out.println();
                 }
 
                 //List用ArrayAdapterの生成

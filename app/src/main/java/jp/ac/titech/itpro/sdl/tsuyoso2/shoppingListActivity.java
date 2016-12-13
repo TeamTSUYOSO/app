@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * Created by Yamada on 2016/10/10.
@@ -108,18 +107,9 @@ public class shoppingListActivity extends AppCompatActivity implements ViewPager
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_otsukai_matome, container, false);
 
-            LinearLayout header = (LinearLayout)view.findViewById(R.id.otsukai_list_header);
-            for(int i = 0; i < 7; i++){
-                View dateView = inflater.inflate(R.layout.header_otsukai_date, header, false);
-                TextView month = (TextView) dateView.findViewById(R.id.month);
-                month.setText("12");
-                TextView day = (TextView) dateView.findViewById(R.id.day);
-                day.setText(i + "");
-                header.addView(dateView);
-            }
-
             ListView shoppingList = (ListView)view.findViewById(R.id.shopping_list_ingredients);
-            TAsyncShoppingMatomeList asyncJson = new TAsyncShoppingMatomeList(this.getActivity(), shoppingList);
+            LinearLayout header = (LinearLayout) view.findViewById(R.id.otsukai_list_header);
+            TAsyncShoppingMatomeList asyncJson = new TAsyncShoppingMatomeList(this.getActivity(), header, shoppingList);
             asyncJson.execute();
             return view;
         }

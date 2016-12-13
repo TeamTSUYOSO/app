@@ -3,7 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="otsukai_header_height">60dp</dimen>
-    <dimen name="otsukai_header_width">100dp</dimen>
+    <dimen name="otsukai_header_height">100dp</dimen>
+    <dimen name="otsukai_header_width">150dp</dimen>
     <dimen name="otsukai_header_width2">200dp</dimen>
+    <dimen name="otsukai_header_fontsize">20dp</dimen>
 </resources>

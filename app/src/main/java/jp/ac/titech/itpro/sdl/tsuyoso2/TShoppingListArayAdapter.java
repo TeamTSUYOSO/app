@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 
 /**
  * Created by reverent on 16/12/12.
@@ -86,14 +87,15 @@ public class TShoppingListArayAdapter extends ArrayAdapter<TShoppingItem>{
         // convertViewがnullなら新規作成
         else{
             view = inflater.inflate(viewResourceId, null);
-
             LinearLayout list = (LinearLayout) view.findViewById(R.id.row_shopping);
-            Calendar calendar = Calendar.getInstance();
-            for(int i = 0; i < 7; i++){
-                String date = mSimpleDateFormat.format(calendar.getTime());
+
+            TShoppingItem shoppingItem = items.get(position);
+            Map<String, String> quantityMap = shoppingItem.getQuantityMap();
+            for(Map.Entry<String, String> e : quantityMap.entrySet()) {
+                String date = e.getKey();
+                String quantity = e.getValue();
                 TextView quantityView = createQuantityView(date);
                 list.addView(quantityView);
-                calendar.add(Calendar.DATE, 1);
             }
         }
 
@@ -101,22 +103,14 @@ public class TShoppingListArayAdapter extends ArrayAdapter<TShoppingItem>{
         TShoppingItem shoppingItem = items.get(position);
         ((TextView)view.findViewById(R.id.row_shopping_name)).setText(shoppingItem.getName());
 
-        //初期化
-        Calendar calendar = Calendar.getInstance();
-        for(int i = 0; i < 7; i++){
-            String date = mSimpleDateFormat.format(calendar.getTime());
+        Map<String, String> quantityMap = shoppingItem.getQuantityMap();
+        for(Map.Entry<String, String> e : quantityMap.entrySet()) {
+            String date = e.getKey();
+            String quantity = e.getValue();
+
             TextView quantityView = (TextView) view.findViewWithTag(date);
             if(quantityView != null){
-                quantityView.setText("");
-            }
-            calendar.add(Calendar.DATE, 1);
-        }
-
-        ArrayList<TDateAndQuantity> list = shoppingItem.getDateAndQuantityList();
-        for(TDateAndQuantity row : list){
-            TextView quantityView = (TextView) view.findViewWithTag(row.getDate());
-            if(quantityView != null){
-                quantityView.setText(row.getQuantity());
+                quantityView.setText(quantity);
             }
         }
 
