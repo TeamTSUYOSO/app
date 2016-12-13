@@ -3,9 +3,7 @@ package jp.ac.titech.itpro.sdl.tsuyoso2;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -22,19 +20,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Map;
 
 import jp.ac.titech.itpro.sdl.tsuyoso2.DB.LocalDatabaseService;
 
 /**
  * Created by Yamada on 2016/10/17.
  */
-public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
+public class TAsyncShoppingMatomeList extends AsyncTask<String, Integer, JSONArray> {
 
     private Activity fActivity;
     private ProgressDialog progressDialog;
 
-    LinearLayout fShoppingListView;
+    ListView fShoppingListView;
     String dateFormat = "yyyy-MM-dd";
 
     Calendar fCalendar;
@@ -44,9 +45,8 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
     LocalDatabaseService fLocalDatabaseService;
     /**
      * コンストラクタ
-     * @param activity
      */
-    public TAsyncShoppingList(Activity activity , LinearLayout shoppingList){
+    public TAsyncShoppingMatomeList(Activity activity , ListView shoppingList){
 
         this.fActivity = activity;
         fShoppingListView = shoppingList;
@@ -162,40 +162,67 @@ public class TAsyncShoppingList extends AsyncTask<String, Integer, JSONArray> {
 
         if(jsonObject != null) {
             try {
+                //日付とIDのマップ, 日付も送る必要があるが、とりあえず帰ってくる材料リストがmapと同じ順序なので日付も順序通りに取得してる
+                Map<String, String> map = fLocalDatabaseService.getShoppingMap(fDateString);
+                Iterator iterator = map.keySet().iterator();
 
-                for (int i = 0; i < jsonObject.length(); i++) {
+                //全てのレシピの材料リスト
+                ArrayList<TShoppingItem> ingredientList = new ArrayList<>();
+
+                for(int i = 0; i < jsonObject.length(); i++){
+                    //1レシピ
                     JSONObject temp = jsonObject.getJSONObject(i);
+                    //レシピの全ての材料
                     JSONArray tempIngredients = temp.getJSONArray("ingredients");
-
-                    View dateView = fActivity.getLayoutInflater().inflate(R.layout.row_shopping_list_date, null);
-                    fShoppingListView.addView(dateView);
-                    TextView dateTextView = (TextView)dateView.findViewById(R.id.shopping_list_recipe_date);
-                    //idをもとにローカルDBから日付取得
-                    dateTextView.setText(fLocalDatabaseService.getCookDateById(Integer.parseInt(temp.getString("recipeId"))));
-
-                    TextView recipeNameView = (TextView)dateView.findViewById(R.id.shopping_list_recipe_name);
-                    recipeNameView.setText(temp.getString("name"));
-
-                    TextView servingNumTextView = (TextView)dateView.findViewById(R.id.shopping_list_recipe_serving_num);
-                    servingNumTextView.setText(temp.getString("serving_num"));
+                    //材料の日付を取得
+                    String date = (String)iterator.next();
 
 
-                    for (int j = 0; j < tempIngredients.length(); j++) {
+                    for(int j = 0; j < tempIngredients.length(); j++) {
                         JSONObject ingredient = tempIngredients.getJSONObject(j);
+                        //日付と量のセットを作る
+//                        String date = fLocalDatabaseService.getCookDateById(Integer.parseInt(temp.getString("recipeId")));
+                        TDateAndQuantity oneSet = new TDateAndQuantity(date, ingredient.getString("quantity"));
 
-                        View view = fActivity.getLayoutInflater().inflate(R.layout.row_ingredients, null);
-                        fShoppingListView.addView(view);
-                        TextView name = (TextView) view.findViewById(R.id.ingredient_name);
-                        name.setText(ingredient.getString("name"));
-                        TextView quantity = (TextView) view.findViewById(R.id.ingredient_quantity);
-                        quantity.setText(ingredient.getString("quantity"));
+                        boolean existFlag = false;
+                        int position = -1;
+                        for(int k = 0; k < ingredientList.size(); k++){
+                            //すでに材料が出ているならtrue
+                            if(ingredientList.get(k).getName().equals(ingredient.getString("name"))){
+                                existFlag = true;
+                                position = k;
+                                break;
+                            }
+                        }
+                        if(existFlag){ //すでに材料があるなら追加
+                            ingredientList.get(position).getDateAndQuantityList().add(oneSet);
+                        }
+                        else { //材料がないなら新規作成
+                            TShoppingItem item = new TShoppingItem(ingredient.getString("name"));
+                            item.getDateAndQuantityList().add(oneSet);
+                            ingredientList.add(item);
+                        }
                     }
+
                 }
+
+                //表示、消していい
+                for(int i = 0; i < ingredientList.size(); i++){
+                    System.out.println("材料名 = " + ingredientList.get(i).getName());
+                    System.out.print("日/量 = ");
+                    for(int j = 0; j < ingredientList.get(i).getDateAndQuantityList().size(); j++){
+                        System.out.print(ingredientList.get(i).getDateAndQuantityList().get(j).getDate() + " / " + ingredientList.get(i).getDateAndQuantityList().get(j).getQuantity() + " , ");
+                    }
+                    System.out.println();
+                }
+
+                //List用ArrayAdapterの生成
+                TShoppingListArayAdapter arrayAdapter = new TShoppingListArayAdapter(fActivity, R.layout.row_shopping_item, ingredientList);
+                fShoppingListView.setAdapter(arrayAdapter);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }else {
             Toast.makeText(fActivity, "サーバーと通信できません.", Toast.LENGTH_SHORT).show();
         }

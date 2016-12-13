@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- header -->
+            <LinearLayout
+                android:id="@+id/otsukai_list_header"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/otsukai_header_height"
+                android:showDividers="middle"
+                android:divider="@android:drawable/divider_horizontal_bright">
+                <TextView
+                    android:layout_width="@dimen/otsukai_header_width2"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/holo_orange_dark"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:text="食材名"/>
+            </LinearLayout>
+            <!-- Table -->
+            <ListView
+                android:id="@+id/shopping_list_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/divider_horizontal"
+                android:showDividers="middle">
+            </ListView>
+        </LinearLayout>
+    </HorizontalScrollView>
+</RelativeLayout>
