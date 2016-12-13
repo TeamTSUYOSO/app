@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -146,6 +148,39 @@ public class LocalDatabaseService {
         msg += recipeIds + "}";
         return msg;
     }
+
+    /**
+     * 日付とレシピIDのmapを返す
+     * @param date
+     * @return
+     */
+    public Map<String, String> getShoppingMap(String date) {
+        Map<String, String> map = new LinkedHashMap<>();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String startDate = date.replaceAll("-", "");
+        String sql_getdata =
+                "SELECT * FROM " + DatabaseHelper.TABLE_NAME
+                        + " WHERE "
+                        + DatabaseHelper.COOK_DATE + " >= " + startDate
+                        +";";
+        Cursor c = db.rawQuery(sql_getdata, null);
+        c.moveToFirst();
+        if(c.getCount() == 0) {
+        }else {
+            for(int i = 0 ; i < c.getCount(); i++){
+                String oneDate = c.getString(c.getColumnIndex(DatabaseHelper.COOK_DATE));
+                StringBuffer buffer = new StringBuffer(oneDate);
+                buffer.insert(6,"-");
+                buffer.insert(4,"-");
+                oneDate = buffer.toString();
+                map.put(oneDate, c.getString(c.getColumnIndex(DatabaseHelper.RECIPE_ID)));
+                c.moveToNext();
+            }
+        }
+        c.close();
+        return map;
+    }
+
     /**
      * _id (primary key)を指定してレコードを削除する
      */

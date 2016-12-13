@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="@color/backgroundColor">
 
     <!-- タイトルバー-->
     <RelativeLayout
@@ -29,27 +30,27 @@
             android:layout_centerVertical="true" />
     </RelativeLayout>
 
-    <ScrollView
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/shopping_list_scrollView"
-        android:layout_gravity="center_horizontal"
-        >
+        style="@style/CustomTabLayoutStyle">
 
-        <LinearLayout
-            android:id="@+id/shopping_list_ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="10dp"
-            android:background="#ffecc6"
-            android:divider="@android:drawable/divider_horizontal_bright"
-            android:dividerPadding="10dp"
-            android:showDividers="middle">
+        <android.support.design.widget.TabItem
+            android:text="日別"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-        </LinearLayout>
-    </ScrollView>>
+        <android.support.design.widget.TabItem
+            android:text="まとめ買い"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+    </android.support.design.widget.TabLayout>
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>

@@ -118,11 +118,8 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
     // カレンダー日付クリック時の処理
     @Override
     public void onDateClick(View dayView, int year, int month, int day) throws ParseException {
-        Toast.makeText(
-                this,
-                Integer.toString(year) + "-" + Integer.toString(month)
-                        + "-" + Integer.toString(day), Toast.LENGTH_SHORT)
-                .show();
+
+//        Toast.makeText(this, Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day), Toast.LENGTH_SHORT).show();
 
         String requestDate;
         if(day < 10){

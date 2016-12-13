@@ -68,7 +68,7 @@ public class evaluateActivity extends Activity {
     public void onClickEnterButton(View view){
 
         if(fRadioGroup.getCheckedRadioButtonId() == -1){
-            Toast.makeText(this, "作ったか作らなかったか入力してね!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "作ったか作らなかったか入力してね", Toast.LENGTH_SHORT).show();
         }
         //作った場合
         else if(fRadioGroup.getCheckedRadioButtonId() == fRadioButtonMake.getId()) {
@@ -77,14 +77,14 @@ public class evaluateActivity extends Activity {
             LocalDatabaseService localDatabaseService = new LocalDatabaseService(getApplicationContext());
             localDatabaseService.updateData(fRequestId, fRecipeName, fRequestDate, (int)fRatingBar.getRating() * 2);
 
-            Toast.makeText(this, "フィードバックを保存しました!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "評価を保存しました", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivityForResult(intent, 0);
         }
         else {
 
-            Toast.makeText(this, "また今度作ってね!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "また今度作ってね", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivityForResult(intent, 0);
         }

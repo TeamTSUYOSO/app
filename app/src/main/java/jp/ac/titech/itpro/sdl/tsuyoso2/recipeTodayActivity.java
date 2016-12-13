@@ -98,7 +98,7 @@ public class recipeTodayActivity extends Activity {
 
         //レシピが提案されてない時
         else{
-            Toast.makeText(this, "レシピが提案されてないよ!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "レシピが提案されてないよ", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivityForResult(intent, 0);
         }
