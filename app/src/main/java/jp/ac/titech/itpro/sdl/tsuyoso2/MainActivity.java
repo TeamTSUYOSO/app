@@ -122,12 +122,8 @@ public class MainActivity extends AppCompatActivity implements OnDateClickListen
 //        Toast.makeText(this, Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day), Toast.LENGTH_SHORT).show();
 
         String requestDate;
-        if(day < 10){
-            requestDate = year + "-" + month + "-0" + day;
-        }
-        else {
-            requestDate = year + "-" + month + "-" + day;
-        }
+
+        requestDate = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
 
         if(hasRecipe(requestDate)) {
             //Intentにデータをつけて送る
