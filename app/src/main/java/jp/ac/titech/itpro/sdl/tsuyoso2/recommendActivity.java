@@ -54,8 +54,6 @@ public class recommendActivity extends Activity implements OnDateClickListener{
     @Override
     public void onDateClick(View dayView, int year, int month, int day) throws ParseException {
         //日付選択状態の制御
-//        String dateStr = year + "-" + month + "-" + (day < 10 ? "0" + day : day);
-        // yyyy-mm-ddになってなかったので対応 tanaka 0228
         String dateStr = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
 
         if(!dayView.isSelected()){
